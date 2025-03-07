@@ -3,37 +3,13 @@ import {
   vectorStore,
   type VectorDocument,
 } from "@/modules/vector-store/lib/vector-store";
-import fs from "fs";
-import { isArray, isEmpty } from "lodash-es";
-import path from "path";
+import { isEmpty } from "lodash-es";
 import { supabaseClient } from "@/modules/vector-store/lib/supabse";
+import { getDocsFromJson } from "@/modules/vector-store/utils/get-docs-json";
+import { getDocsFromPdf } from "@/modules/vector-store/utils/get-docs-pdf";
 
-const FILE_PATH = "public/data/new-questions.json";
-
-export type Question = {
-  pageContent: string;
-  metadata: {
-    category: string;
-    keywords: string[];
-  };
-};
-
-/**
- * JSON 파일에서 질문 데이터 가져오기
- */
-const getQuestionsFromJson = (relativePath: string): Question[] => {
-  try {
-    const filePath = path.join(process.cwd(), relativePath);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const data: Question[] = JSON.parse(fileContent);
-    if (!isArray(data)) {
-      throw new Error("JSON 형식이 잘못되었습니다.");
-    }
-    return data;
-  } catch (error) {
-    throw new Error(`파일을 읽는 중 오류 발생: ${(error as Error).message}`);
-  }
-};
+const FILE_PATH = "public/data/docs.json";
+const PDF_PATH = "public/data/resume.pdf";
 
 /**
  * Supabase에서 기존 질문 가져오기 (ID 포함)
@@ -61,19 +37,25 @@ const getQuestionsFromDB = async (): Promise<Map<string, string> | null> => {
  */
 export async function POST() {
   try {
-    const fileData = getQuestionsFromJson(FILE_PATH);
-    const dbData = await getQuestionsFromDB();
+    const jsonDocs = getDocsFromJson(FILE_PATH);
+    console.log("jsonDocs", jsonDocs);
+    // const dbData = await getQuestionsFromDB();
 
-    const newDocuments: VectorDocument[] = fileData.map(
-      ({ pageContent, metadata }, idx) => {
-        const existingId = dbData?.get(pageContent);
-        return {
-          id: existingId ?? String(idx),
-          pageContent: pageContent,
-          metadata: metadata,
-        };
-      }
-    );
+    const pdfDocs = await getDocsFromPdf(PDF_PATH);
+    console.log("pdfDocs", pdfDocs);
+
+    // const newDocuments: VectorDocument[] = jsonDocs.map(
+    //   ({ pageContent, metadata }, idx) => {
+    //     // const existingId = dbData?.get(pageContent);
+    //     return {
+    //       // id: existingId ?? String(idx),
+    //       pageContent: pageContent,
+    //       metadata: metadata,
+    //     };
+    //   }
+    // );
+
+    const newDocuments: VectorDocument[] = jsonDocs.concat(pdfDocs);
 
     if (isEmpty(newDocuments)) {
       return NextResponse.json({ message: "추가할 새로운 데이터가 없습니다." });
@@ -81,11 +63,11 @@ export async function POST() {
 
     try {
       await vectorStore.addDocuments(
-        newDocuments.map(({ pageContent, metadata }) => ({
+        newDocuments.map(({ pageContent, metadata }, idx) => ({
           pageContent,
           metadata,
-        })),
-        { ids: newDocuments.map(({ id }) => String(id)) }
+          id: String(idx),
+        }))
       );
       console.log("추가 완료!");
     } catch (error) {

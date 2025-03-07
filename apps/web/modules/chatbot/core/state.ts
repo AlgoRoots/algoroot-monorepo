@@ -1,4 +1,4 @@
-import type { SearchResult } from "@/modules/vector-store/search";
+import type { SearchResult } from "@/modules/vector-store/utils/search";
 import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
 
 /**

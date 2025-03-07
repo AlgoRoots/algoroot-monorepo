@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { HumanMessage } from "@langchain/core/messages";
 import { app } from "@/modules/chatbot/app";
-import { search } from "@/modules/vector-store/search";
+import { search } from "@/modules/vector-store/utils/search";
 import { formatSearchResults } from "@/modules/chatbot/utils/format";
 
 /**
@@ -11,7 +11,7 @@ import { formatSearchResults } from "@/modules/chatbot/utils/format";
 export async function POST(request: Request) {
   try {
     const { question, userId } = await request.json();
-
+    console.log("@@@userId", userId);
     if (!question?.trim()) {
       return NextResponse.json(
         { error: "질문을 입력해주세요." },
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     };
 
     const output = await app.invoke(input, config);
-    console.log("output", output);
+    // console.log("output", output);
     const response = output.messages[output.messages.length - 1];
     return NextResponse.json({
       question,

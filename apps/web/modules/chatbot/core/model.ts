@@ -26,7 +26,7 @@ export const callModel = async (state: GraphAnnotationState) => {
     messages: trimmedMsg,
     searchResults: JSON.stringify(searchResults),
   });
-  console.log("prompt", prompt);
+  // console.log("prompt", prompt);
   const response = await llm.invoke(prompt);
 
   /**
@@ -48,7 +48,8 @@ export const callModel = async (state: GraphAnnotationState) => {
  */
 const getTrimMessages = async (messages: BaseMessage[]) => {
   const trimer = trimMessages({
-    maxTokens: 10,
+    maxTokens: 1,
+    // maxTokens: 10,
     strategy: "last",
     tokenCounter: (msgs) => msgs.length,
     includeSystem: true,
