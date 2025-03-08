@@ -10,7 +10,8 @@
     "lint": "next lint --max-warnings 0",
     "check-types": "tsc --noEmit",
     "add-qa": "ENV_FILE=.env npx tsx app/actions/create-questions.ts",
-    "test-pdf": "ENV_FILE=.env npx tsx modules/vector-store/utils/store-pdf.ts",
+    "test-pdf": "ENV_FILE=.env npx tsx modules/vector-store/utils/get-docs-pdf.ts",
+    "test-md": "ENV_FILE=.env npx tsx modules/vector-store/utils/get-docs-md.ts",
     "update-qa": "curl -X POST http://localhost:3000/api/questions"
   },
   "dependencies": {

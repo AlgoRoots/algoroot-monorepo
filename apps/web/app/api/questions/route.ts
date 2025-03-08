@@ -6,10 +6,11 @@ import {
 import { isEmpty } from "lodash-es";
 import { supabaseClient } from "@/modules/vector-store/lib/supabse";
 import { getDocsFromJson } from "@/modules/vector-store/utils/get-docs-json";
+import { getDocsFromMd } from "@/modules/vector-store/utils/get-docs-md";
 import { getDocsFromPdf } from "@/modules/vector-store/utils/get-docs-pdf";
 
 const FILE_PATH = "public/data/docs.json";
-const PDF_PATH = "public/data/resume.pdf";
+const RESUME_PATH = "public/data/resume.md";
 
 /**
  * Supabase에서 기존 질문 가져오기 (ID 포함)
@@ -33,17 +34,38 @@ const getQuestionsFromDB = async (): Promise<Map<string, string> | null> => {
 };
 
 /**
+ * db clear
+ */
+const clearQuestionsTable = async () => {
+  try {
+    const { error } = await supabaseClient
+      .from("questions")
+      .delete()
+      .gt("id", -1);
+
+    if (error) {
+      console.log("error", error);
+      throw new Error("Supabase에서 데이터를 삭제하는데 실패했습니다.");
+    }
+
+    console.log("✅ 기존 질문 삭제 완료");
+  } catch (error) {
+    throw new Error(`DB 삭제 중 오류 발생: ${(error as Error).message}`);
+  }
+};
+/**
  * 질문 데이터 추가 API (POST 요청)
  */
 export async function POST() {
   try {
+    await clearQuestionsTable();
+
     const jsonDocs = getDocsFromJson(FILE_PATH);
-    console.log("jsonDocs", jsonDocs);
+    // console.log("jsonDocs", jsonDocs);
     // const dbData = await getQuestionsFromDB();
 
-    const pdfDocs = await getDocsFromPdf(PDF_PATH);
-    console.log("pdfDocs", pdfDocs);
-
+    const mdDocs = await getDocsFromMd(RESUME_PATH);
+    console.log("mdDocs", mdDocs);
     // const newDocuments: VectorDocument[] = jsonDocs.map(
     //   ({ pageContent, metadata }, idx) => {
     //     // const existingId = dbData?.get(pageContent);
@@ -55,7 +77,7 @@ export async function POST() {
     //   }
     // );
 
-    const newDocuments: VectorDocument[] = jsonDocs.concat(pdfDocs);
+    const newDocuments: VectorDocument[] = jsonDocs.concat(mdDocs);
 
     if (isEmpty(newDocuments)) {
       return NextResponse.json({ message: "추가할 새로운 데이터가 없습니다." });
