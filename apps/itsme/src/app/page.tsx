@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ScrollArea } from "@docbot/ui/components/scroll-area";
+
+import { readStreamableValue } from "ai/rsc";
+import { chat, type Message } from "./actions/chat";
+import ChatInput from "@/components/Chat/ChatInput";
 import ChatLayout from "@/components/Chat/ChatLayout";
 import { EmptyView } from "@/components/EmptyView";
 import { ListRenderer } from "@/components/ListRenderer";
 import ChatMessage from "@/components/Chat/ChatMessage";
-import ChatInput from "@/components/Chat/ChatInput";
-import { readStreamableValue } from "ai/rsc";
-import { chat, type Message } from "./actions/chat";
 
 export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);

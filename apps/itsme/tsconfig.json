@@ -1,14 +1,18 @@
 {
   "extends": "@docbot/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+      // "@/*": ["./modules/*"]
+      // "@codekit/ui/*": ["../../../packages/ui/src/*"]
+      // "@common/*": ["../../../packages/common/src/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
+    ]
   },
   "include": [
     "**/*.ts",
