@@ -1,8 +1,11 @@
 import { type GraphAnnotationState } from "./state";
-import { AIMessage, BaseMessage, trimMessages } from "@langchain/core/messages";
+import {
+  BaseMessage,
+  SystemMessage,
+  trimMessages,
+} from "@langchain/core/messages";
 import { promptTemplate } from "./propmt";
 import { ChatOpenAI } from "@langchain/openai";
-import { formatChatHistory } from "../utils/format";
 
 const llm = new ChatOpenAI({
   model: "gpt-4o-mini",
@@ -14,8 +17,7 @@ const llm = new ChatOpenAI({
  */
 export const callModel = async (state: GraphAnnotationState) => {
   const { messages, searchResults } = state;
-  const trimmedMsg = await getTrimMessages(messages).then(formatChatHistory);
-
+  const trimmedMsg = await getTrimMessages(messages);
   /**
    * 여기서 프롬포트를 만들 때 메세지를 자르는데,
    * llm message 상태가 같이 반영되는 것은 아닌 것으로 보임
@@ -24,9 +26,10 @@ export const callModel = async (state: GraphAnnotationState) => {
    */
   const prompt = await promptTemplate.invoke({
     messages: trimmedMsg,
-    searchResults: JSON.stringify(searchResults),
+    // 시스템 메세지로 가고 있지 않아 가끔 이상하게 답변 됐었음.
+    searchResults: new SystemMessage(JSON.stringify(searchResults)),
   });
-  // console.log("prompt", prompt);
+
   const response = await llm.invoke(prompt);
 
   /**
@@ -37,7 +40,9 @@ export const callModel = async (state: GraphAnnotationState) => {
    */
 
   return {
-    messages: [new AIMessage({ content: response.content })],
+    // 이슈 streaming 적용하면서 이 부분이 스트리밍 끝난 후 ai 메세지로 출력 되어 AI메세지가 반복되어 나왔음.
+    // messages: [new AIMessage({ content: response.content })],
+    messages: [response],
   };
 };
 
@@ -48,8 +53,8 @@ export const callModel = async (state: GraphAnnotationState) => {
  */
 const getTrimMessages = async (messages: BaseMessage[]) => {
   const trimer = trimMessages({
-    maxTokens: 1,
-    // maxTokens: 10,
+    maxTokens: 1, // 임시
+    // maxTokens: 5,
     strategy: "last",
     tokenCounter: (msgs) => msgs.length,
     includeSystem: true,
