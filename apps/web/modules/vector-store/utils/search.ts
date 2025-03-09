@@ -37,7 +37,7 @@ export const search = async (
     input,
     count
   )) as DocumentResult;
-  console.log("@@@@@@search results", JSON.stringify(results));
+  // console.log("@@@@@@search results", JSON.stringify(results));
   const bestMatch = results.filter(([_, score]) => score >= minScore);
   const data = bestMatch.map(([d, s]) => {
     return { data: d, similarity: s };

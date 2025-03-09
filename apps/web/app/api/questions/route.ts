@@ -7,7 +7,6 @@ import { isEmpty } from "lodash-es";
 import { supabaseClient } from "@/modules/vector-store/lib/supabse";
 import { getDocsFromJson } from "@/modules/vector-store/utils/get-docs-json";
 import { getDocsFromMd } from "@/modules/vector-store/utils/get-docs-md";
-import { getDocsFromPdf } from "@/modules/vector-store/utils/get-docs-pdf";
 
 const FILE_PATH = "public/data/docs.json";
 const RESUME_PATH = "public/data/resume.md";
@@ -55,28 +54,14 @@ const clearQuestionsTable = async () => {
 };
 /**
  * 질문 데이터 추가 API (POST 요청)
+ * action으로 안한이유: client에 필요한 코드가 아니라서
  */
 export async function POST() {
   try {
     await clearQuestionsTable();
 
     const jsonDocs = getDocsFromJson(FILE_PATH);
-    // console.log("jsonDocs", jsonDocs);
-    // const dbData = await getQuestionsFromDB();
-
     const mdDocs = await getDocsFromMd(RESUME_PATH);
-    console.log("mdDocs", mdDocs);
-    // const newDocuments: VectorDocument[] = jsonDocs.map(
-    //   ({ pageContent, metadata }, idx) => {
-    //     // const existingId = dbData?.get(pageContent);
-    //     return {
-    //       // id: existingId ?? String(idx),
-    //       pageContent: pageContent,
-    //       metadata: metadata,
-    //     };
-    //   }
-    // );
-
     const newDocuments: VectorDocument[] = jsonDocs.concat(mdDocs);
 
     if (isEmpty(newDocuments)) {

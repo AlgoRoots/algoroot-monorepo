@@ -1,4 +1,5 @@
 import type { SearchResult } from "@/modules/vector-store/utils/search";
+import type { BaseMessageLike } from "@langchain/core/messages";
 import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
 
 /**
@@ -9,6 +10,9 @@ import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
 export type GraphAnnotationState = typeof GraphAnnotation.State;
 export const GraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec, // message field 추가,
+  // messages: Annotation<BaseMessageLike[]>({
+  //   reducer: (x, y) => x.concat(y), // 이전 메시지와 새로운 메시지를 합침
+  // }),
   content: Annotation<string | null>(),
   keywords: Annotation<string[] | null>(),
   searchResults: Annotation<string | null>(),
