@@ -18,6 +18,7 @@ export interface Message {
 
 export async function chat(history: Message[], userId: string) {
   const stream = createStreamableValue("");
+
   const latest = history.at(-1);
 
   if (!latest?.content || latest.role !== "user") {
@@ -25,29 +26,31 @@ export async function chat(history: Message[], userId: string) {
       "잘못된 사용자 입력: 최신 메시지가 없거나, 사용자 메시지가 아닙니다."
     );
   }
-
   const input = latest.content;
-  const searchResults = await search(input).then(formatSearchResults);
 
-  const inputData = {
-    messages: [new HumanMessage(input)],
-    searchResults,
-  };
+  (async () => {
+    const searchResults = await search(input).then(formatSearchResults);
 
-  const messageStream = await app.stream(inputData, {
-    /**
-     *  대화 세션(사용자별 ID) 관리 (memory 목적)
-     */
-    configurable: { thread_id: userId },
-    streamMode: "messages",
-  });
+    const inputData = {
+      messages: [new HumanMessage(input)],
+      searchResults,
+    };
 
-  for await (const [message] of messageStream) {
-    if (message?.content) {
-      stream.update(message.content);
+    const messageStream = await app.stream(inputData, {
+      /**
+       *  대화 세션(사용자별 ID) 관리 (memory 목적)
+       */
+      configurable: { thread_id: userId },
+      streamMode: "messages",
+    });
+
+    for await (const [message] of messageStream) {
+      if (message?.content) {
+        stream.update(message.content);
+      }
     }
-  }
+    stream.done();
+  })();
 
-  stream.done();
   return { history, newMessage: stream.value };
 }
