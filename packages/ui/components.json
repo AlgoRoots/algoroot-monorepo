@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "ui": "@docbot/ui/components",
-    "components": "@docbot/ui/components",
-    "utils": "@docbot/ui/lib/utils",
-    "lib": "@docbot/ui/lib",
-    "hooks": "@docbot/ui/hooks"
+    "ui": "@algoroot/ui/components",
+    "components": "@algoroot/ui/components",
+    "utils": "@algoroot/ui/lib/utils",
+    "lib": "@algoroot/ui/lib",
+    "hooks": "@algoroot/ui/hooks"
   },
   "iconLibrary": "lucide"
 }

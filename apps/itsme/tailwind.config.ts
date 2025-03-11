@@ -1,1 +1,1 @@
-export * from "@docbot/ui/tailwind.config";
+export * from "@algoroot/ui/tailwind.config";

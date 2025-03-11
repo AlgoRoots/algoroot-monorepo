@@ -1,5 +1,5 @@
 {
-  "name": "@docbot/ui",
+  "name": "@algoroot/ui",
   "version": "0.0.1",
   "main": "index.js",
   "type": "module",
@@ -25,8 +25,8 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@docbot/eslint-config": "workspace:*",
-    "@docbot/typescript-config": "workspace:*",
+    "@algoroot/eslint-config": "workspace:*",
+    "@algoroot/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.0.9",
     "@types/node": "^22",
     "@types/react": "19.0.8",

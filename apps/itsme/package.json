@@ -1,5 +1,5 @@
 {
-  "name": "itsme",
+  "name": "@algoroot/itsme",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -15,7 +15,7 @@
     "update-qa": "curl -X POST http://localhost:3000/api/questions"
   },
   "dependencies": {
-    "@docbot/ui": "workspace:*",
+    "@algoroot/ui": "workspace:*",
     "@langchain/anthropic": "^0.3.15",
     "@langchain/community": "^0.3.32",
     "@langchain/core": "^0.3.40",
@@ -37,8 +37,8 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@docbot/eslint-config": "workspace:*",
-    "@docbot/typescript-config": "workspace:*",
+    "@algoroot/eslint-config": "workspace:*",
+    "@algoroot/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.0.9",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22",

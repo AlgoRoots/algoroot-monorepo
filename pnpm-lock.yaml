@@ -12,15 +12,15 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.13.0)(typescript@5.7.3)
     devDependencies:
+      '@algoroot/eslint-config':
+        specifier: workspace:*
+        version: link:packages/eslint-config
+      '@algoroot/typescript-config':
+        specifier: workspace:*
+        version: link:packages/typescript-config
       '@changesets/cli':
         specifier: ^2.27.12
         version: 2.27.12
-      '@docbot/eslint-config':
-        specifier: workspace:*
-        version: link:packages/eslint-config
-      '@docbot/typescript-config':
-        specifier: workspace:*
-        version: link:packages/typescript-config
       dotenv-cli:
         specifier: ^8.0.0
         version: 8.0.0
@@ -58,7 +58,7 @@ importers:
 
   apps/itsme:
     dependencies:
-      '@docbot/ui':
+      '@algoroot/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@langchain/anthropic':
@@ -119,10 +119,10 @@ importers:
         specifier: ^3.24.2
         version: 3.24.2
     devDependencies:
-      '@docbot/eslint-config':
+      '@algoroot/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
-      '@docbot/typescript-config':
+      '@algoroot/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@tailwindcss/postcss':
@@ -221,10 +221,10 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.0.8)
     devDependencies:
-      '@docbot/eslint-config':
+      '@algoroot/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@docbot/typescript-config':
+      '@algoroot/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@tailwindcss/postcss':

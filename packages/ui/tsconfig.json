@@ -1,9 +1,9 @@
 {
-  "extends": "@docbot/typescript-config/react-library.json",
+  "extends": "@algoroot/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@docbot/ui/*": ["./src/*"]
+      "@algoroot/ui/*": ["./src/*"]
     }
   },
   "include": ["."],

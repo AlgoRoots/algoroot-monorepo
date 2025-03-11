@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ScrollArea } from "@docbot/ui/components/scroll-area";
+import { ScrollArea } from "@algoroot/ui/components/scroll-area";
 
 import { readStreamableValue } from "ai/rsc";
 import { chat, type Message } from "./actions/chat";
@@ -16,6 +16,7 @@ export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isPending, setIsPending] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setUserId(uuidv4());
@@ -32,18 +33,34 @@ export default function Home() {
     if (!input) return;
 
     setIsPending(true);
-    setMessages((prev) => [...prev, { role: "user", content: input }]);
 
     try {
       const { history, newMessage } = await chat(
         [...messages, { role: "user", content: input }],
         userId!
       );
+      setMessages([...history, { role: "ai", content: "" }]);
 
-      let textContent = "";
+      // 새 배열을 생성하는 방식에서 prev로 필요한 아이템만 수정하는 쪽으로 변경
       for await (const delta of readStreamableValue(newMessage)) {
-        textContent += delta;
-        setMessages([...history, { role: "ai", content: textContent }]);
+        setMessages((prevMessages) =>
+          prevMessages.map((msg, idx) =>
+            idx === prevMessages.length - 1
+              ? { ...msg, content: msg.content + delta }
+              : msg
+          )
+        );
+
+        // let textContent = "";
+        // for await (const delta of readStreamableValue(newMessage)) {
+        //   textContent += delta;
+
+        //   setMessages([...history, { role: "ai", content: textContent }]);
+
+        scrollRef.current?.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: "smooth",
+        });
       }
     } finally {
       setIsPending(false);
@@ -64,7 +81,7 @@ export default function Home() {
           }
         >
           <ScrollArea
-            // ref={scrollRef}
+            ref={scrollRef}
             className="w-full h-[80vh] overflow-y-auto border-b pb-4"
           >
             <ListRenderer

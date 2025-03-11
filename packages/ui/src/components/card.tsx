@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@docbot/ui/lib/utils";
+import { cn } from "@algoroot/ui/lib/utils";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (

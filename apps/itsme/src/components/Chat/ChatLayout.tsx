@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@docbot/ui/components/card";
+import { Card, CardContent } from "@algoroot/ui/components/card";
 import React, { type ComponentProps } from "react";
 
 interface ChatLayoutProps extends ComponentProps<"div"> {}

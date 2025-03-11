@@ -1,4 +1,4 @@
-import { cn } from "@docbot/ui/lib/utils";
+import { cn } from "@algoroot/ui/lib/utils";
 import ReactMarkdown from "react-markdown";
 
 export type ChatMessageProps = {
@@ -7,6 +7,7 @@ export type ChatMessageProps = {
 };
 
 const ChatMessage = ({ role, content }: ChatMessageProps) => {
+  console.log("run", content);
   return (
     <div
       className={cn(

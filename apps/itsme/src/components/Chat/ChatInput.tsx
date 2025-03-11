@@ -1,5 +1,5 @@
-import { Button } from "@docbot/ui/components/button";
-import { Input } from "@docbot/ui/components/input";
+import { Button } from "@algoroot/ui/components/button";
+import { Input } from "@algoroot/ui/components/input";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 

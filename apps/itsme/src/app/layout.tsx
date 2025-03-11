@@ -1,4 +1,4 @@
-import "@docbot/ui/globals.css";
+import "@algoroot/ui/globals.css";
 
 import type { Metadata } from "next";
 // import localFont from "next/font/local";
