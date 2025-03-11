@@ -1,4 +1,4 @@
-import { Skeleton } from "@docbot/ui/components/skeleton";
+import { Skeleton } from "@algoroot/ui/components/skeleton";
 import { type ReactNode, Suspense } from "react";
 
 export interface LoadingViewProps {

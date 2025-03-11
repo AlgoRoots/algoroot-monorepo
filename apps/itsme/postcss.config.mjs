@@ -1,1 +1,1 @@
-export { default } from "@docbot/ui/postcss.config";
+export { default } from "@algoroot/ui/postcss.config";

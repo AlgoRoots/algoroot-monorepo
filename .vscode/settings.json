@@ -3,5 +3,22 @@
     {
       "mode": "auto"
     }
-  ]
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+  // "editor.quickSuggestions": {
+  //   "strings": "on"
+  // },
+  // "tailwindCSS.experimental.classRegex": [
+  //   ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+  //   ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  // ],
+  // "tailwindCSS.classAttributes": [
+  //   "class",
+  //   "className",
+  //   "ngClass",
+  //   "class:list",
+  //   ".*Styles*"
+  // ]
 }

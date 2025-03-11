@@ -41,10 +41,10 @@ importers:
         version: 15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       nextra:
         specifier: ^4.2.12
-        version: 4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
+        version: 4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)
       nextra-theme-docs:
         specifier: ^4.2.12
-        version: 4.2.12(@types/react@19.0.8)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(nextra@4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
+        version: 4.2.12(@types/react@19.0.8)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(nextra@4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -58,6 +58,9 @@ importers:
 
   apps/itsme:
     dependencies:
+      '@algoroot/share':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@algoroot/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -112,6 +115,9 @@ importers:
       react-markdown:
         specifier: ^10.1.0
         version: 10.1.0(@types/react@19.0.8)(react@19.0.0)
+      tailwindcss:
+        specifier: ^4.0.8
+        version: 4.0.9
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -143,9 +149,9 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
-      tailwindcss:
-        specifier: ^4.0.8
-        version: 4.0.9
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -185,6 +191,52 @@ importers:
       typescript-eslint:
         specifier: ^8.23.0
         version: 8.23.0(eslint@9.20.0(jiti@2.4.2))(typescript@5.7.3)
+
+  packages/shared:
+    dependencies:
+      '@algoroot/ui':
+        specifier: workspace:*
+        version: link:../ui
+      react:
+        specifier: ^19
+        version: 19.0.0
+      react-dom:
+        specifier: ^19
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@algoroot/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@algoroot/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
+      '@types/node':
+        specifier: ^22
+        version: 22.13.0
+      '@types/react':
+        specifier: 19.0.8
+        version: 19.0.8
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.8)
+      eslint:
+        specifier: ^9.20.0
+        version: 9.20.0(jiti@2.4.2)
+      lucide-react:
+        specifier: ^0.475.0
+        version: 0.475.0(react@19.0.0)
+      next:
+        specifier: ^15.1.6
+        version: 15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next-themes:
+        specifier: ^0.4.4
+        version: 0.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
 
   packages/typescript-config: {}
 
@@ -4416,6 +4468,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.8.2:
+    resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
 
@@ -5556,11 +5613,11 @@ snapshots:
     dependencies:
       '@shikijs/types': 2.4.2
 
-  '@shikijs/twoslash@2.4.2(typescript@5.7.3)':
+  '@shikijs/twoslash@2.4.2(typescript@5.8.2)':
     dependencies:
       '@shikijs/core': 2.4.2
       '@shikijs/types': 2.4.2
-      twoslash: 0.2.12(typescript@5.7.3)
+      twoslash: 0.2.12(typescript@5.8.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -5995,10 +6052,10 @@ snapshots:
       '@typescript-eslint/types': 8.23.0
       eslint-visitor-keys: 4.2.0
 
-  '@typescript/vfs@1.6.1(typescript@5.7.3)':
+  '@typescript/vfs@1.6.1(typescript@5.8.2)':
     dependencies:
       debug: 4.4.0
-      typescript: 5.7.3
+      typescript: 5.8.2
     transitivePeerDependencies:
       - supports-color
 
@@ -8331,13 +8388,13 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  nextra-theme-docs@4.2.12(@types/react@19.0.8)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(nextra@4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0)):
+  nextra-theme-docs@4.2.12(@types/react@19.0.8)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(nextra@4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0)):
     dependencies:
       '@headlessui/react': 2.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       clsx: 2.1.1
       next: 15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes: 0.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      nextra: 4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
+      nextra: 4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)
       react: 19.0.0
       react-compiler-runtime: 0.0.0-experimental-22c6e49-20241219(react@19.0.0)
       react-dom: 19.0.0(react@19.0.0)
@@ -8350,13 +8407,13 @@ snapshots:
       - immer
       - use-sync-external-store
 
-  nextra@4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3):
+  nextra@4.2.12(acorn@8.14.0)(next@15.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2):
     dependencies:
       '@formatjs/intl-localematcher': 0.6.0
       '@headlessui/react': 2.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       '@napi-rs/simple-git': 0.1.19
-      '@shikijs/twoslash': 2.4.2(typescript@5.7.3)
+      '@shikijs/twoslash': 2.4.2(typescript@5.8.2)
       '@theguild/remark-mermaid': 0.2.0(react@19.0.0)
       '@theguild/remark-npm2yarn': 0.3.3
       better-react-mathjax: 2.1.0(react@19.0.0)
@@ -9333,11 +9390,11 @@ snapshots:
 
   twoslash-protocol@0.2.12: {}
 
-  twoslash@0.2.12(typescript@5.7.3):
+  twoslash@0.2.12(typescript@5.8.2):
     dependencies:
-      '@typescript/vfs': 1.6.1(typescript@5.7.3)
+      '@typescript/vfs': 1.6.1(typescript@5.8.2)
       twoslash-protocol: 0.2.12
-      typescript: 5.7.3
+      typescript: 5.8.2
     transitivePeerDependencies:
       - supports-color
 
@@ -9389,6 +9446,8 @@ snapshots:
       - supports-color
 
   typescript@5.7.3: {}
+
+  typescript@5.8.2: {}
 
   ufo@1.5.4: {}
 

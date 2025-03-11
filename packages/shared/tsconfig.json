@@ -3,9 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@algoroot/ui/*": ["./src/*"]
-    }
+      "@algoroot/share/*": ["./src/*"]
+    },
+    "module": "esnext",
+    "moduleResolution": "bundler"
   },
   "include": ["src"],
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["node_modules"]
 }

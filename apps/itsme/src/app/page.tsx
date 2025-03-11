@@ -8,13 +8,18 @@ import { readStreamableValue } from "ai/rsc";
 import { chat, type Message } from "./actions/chat";
 import ChatInput from "@/components/Chat/ChatInput";
 import ChatLayout from "@/components/Chat/ChatLayout";
-import { EmptyView } from "@/components/EmptyView";
-import { ListRenderer } from "@/components/ListRenderer";
+
 import ChatMessage from "@/components/Chat/ChatMessage";
+import { EmptyView, ListRenderer } from "@algoroot/share/components";
 
 export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(
+    Array.from({ length: 50 }).map((_, i) => ({
+      role: i % 2 ? "ai" : "user",
+      content: i + "message",
+    }))
+  );
   const [isPending, setIsPending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -68,36 +73,30 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <ChatLayout>
-        <EmptyView
-          isEmpty={messages.length === 0}
-          fallback={
-            <div className="w-full h-[80vh] flex items-center">
-              <p className="my-auto  mx-auto text-center text-gray-500">
-                대화를 시작하세요!
-              </p>
-            </div>
-          }
+    <ChatLayout>
+      <EmptyView
+        isEmpty={messages.length === 0}
+        fallback={
+          <div className="w-full h-[80vh] flex items-center">
+            <p className="my-auto mx-auto text-center text-gray-500">
+              대화를 시작하세요!
+            </p>
+          </div>
+        }
+      >
+        <ScrollArea
+          ref={scrollRef}
+          className="w-full h-[80vh] overflow-y-auto border-b pb-4"
         >
-          <ScrollArea
-            ref={scrollRef}
-            className="w-full h-[80vh] overflow-y-auto border-b pb-4"
-          >
-            <ListRenderer
-              data={messages}
-              render={(item, idx) => (
-                <ChatMessage
-                  key={idx}
-                  role={item.role}
-                  content={item.content}
-                />
-              )}
-            />
-          </ScrollArea>
-        </EmptyView>
-        <ChatInput isLoading={isPending} onSend={handleSubmit} />
-      </ChatLayout>
-    </div>
+          <ListRenderer
+            data={messages}
+            render={(item, idx) => (
+              <ChatMessage key={idx} role={item.role} content={item.content} />
+            )}
+          />
+        </ScrollArea>
+      </EmptyView>
+      <ChatInput isLoading={isPending} onSend={handleSubmit} />
+    </ChatLayout>
   );
 }

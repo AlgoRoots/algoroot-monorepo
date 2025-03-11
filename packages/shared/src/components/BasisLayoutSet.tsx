@@ -1,13 +1,13 @@
 import { cn } from "@algoroot/ui/lib/utils";
 
-function BasisLayout({
+const BasisLayout = ({
   className,
   children,
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       className={cn(
-        "grid-landing",
+        "grid-container",
         "h-screen",
         "bg-background-basic-1",
         className
@@ -16,13 +16,13 @@ function BasisLayout({
       {children}
     </div>
   );
-}
+};
 
-function BasisHeader({
+const BasisHeader = ({
   className,
   children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <header
       className={cn(
@@ -36,30 +36,30 @@ function BasisHeader({
       {children}
     </header>
   );
-}
+};
 
-function BasisMain({
+const BasisMain = ({
   className,
   children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <main className={cn("area-main", className)} {...props}>
       {children}
     </main>
   );
-}
+};
 
-function BasisFooter({
+const BasisFooter = ({
   className,
   children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <footer className={cn("area-footer", className)} {...props}>
       {children}
     </footer>
   );
-}
+};
 
 export { BasisLayout, BasisHeader, BasisMain, BasisFooter };

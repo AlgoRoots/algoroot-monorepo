@@ -1,0 +1,35 @@
+{
+  "name": "@algoroot/share",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@algoroot/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@algoroot/eslint-config": "workspace:*",
+    "@algoroot/typescript-config": "workspace:*",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "eslint": "^9.20.0",
+    "lucide-react": "^0.475.0",
+    "next": "^15.1.6",
+    "next-themes": "^0.4.4",
+    "typescript": "^5.8.2"
+  },
+  "peerDependencies": {
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "exports": {
+    "./components": "./src/components/index.ts",
+    "./providers": "./src/providers/index.ts",
+    "./utils": "./src/utils/index.ts"
+  }
+}

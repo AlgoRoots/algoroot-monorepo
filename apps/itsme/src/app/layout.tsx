@@ -1,11 +1,34 @@
-import "@algoroot/ui/globals.css";
+import "../styles/global.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 // import localFont from "next/font/local";
 
 import { Geist, Geist_Mono } from "next/font/google";
 /* Common Styles */
+
+import { cn } from "@algoroot/ui/lib/utils";
+// const ThemeSwitcher = dynamic(
+//   () => import("@algoroot/share/components").then((mod) => mod.ThemeSwitcher),
+//   {
+//     ssr: false,
+//   }
+// );
 import { Providers } from "@/components/providers";
+import {
+  BasisFooter,
+  BasisHeader,
+  BasisLayout,
+  BasisMain,
+  Icons,
+  MenuLink,
+  ResponsiveRenderer,
+  ThemeSwitcher,
+} from "@algoroot/share/components";
+import { LogoLink } from "@/components/LogoLink";
+import { MenuIcon } from "lucide-react";
+import { Button } from "@algoroot/ui/components/button";
+import dynamic from "next/dynamic";
+// import { ThemeSwitcher } from "@/components/ThemeSet";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -20,6 +43,15 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
+/**
+ *
+ * @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1.0,
+};
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -36,7 +68,34 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <BasisLayout>
+            <BasisHeader className="bg-muted/50 flex items-center justify-between">
+              <LogoLink href={"/"} subTitle="박성혜 자기소개서" />
+              <ResponsiveRenderer
+                breakpoint="md"
+                below={
+                  <div>
+                    <Button variant={"secondary"} size={"icon"}>
+                      <MenuIcon />
+                    </Button>
+                  </div>
+                }
+                above={
+                  <div className="flex text-2xl gap-3">
+                    <MenuLink href={"#"}>
+                      <Icons.gitHub className="size-5" />
+                    </MenuLink>
+                    <ThemeSwitcher />
+                  </div>
+                }
+              />
+            </BasisHeader>
+            <BasisMain className="flex flex-col items-center justify-center p-4">
+              {children}
+            </BasisMain>
+          </BasisLayout>
+        </Providers>
       </body>
     </html>
   );

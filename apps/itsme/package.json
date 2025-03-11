@@ -12,9 +12,12 @@
     "add-qa": "ENV_FILE=.env npx tsx app/actions/create-questions.ts",
     "test-pdf": "ENV_FILE=.env npx tsx modules/vector-store/utils/get-docs-pdf.ts",
     "test-md": "ENV_FILE=.env npx tsx modules/vector-store/utils/get-docs-md.ts",
-    "update-qa": "curl -X POST http://localhost:3000/api/questions"
+    "update-qa": "curl -X POST http://localhost:3000/api/questions",
+    "tw:output": "tailwindcss -i ./src/styles/global.css -o ./dist/output.css",
+    "tw:watch": "tailwindcss -i ./src/styles/global.css -o ./dist/output.css --watch"
   },
   "dependencies": {
+    "@algoroot/share": "workspace:*",
     "@algoroot/ui": "workspace:*",
     "@langchain/anthropic": "^0.3.15",
     "@langchain/community": "^0.3.32",
@@ -33,6 +36,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
+    "tailwindcss": "^4.0.8",
     "uuid": "^11.1.0",
     "zod": "^3.24.2"
   },
@@ -45,7 +49,7 @@
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "dotenv": "^16.4.7",
-    "tailwindcss": "^4.0.8",
+    "postcss": "^8.5.3",
     "typescript": "5.7.3"
   }
 }

@@ -7,7 +7,10 @@
     "shadcn": "pnpm dlx shadcn@latest",
     "lint": "eslint .",
     "generate:component": "turbo gen react-component",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i ./src/styles/theme.css -o ./dist/output.css",
+    "dev": "tailwindcss -i ./src/styles/theme.css -o ./dist/output.css --watch",
+    "check-types": "tsc --noEmit"
   },
   "author": "",
   "license": "ISC",
@@ -36,11 +39,12 @@
     "typescript": "^5.7.3"
   },
   "exports": {
-    "./globals.css": "./src/styles/globals.css",
+    "./theme.css": "./src/styles/theme.css",
     "./postcss.config": "./postcss.config.mjs",
     "./tailwind.config": "./tailwind.config.ts",
     "./components/*": "./src/components/*.tsx",
     "./lib/*": "./src/lib/*.ts",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./hooks/*": "./src/hooks/*.ts",
+    "./types/*": "./src/types/types.ts"
   }
 }
