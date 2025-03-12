@@ -10,9 +10,10 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.12",
     "@algoroot/eslint-config": "workspace:*",
     "@algoroot/typescript-config": "workspace:*",
+    "@changesets/cli": "^2.27.12",
+    "@tailwindcss/cli": "^4.0.13",
     "dotenv-cli": "^8.0.0",
     "prettier": "^3.5.0",
     "turbo": "^2.4.2",

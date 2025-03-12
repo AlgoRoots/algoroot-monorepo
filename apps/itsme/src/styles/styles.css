@@ -1,0 +1,27 @@
+@import '@algoroot/ui/global.css';
+@layer utilities {
+	.grid-container {
+		@apply grid;
+		grid-template-areas:
+			'header'
+			'main';
+		grid-template-columns: 1fr;
+		grid-template-rows: 60px 1fr;
+	}
+
+	.trnsition-sidebar-container {
+		transition: all 0.25s ease-in-out;
+	}
+
+	.area-header {
+		grid-area: header;
+	}
+
+	.area-main {
+		grid-area: main;
+	}
+
+	.area-footer {
+		grid-area: footer;
+	}
+}
