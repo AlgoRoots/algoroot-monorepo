@@ -1,13 +1,13 @@
 {
-  "extends": "@algoroot/typescript-config/react-library.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@algoroot/share/*": ["./src/*"]
-    },
-    "module": "esnext",
-    "moduleResolution": "bundler"
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+	"extends": "@algoroot/typescript-config/react-library.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@algoroot/share/*": ["./src/*"]
+		},
+		"module": "esnext",
+		"moduleResolution": "bundler"
+	},
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
 export const useChatValue = () => {
-  const streamText = () => {};
-  return {};
-};
+	const streamText = () => {}
+	return {}
+}

@@ -1,3 +1,3 @@
-import type { ClassNameValue } from "tailwind-merge";
+import type { ClassNameValue } from 'tailwind-merge'
 
-export type ClassName = ClassNameValue;
+export type ClassName = ClassNameValue

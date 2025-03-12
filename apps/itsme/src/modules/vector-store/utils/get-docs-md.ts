@@ -1,9 +1,9 @@
-import { TextLoader } from "langchain/document_loaders/fs/text";
+import { TextLoader } from 'langchain/document_loaders/fs/text'
 import {
-  MarkdownTextSplitter,
-  RecursiveCharacterTextSplitter,
-} from "langchain/text_splitter";
-import path from "path";
+	MarkdownTextSplitter,
+	RecursiveCharacterTextSplitter,
+} from 'langchain/text_splitter'
+import path from 'path'
 
 /**
  *
@@ -17,23 +17,23 @@ import path from "path";
  * @see https://js.langchain.com/docs/how_to/recursive_text_splitter/
  */
 const extractTextFromMD = async (filePath: string) => {
-  // splitPages 각 페이지가 개별 문서로 저장됨 (검색 최적화 가능)
-  const loader = new TextLoader(filePath);
-  const docs = await loader.load();
-  return docs;
-};
+	// splitPages 각 페이지가 개별 문서로 저장됨 (검색 최적화 가능)
+	const loader = new TextLoader(filePath)
+	const docs = await loader.load()
+	return docs
+}
 
 export const textSplitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 500,
-  chunkOverlap: 100,
-  separators: ["##", "###"],
-});
+	chunkSize: 500,
+	chunkOverlap: 100,
+	separators: ['##', '###'],
+})
 
 export const getDocsFromMd = async (relativePath: string) => {
-  const filePath = path.join(process.cwd(), relativePath);
+	const filePath = path.join(process.cwd(), relativePath)
 
-  const docs = await extractTextFromMD(filePath);
+	const docs = await extractTextFromMD(filePath)
 
-  const splitDocs = await textSplitter.splitDocuments(docs);
-  return splitDocs;
-};
+	const splitDocs = await textSplitter.splitDocuments(docs)
+	return splitDocs
+}

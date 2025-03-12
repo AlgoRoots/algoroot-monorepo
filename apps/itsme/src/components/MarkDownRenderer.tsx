@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import React from "react";
-import ReactMarkdown from "react-markdown";
+import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
 interface MarkdownRendererProps {
-  content: string;
+	content: string
 }
 
 export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
-  content,
+	content,
 }) => {
-  return <ReactMarkdown>{content}</ReactMarkdown>;
-};
+	return <ReactMarkdown>{content}</ReactMarkdown>
+}
