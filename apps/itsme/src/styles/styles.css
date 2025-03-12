@@ -1,4 +1,4 @@
-@import '@algoroot/ui/global.css';
+@import '@algoroot/ui/globals.css';
 @layer utilities {
 	.grid-container {
 		@apply grid;

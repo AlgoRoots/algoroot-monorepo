@@ -78,7 +78,7 @@ export default function Home() {
 				isEmpty={messages.length === 0}
 				fallback={
 					<div className="w-full h-[80vh] flex items-center">
-						<p className="my-auto mx-auto text-center text-gray-500">
+						<p className="my-auto mx-auto text-center text-gray-500 ">
 							대화를 시작하세요!
 						</p>
 					</div>

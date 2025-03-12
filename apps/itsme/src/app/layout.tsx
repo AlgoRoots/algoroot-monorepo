@@ -3,7 +3,7 @@ import '../styles/styles.css'
 import type { Metadata, Viewport } from 'next'
 // import localFont from "next/font/local";
 
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Walter_Turncoat, Jua } from 'next/font/google'
 /* Common Styles */
 
 import { cn } from '@algoroot/ui/lib/utils'
@@ -43,6 +43,17 @@ const fontMono = Geist_Mono({
 	subsets: ['latin'],
 	variable: '--font-mono',
 })
+const fontWalterTurncoat = Walter_Turncoat({
+	subsets: ['latin'],
+	variable: '--font-walter-turncoat',
+	weight: ['400'],
+})
+
+// const fontJua = Jua({
+// 	subsets: ['latin'],
+// 	variable: '--font-jua',
+// 	weight: ['400'],
+// })
 
 /**
  *
@@ -66,7 +77,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+				className={`${fontSans.variable} ${fontMono.variable} ${fontWalterTurncoat.variable} font-sans antialiased `}
 			>
 				<Providers>
 					<BasisLayout>
