@@ -1,6 +1,5 @@
 import { TextLoader } from 'langchain/document_loaders/fs/text'
 import {
-	MarkdownTextSplitter,
 	RecursiveCharacterTextSplitter,
 } from 'langchain/text_splitter'
 import path from 'path'

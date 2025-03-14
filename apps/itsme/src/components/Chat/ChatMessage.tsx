@@ -6,18 +6,18 @@ export type ChatMessageProps = {
 	content: string
 }
 
-const ChatMessage = ({ role, content }: ChatMessageProps) => {
+export const ChatMessage = ({ role, content }: ChatMessageProps) => {
 	// console.log("run", content);
 	return (
 		<div
 			className={cn(
-				'flex my-2',
+				'my-2 flex',
 				role === 'user' ? 'justify-end' : 'justify-start',
 			)}
 		>
 			<div
 				className={cn(
-					'px-4 py-2 rounded-lg max-w-md',
+					'max-w-md rounded-lg px-4 py-2',
 					role === 'user' ?
 						'bg-primary text-primary-foreground'
 					:	'bg-secondary text-secondary-foreground',
@@ -28,5 +28,3 @@ const ChatMessage = ({ role, content }: ChatMessageProps) => {
 		</div>
 	)
 }
-
-export default ChatMessage

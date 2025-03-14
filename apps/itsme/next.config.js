@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@algoroot/ui", "@algoroot/share"],
-};
+	transpilePackages: ['@algoroot/ui', '@algoroot/share'],
+}
 
-export default nextConfig;
+export default nextConfig

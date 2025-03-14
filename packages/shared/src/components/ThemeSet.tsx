@@ -13,10 +13,16 @@ const ThemeSwitcher = ({ ...props }: HTMLAttributes<HTMLButtonElement>) => {
 		theme === 'dark' ? setTheme('light') : setTheme('dark')
 
 	return (
-		<Button variant="outline" size={'icon'} onClick={toggleTheme} {...props}>
+		<Button
+			variant="outline"
+			size={'icon'}
+			onClick={toggleTheme}
+			// className="hover:*:text-white"
+			{...props}
+		>
 			<ThemeRenderer
-				onLight={<SunIcon className="size-6" />}
-				onDark={<MoonIcon className="size-6 fill-black" />}
+				onLight={<SunIcon className="size-5" />}
+				onDark={<MoonIcon className="size-5" />}
 			/>
 			<span className="sr-only">Toggle theme</span>
 		</Button>

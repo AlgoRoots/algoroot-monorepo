@@ -4,6 +4,7 @@ import {
 	type ReactElement,
 	cloneElement,
 	isValidElement,
+	type PropsWithChildren,
 } from 'react'
 import type { ClassName } from '@algoroot/ui/types/'
 
@@ -20,24 +21,24 @@ const visibilityVariants: Record<
 	{ below: ClassName; above: ClassName }
 > = {
 	sm: {
-		below: 'flex sm:hidden',
-		above: 'hidden sm:flex',
+		below: 'block sm:hidden',
+		above: 'hidden sm:block',
 	},
 	md: {
-		below: 'flex md:hidden',
-		above: 'hidden md:flex',
+		below: 'block md:hidden',
+		above: 'hidden md:block',
 	},
 	lg: {
-		below: 'flex lg:hidden',
-		above: 'hidden lg:flex',
+		below: 'block lg:hidden',
+		above: 'hidden lg:block',
 	},
 	xl: {
-		below: 'flex xl:hidden',
-		above: 'hidden xl:flex',
+		below: 'block xl:hidden',
+		above: 'hidden xl:block',
 	},
 	'2xl': {
-		below: 'flex 2xl:hidden',
-		above: 'hidden 2xl:flex',
+		below: 'block 2xl:hidden',
+		above: 'hidden 2xl:block',
 	},
 }
 
@@ -48,8 +49,14 @@ const renderWithClass = (
 	if (isValidElement(element)) {
 		const elementClassName =
 			(element.props as { className?: string })?.className || ''
+
+		const children = (element.props as { children?: ReactNode }).children
+		const newChildren =
+			isValidElement(children) ? renderWithClass(children, className) : children
+
 		return cloneElement(element as ReactElement<any>, {
 			className: cn(elementClassName, className),
+			children: newChildren,
 		})
 	}
 	return element
@@ -62,6 +69,8 @@ export const ResponsiveRenderer = ({
 }: ResponsiveRendererProps) => {
 	const { below: belowClass, above: aboveClass } =
 		visibilityVariants[breakpoint]
+	console.log('below', renderWithClass(below, aboveClass))
+	console.log('abobe', renderWithClass(above, aboveClass))
 
 	return (
 		<>

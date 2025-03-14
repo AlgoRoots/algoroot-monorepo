@@ -5,14 +5,7 @@ const BasisLayout = ({
 	children,
 }: React.HTMLAttributes<HTMLDivElement>) => {
 	return (
-		<div
-			className={cn(
-				'grid-container',
-				'h-screen',
-				'bg-background-basic-1',
-				className,
-			)}
-		>
+		<div className={cn('grid-container relative', 'h-screen', className)}>
 			{children}
 		</div>
 	)
@@ -26,9 +19,9 @@ const BasisHeader = ({
 	return (
 		<header
 			className={cn(
-				'area-header stack-h bg-background sticky top-0 z-50',
+				'area-header bg-background sticky top-0 z-50 flex items-center justify-between',
 				'px-4 md:px-4 lg:px-10',
-				'border-b-1 border-gray-200 shadow-sm',
+				'border-b-1 border-muted dark:shadow-sm',
 				className,
 			)}
 			{...props}
