@@ -1,13 +1,13 @@
 'use client'
 
 import {
-	type ReactNode,
 	createContext as _createContext,
 	useContext as _useContext,
+	type ReactNode,
 } from 'react'
 
-export type CreateContextReturn<T> = [
-	React.FC<{ children: ReactNode; value?: T }>,
+export type CreateContextReturn<T, TParams> = [
+	React.FC<{ children: ReactNode; params?: TParams }>,
 	// React.Provider<T>,
 	() => T,
 	React.Context<T>,
@@ -34,9 +34,13 @@ export const createContext = <T, TParams = undefined>(
 		children: ReactNode
 		params: TParams
 	}) => {
+		console.log('params', params)
 		const value = useHook(params || initialProps)
 		return <context.Provider value={value}>{children}</context.Provider>
 	}
 
-	return [Provider, useContext, context] as unknown as CreateContextReturn<T>
+	return [Provider, useContext, context] as unknown as CreateContextReturn<
+		T,
+		TParams
+	>
 }

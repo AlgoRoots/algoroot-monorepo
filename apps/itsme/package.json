@@ -17,7 +17,7 @@
 		"tw:watch": "tailwindcss -i ./src/styles/global.css -o ./dist/output.css --watch"
 	},
 	"dependencies": {
-		"@algoroot/share": "workspace:*",
+		"@algoroot/shared": "workspace:*",
 		"@algoroot/ui": "workspace:*",
 		"@langchain/anthropic": "^0.3.15",
 		"@langchain/community": "^0.3.32",

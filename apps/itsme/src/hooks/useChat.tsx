@@ -1,10 +1,14 @@
 'use client'
-import { chat, type Message } from '@/app/actions/chat'
-import { readStreamableValue } from 'ai/rsc'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { useCallback, useEffect, useRef, useState } from 'react'
+
 import { v4 as uuidv4 } from 'uuid'
 
-const mock = Array.from({ length: 5 }).map((_, i) => ({
+import { chat, type Message } from '@/app/action'
+
+import { readStreamableValue } from 'ai/rsc'
+
+const mock = Array.from({ length: 2 }).map((_, i) => ({
 	role: i % 2 ? 'ai' : 'user',
 	content: i + 'message',
 }))
@@ -13,6 +17,7 @@ export const useChat = () => {
 	const [userId, setUserId] = useState<string | null>(null)
 	const [messages, setMessages] = useState<Message[]>([])
 	const [isPending, setIsPending] = useState(false)
+	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
 
 	const isEmpty = messages.length === 0
 
@@ -29,22 +34,49 @@ export const useChat = () => {
 	 */
 	const handleSubmit = useCallback(
 		async (val: string) => {
-			console.log('val',val)
-			// setMessages((prev) => {
-			// 	if (!prev) return mock
-			// 	return ([...prev,{
-			// 		role:  'user',
-			// 		content:val,
-			// 	}])
-			// })
-			// setMessages((prev) => {
-			// 	if (!prev) return mock
-			// 	return [...prev, ...mock].map((d, idx) => ({
-			// 		role: idx % 2 ? 'ai' : 'user',
-			// 		content: idx + 'msg',
-			// 	}))
-			// })
-			// return
+			setIsPending(true)
+			console.log('###########@@@@@chat@@@#@@@@@val', val)
+			setMessages((prev) => {
+				if (!prev) return mock
+				return [
+					...prev,
+					{
+						role: 'user',
+						content: `user: ${val}`,
+					},
+					{
+						role: 'ai',
+						content: ``,
+					},
+				]
+			})
+
+			setTimeout(() => {
+				setMessages((prev) => {
+					if (!prev) return mock
+					const updated = prev.slice(0, prev.length - 1)
+					return [
+						...updated,
+						{
+							role: 'ai',
+							content: `ai: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				`,
+						},
+					]
+				})
+			}, 1000)
+
+			setTimeout(() => setIsPending(false), 2000)
+			return
+			setMessages((prev) => {
+				if (!prev) return mock
+				return [...prev, ...mock].map((d, idx) => ({
+					role: idx % 2 ? 'ai' : 'user',
+					content:
+						idx % 2 ? `ai: ${idx} ai 답변~~` : `user: ${idx} ${d.content}`,
+				}))
+			})
+			return
 			if (!val) return
 
 			setIsPending(true)
@@ -74,22 +106,18 @@ export const useChat = () => {
 		[messages],
 	)
 
-	const result = useMemo(
-		() => ({
-			state: {
-				userId,
-				messages,
-				isPending,
-				isEmpty,
-			},
-			handler: {
-				submit: handleSubmit,
-			},
-		}),
-		[userId, messages, isPending, isEmpty, handleSubmit],
-	)
-
-	return result
+	return {
+		messageRefs,
+		state: {
+			userId,
+			messages,
+			isPending,
+			isEmpty,
+		},
+		handler: {
+			submit: handleSubmit,
+		},
+	}
 }
 
 // export const [ChatProvider, useChatContext] = createContext(useChat)

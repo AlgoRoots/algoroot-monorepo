@@ -1,19 +1,6 @@
-import '../styles/styles.css'
-
 import type { Metadata, Viewport } from 'next'
-// import localFont from "next/font/local";
+import { Geist, Geist_Mono, Jua, Walter_Turncoat } from 'next/font/google'
 
-/* Common Styles */
-
-import { Geist, Geist_Mono, Walter_Turncoat, Jua } from 'next/font/google'
-import { cn } from '@algoroot/ui/lib/utils'
-// const ThemeSwitcher = dynamic(
-//   () => import("@algoroot/share/components").then((mod) => mod.ThemeSwitcher),
-//   {
-//     ssr: false,
-//   }
-// );
-import { Providers } from '@/providers/providers'
 import {
 	BasisFooter,
 	BasisHeader,
@@ -23,12 +10,24 @@ import {
 	MenuLink,
 	ResponsiveRenderer,
 	ThemeSwitcher,
-} from '@algoroot/share/components'
-import { LogoLink } from '@/components/LogoLink'
-import { MenuIcon } from 'lucide-react'
+} from '@algoroot/shared/components'
 import { Button } from '@algoroot/ui/components/button'
-import dynamic from 'next/dynamic'
 import { ScrollArea } from '@algoroot/ui/components/scroll-area'
+import { cn } from '@algoroot/ui/lib/utils'
+import { MenuIcon } from 'lucide-react'
+
+import { LogoLink } from '@/components/LogoLink'
+
+// const ThemeSwitcher = dynamic(
+//   () => import("@algoroot/shared/components").then((mod) => mod.ThemeSwitcher),
+//   {
+//     ssr: false,
+//   }
+// );
+import { Providers } from '@/providers/providers'
+
+import '../styles/styles.css'
+
 // import { ThemeSwitcher } from "@/components/ThemeSet";
 
 // const geistSans = localFont({
@@ -81,7 +80,7 @@ export default function RootLayout({
 				className={`${fontSans.variable} ${fontMono.variable} ${fontWalterTurncoat.variable} font-sans antialiased`}
 			>
 				<Providers>
-					<BasisLayout>
+					<BasisLayout className="overflow-hidden">
 						<BasisHeader>
 							<LogoLink href={'/'} subTitle="성혜 AI 자기소개" />
 							<div className="align-center flex gap-4 text-2xl">
@@ -113,14 +112,9 @@ export default function RootLayout({
                 }
               /> */}
 						</BasisHeader>
-						{/* <ScrollArea
-							// h-[calc(100dvh-80px)]
-							className="w-full overflow-y-auto"
-						> */}
-						<BasisMain className="relative flex flex-col items-center justify-center px-4 pt-4">
+						<BasisMain className="relative flex flex-col items-center justify-center overflow-hidden px-4">
 							{children}
 						</BasisMain>
-						{/* </ScrollArea> */}
 					</BasisLayout>
 				</Providers>
 			</body>

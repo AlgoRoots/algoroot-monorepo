@@ -1,5 +1,5 @@
 {
-	"name": "@algoroot/share",
+	"name": "@algoroot/shared",
 	"version": "0.0.1",
 	"type": "module",
 	"private": true,
@@ -35,7 +35,7 @@
 	},
 	"exports": {
 		"./components": "./src/components/index.ts",
-		"./providers": "./src/providers/index.ts",
-		"./utils": "./src/utils/index.ts"
+		"./utils": "./src/utils/index.ts",
+		"./libs": "./src/lib/index.ts"
 	}
 }
