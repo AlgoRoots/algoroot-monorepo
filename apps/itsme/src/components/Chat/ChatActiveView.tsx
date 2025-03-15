@@ -2,21 +2,28 @@
 
 import { useEffect, useRef } from 'react'
 
-import { ListRenderer } from '@algoroot/shared/components'
+import {
+	If,
+	ListRenderer,
+	LoadingView,
+	Show,
+} from '@algoroot/shared/components'
 import { cn } from '@algoroot/ui/lib/utils'
+import { CircleIcon } from 'lucide-react'
 
 import { ChatEmitter, listeners } from '@/lib/events'
 
 import { type Message } from '@/app/action'
 
-import { ChatMessage, ChatPresenTation } from './@parts'
+import { ChatMessage, ChatMessageSpinner, ChatPresentation } from './@parts'
 
 interface ChatActiveViewProps {
 	messages: Message[]
+	isLoading?: boolean
 }
 
-const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
-	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
+const ChatActiveView = ({ messages, isLoading }: ChatActiveViewProps) => {
+	const messageRefs = useRef<(HTMLElement | null)[]>([])
 
 	// 가장 최신 사용자 메세지 이동 함수 구독 (한 번만 구독)
 	useEffect(() => {
@@ -37,8 +44,9 @@ const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages.length])
 
+	const isLast = (idx: number) => idx === messages.length - 1
 	return (
-		<ChatPresenTation //
+		<ChatPresentation //
 		// className="border border-blue-200"
 		>
 			<ListRenderer
@@ -46,26 +54,30 @@ const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
 				data={messages}
 				render={(item: Message, idx) => {
 					return (
-						<div
+						<article
 							ref={(el) => {
 								messageRefs.current[idx] = el
 							}}
 							className={cn(
-								idx === messages.length - 1 ?
-									'min-h-[calc(-280px+100dvh)]'
-								:	'min-h-auto',
+								'flex py-4 md:py-6',
+								isLast(idx) ? 'min-h-[calc(-250px+100dvh)]' : '',
 							)}
 						>
+							<h2 className="sr-only">
+								{item.role === 'ai' ? 'ItsMe Bot의 말' : '나의 말'}
+							</h2>
 							<ChatMessage
 								role={item.role}
 								content={item.content}
-								className={cn(idx % 2 ? 'min-h-50' : 'h-auto')}
+								className="h-fit"
+								isLoading={isLast(idx) && item.content.length === 0}
+								// className={cn(idx % 2 ? 'min-h-50' : 'h-auto')}
 							/>
-						</div>
+						</article>
 					)
 				}}
 			/>
-		</ChatPresenTation>
+		</ChatPresentation>
 	)
 }
 

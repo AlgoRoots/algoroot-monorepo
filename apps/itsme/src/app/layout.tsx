@@ -80,7 +80,7 @@ export default function RootLayout({
 				className={`${fontSans.variable} ${fontMono.variable} ${fontWalterTurncoat.variable} font-sans antialiased`}
 			>
 				<Providers>
-					<BasisLayout className="overflow-hidden">
+					<BasisLayout className="h-dvh overflow-hidden">
 						<BasisHeader>
 							<LogoLink href={'/'} subTitle="성혜 AI 자기소개" />
 							<div className="align-center flex gap-4 text-2xl">

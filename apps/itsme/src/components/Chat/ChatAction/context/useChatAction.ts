@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { createContext } from '@algoroot/shared/utils'
 
@@ -29,18 +29,22 @@ export const useChatAction = ({
 		[value],
 	)
 
-	const handleSubmit = useCallback(async () => {
+	const handleSubmit = useCallback(() => {
 		if (!value.trim()) return
-		await onSubmit?.(value)
+		onSubmit?.(value)
 		setValue('')
 	}, [onSubmit, value])
 
-	return {
-		value,
-		onChange: handleChangeValue,
-		onSubmit: handleSubmit,
-		isDisable: _isDisable,
-	}
+	const result = useMemo(() => {
+		return {
+			value,
+			onChange: handleChangeValue,
+			onSubmit: handleSubmit,
+			isDisable: _isDisable,
+		}
+	}, [_isDisable, handleChangeValue, handleSubmit, value])
+
+	return result
 }
 
 export const [ChatActionProvider, useChatActionContext, ChatActionContext] =

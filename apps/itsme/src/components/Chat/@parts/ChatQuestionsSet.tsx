@@ -91,10 +91,10 @@ const ChatQuestionSheet = ({
 					<MessageCircleQuestion className="size-6" />
 				</Button>
 			</SheetTrigger>
-			<SheetContent side={'bottom'} className="items-center" {...props}>
+			<SheetContent side={'bottom'} className="items-center px-4" {...props}>
 				<SheetHeader className="text-center">
 					<SheetTitle className="bg-none text-lg font-semibold md:text-xl">
-						또는, 편하게 질문하기!
+						편하게 질문하기!
 					</SheetTitle>
 					<SheetDescription className="text-muted-foreground text-sm">
 						선택하면 채팅이 시작돼요.

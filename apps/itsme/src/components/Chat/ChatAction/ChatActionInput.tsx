@@ -27,7 +27,7 @@ export const ChatActionInput = () => {
 			onKeyDown={handleKeyDown}
 			onCompositionStart={() => setIsComposing(true)}
 			onCompositionEnd={() => setIsComposing(false)}
-			className="min-h-11"
+			className="md:min-h-11"
 		/>
 	)
 }

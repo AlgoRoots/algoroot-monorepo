@@ -3,9 +3,9 @@ import { type ComponentProps } from 'react'
 import { ScrollArea } from '@algoroot/ui/components/scroll-area'
 import { cn } from '@algoroot/ui/lib/utils'
 
-interface ChatInterfaceProps extends ComponentProps<'div'> {}
+interface ChatLayoutProps extends ComponentProps<'div'> {}
 
-const ChatInterface = ({ children }: ChatInterfaceProps) => {
+const ChatLayout = ({ children }: ChatLayoutProps) => {
 	return (
 		<div
 			className="flex h-full w-full flex-col items-center justify-center overflow-hidden"
@@ -21,20 +21,16 @@ const ChatInterface = ({ children }: ChatInterfaceProps) => {
 		</div>
 	)
 }
-interface ChatPresenTationProps extends ComponentProps<'div'> {}
+interface ChatPresentationProps extends ComponentProps<'div'> {}
 
-const ChatPresenTation = ({ children, className }: ChatPresenTationProps) => {
+const ChatPresentation = ({ children, className }: ChatPresentationProps) => {
 	return (
 		<ScrollArea
-			className={cn(
-				'h-0 min-h-0 w-full max-w-3xl flex-1 overflow-y-auto px-4 pt-4',
-				className,
-			)}
+			className={cn('h-0 min-h-0 w-full flex-1 overflow-y-auto', className)}
 		>
-			{children}
-			{/* </div> */}
+			<div className="mx-auto max-w-3xl flex-1"> {children}</div>
 		</ScrollArea>
 	)
 }
 
-export { ChatInterface, ChatPresenTation }
+export { ChatLayout, ChatPresentation }

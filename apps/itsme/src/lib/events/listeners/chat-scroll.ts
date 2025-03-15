@@ -3,9 +3,8 @@ import type { RefObject } from 'react'
 export const handleChatScroll = ({
 	messageRefs,
 }: {
-	messageRefs: RefObject<(HTMLDivElement | null)[]>
+	messageRefs: RefObject<(HTMLElement | null)[]>
 }) => {
-	console.log('@@', messageRefs.current)
 	const latestMessageIdx = messageRefs.current.length - 2
 	if (latestMessageIdx < 0) return
 

@@ -9,10 +9,10 @@ import ChatActionBar from './ChatActionBar'
 
 const ChatStartView = ({ chat }: { chat: ReturnType<typeof useChat> }) => {
 	return (
-		<div>
+		<div className="flex w-full flex-col items-center">
 			<ChatStartMessage />
 			<ChatActionBar onSubmit={chat.handler.submit} />
-			<div className="mt-10">
+			<div className="mt-10 flex w-full flex-col items-center">
 				<ChatQuestionHeader />
 				<ChatQuestionList onClickItem={chat.handler.submit} />
 			</div>

@@ -2,7 +2,7 @@
 
 import { Show } from '@algoroot/shared/components'
 
-import { ChatInterface } from '@/components/Chat/@parts'
+import { ChatLayout } from '@/components/Chat/@parts'
 import ChatActionBar from '@/components/Chat/ChatActionBar'
 import ChatActiveView from '@/components/Chat/ChatActiveView'
 import ChatStartView from '@/components/Chat/ChatStartView'
@@ -14,15 +14,18 @@ export default function Home() {
 	const isStartChat = !chat.state.isEmpty
 
 	return (
-		<ChatInterface>
+		<ChatLayout>
 			<Show when={isStartChat} fallback={<ChatStartView chat={chat} />}>
-				<ChatActiveView messages={chat.state.messages} />
+				<ChatActiveView
+					messages={chat.state.messages}
+					isLoading={chat.state.isPending}
+				/>
 				<ChatActionBar
 					onSubmit={chat.handler.submit}
 					isDisable={chat.state.isPending}
 					isVisibleSubAction={isStartChat}
 				/>
 			</Show>
-		</ChatInterface>
+		</ChatLayout>
 	)
 }
