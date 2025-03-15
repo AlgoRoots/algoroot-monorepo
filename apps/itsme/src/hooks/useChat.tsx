@@ -36,16 +36,16 @@ export const useChat = () => {
 		async (val: string) => {
 			setIsPending(true)
 			console.log('###########@@@@@chat@@@#@@@@@val', val)
-			setMessages((prev) => {
-				if (!prev) return mock
+			setMessages((prev: Message[]) => {
+				if (!prev) return mock as Message[]
 				return [
 					...prev,
 					{
-						role: 'user',
+						role: 'user' as const,
 						content: `user: ${val}`,
 					},
 					{
-						role: 'ai',
+						role: 'ai' as const,
 						content: ``,
 					},
 				]
@@ -53,12 +53,12 @@ export const useChat = () => {
 
 			setTimeout(() => {
 				setMessages((prev) => {
-					if (!prev) return mock
+					if (!prev) return mock as Message[]
 					const updated = prev.slice(0, prev.length - 1)
 					return [
 						...updated,
 						{
-							role: 'ai',
+							role: 'ai' as const,
 							content: `ai: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 				`,
 						},
@@ -69,9 +69,9 @@ export const useChat = () => {
 			setTimeout(() => setIsPending(false), 2000)
 			return
 			setMessages((prev) => {
-				if (!prev) return mock
+				if (!prev) return mock as Message[]
 				return [...prev, ...mock].map((d, idx) => ({
-					role: idx % 2 ? 'ai' : 'user',
+					role: idx % 2 ? ('ai' as const) : ('user' as const),
 					content:
 						idx % 2 ? `ai: ${idx} ai 답변~~` : `user: ${idx} ${d.content}`,
 				}))
