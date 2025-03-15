@@ -1,11 +1,12 @@
-import { type GraphAnnotationState } from './state'
 import {
 	BaseMessage,
 	SystemMessage,
 	trimMessages,
 } from '@langchain/core/messages'
 import { ChatOpenAI } from '@langchain/openai'
+
 import { promptTemplate } from './prompt'
+import { type GraphAnnotationState } from './state'
 
 const llm = new ChatOpenAI({
 	model: 'gpt-4o-mini',

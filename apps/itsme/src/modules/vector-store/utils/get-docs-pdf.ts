@@ -1,6 +1,7 @@
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import path from 'path'
+
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 
 /**
  *

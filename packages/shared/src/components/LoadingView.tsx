@@ -1,5 +1,6 @@
-import { Skeleton } from '@algoroot/ui/components/skeleton'
 import { type ReactNode, Suspense } from 'react'
+
+import { Skeleton } from '@algoroot/ui/components/skeleton'
 
 export interface LoadingViewProps {
 	isLoading?: boolean

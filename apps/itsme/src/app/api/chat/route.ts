@@ -1,10 +1,11 @@
-import { LangChainAdapter } from 'ai'
 import { NextResponse } from 'next/server'
 
 import { HumanMessage } from '@langchain/core/messages'
+import { LangChainAdapter } from 'ai'
+
 import { app } from '@/modules/chatbot/app'
-import { search } from '@/modules/vector-store/utils/search'
 import { formatSearchResults } from '@/modules/chatbot/utils/format'
+import { search } from '@/modules/vector-store/utils/search'
 
 /**
  * @legacy ai-sdk 사용하면서 action으로 변경

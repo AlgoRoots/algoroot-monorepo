@@ -1,7 +1,9 @@
-import { Button, type ButtonVariants } from '@algoroot/ui/components/button'
+import React, { type HTMLAttributes } from 'react'
+
 import type { Route } from 'next'
 import Link from 'next/link'
-import React, { type HTMLAttributes } from 'react'
+
+import { Button, type ButtonVariants } from '@algoroot/ui/components/button'
 
 export interface MenuLinkProps extends HTMLAttributes<HTMLAnchorElement> {
 	href?: Route<string> | URL | string

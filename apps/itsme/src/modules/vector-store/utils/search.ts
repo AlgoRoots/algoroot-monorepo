@@ -1,4 +1,5 @@
 import type { DocumentInterface } from '@langchain/core/documents'
+
 import { vectorStore } from '../lib/vector-store'
 import type { Question } from './get-docs-json'
 

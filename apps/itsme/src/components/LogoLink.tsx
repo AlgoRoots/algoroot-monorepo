@@ -1,6 +1,8 @@
-import { cn } from '@algoroot/ui/lib/utils'
-import Link from 'next/link'
 import type { AnchorHTMLAttributes } from 'react'
+
+import Link from 'next/link'
+
+import { cn } from '@algoroot/ui/lib/utils'
 
 export const LogoLink = ({
 	href,

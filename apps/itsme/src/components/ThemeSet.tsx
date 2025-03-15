@@ -1,8 +1,10 @@
 'use client'
 
-import { Button } from '@algoroot/ui/components/button'
-import { useTheme } from 'next-themes'
 import type { HTMLAttributes, ReactNode } from 'react'
+
+import { useTheme } from 'next-themes'
+
+import { Button } from '@algoroot/ui/components/button'
 import { MoonIcon, SunIcon } from 'lucide-react'
 
 const ThemeSwitcher = ({ ...props }: HTMLAttributes<HTMLButtonElement>) => {

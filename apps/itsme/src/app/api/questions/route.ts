@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server'
-import {
-	vectorStore,
-	type VectorDocument,
-} from '@/modules/vector-store/lib/vector-store'
+
 import { isEmpty } from 'lodash-es'
+
 import { supabaseClient } from '@/modules/vector-store/lib/supabse'
+import {
+	type VectorDocument,
+	vectorStore,
+} from '@/modules/vector-store/lib/vector-store'
 import { getDocsFromJson } from '@/modules/vector-store/utils/get-docs-json'
 import { getDocsFromMd } from '@/modules/vector-store/utils/get-docs-md'
 

@@ -1,6 +1,8 @@
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'
 import { OpenAIEmbeddings } from '@langchain/openai'
+
 import { supabaseClient } from './supabse'
+
 import { Document } from 'langchain/document'
 
 const embeddings = new OpenAIEmbeddings({

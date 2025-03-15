@@ -1,5 +1,8 @@
 {
-	"plugins": ["prettier-plugin-tailwindcss"],
+	"plugins": [
+		"@trivago/prettier-plugin-sort-imports",
+		"prettier-plugin-tailwindcss"
+	],
 	"tailwindStylesheet": "./packages/ui/src/styles/globals.css",
 	"semi": false,
 	"singleQuote": true,
@@ -7,5 +10,22 @@
 	"printWidth": 80,
 	"tabWidth": 2,
 	"useTabs": true,
-	"experimentalTernaries": true
+	"experimentalTernaries": true,
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrderCaseInsensitive": true,
+	"importOrder": [
+		"^react$",
+		"^next.*",
+		"^(react|lodash|msw|^@(?!tailwind)[^/]|^[^./]*$).*",
+		"^@algoroot/ui.*",
+		"^@algoroot/shared.*",
+		"^@/(apis|swagger).*",
+		"^@/(modules).*",
+		"^@/(lib|contexts|hooks|hocs|components|utils).*",
+		"^(lucide-react)$",
+		"^@/.*",
+		"^[.].*/.*",
+		".*"
+	]
 }

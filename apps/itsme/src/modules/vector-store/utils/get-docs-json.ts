@@ -1,8 +1,8 @@
-import path from 'path'
 import fs from 'fs'
+import { isArray } from 'lodash-es'
+import path from 'path'
 
 import type { VectorDocument } from '../lib/vector-store'
-import { isArray } from 'lodash-es'
 
 export type Question = {
 	pageContent: string

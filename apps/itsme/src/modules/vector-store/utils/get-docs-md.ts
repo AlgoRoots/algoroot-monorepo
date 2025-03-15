@@ -1,8 +1,7 @@
-import { TextLoader } from 'langchain/document_loaders/fs/text'
-import {
-	RecursiveCharacterTextSplitter,
-} from 'langchain/text_splitter'
 import path from 'path'
+
+import { TextLoader } from 'langchain/document_loaders/fs/text'
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 
 /**
  *
