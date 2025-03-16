@@ -34,7 +34,6 @@ export const createContext = <T, TParams = undefined>(
 		children: ReactNode
 		params: TParams
 	}) => {
-		console.log('params', params)
 		const value = useHook(params || initialProps)
 		return <context.Provider value={value}>{children}</context.Provider>
 	}

@@ -7,7 +7,7 @@ import { Button, type ButtonVariants } from '@algoroot/ui/components/button'
 
 export interface MenuLinkProps extends HTMLAttributes<HTMLAnchorElement> {
 	href?: Route<string> | URL | string
-	styleProps: ButtonVariants
+	styleProps: ButtonVariants & { className?: string }
 }
 
 const MenuLink = ({ href, children, styleProps, ...props }: MenuLinkProps) => {

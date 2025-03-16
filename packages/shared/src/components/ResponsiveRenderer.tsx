@@ -1,7 +1,6 @@
 import {
 	cloneElement,
 	isValidElement,
-	type PropsWithChildren,
 	type ReactElement,
 	type ReactNode,
 } from 'react'
@@ -10,21 +9,18 @@ import { cn } from '@algoroot/ui/lib/utils'
 import type { ClassName } from '@algoroot/ui/types/'
 
 // type BreakPointKeys = keyof typeof config.theme.screens;
-type BreakPointKeys = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+// sm은 default이기 때문에 제외
+type BreakPointKeys = 'md' | 'lg' | 'xl' | '2xl'
 interface ResponsiveRendererProps {
 	breakpoint?: BreakPointKeys
-	below: ReactNode
-	above: ReactNode
+	below: ReactElement<Record<string, any>>
+	above: ReactElement<Record<string, any>>
 }
 
 const visibilityVariants: Record<
 	BreakPointKeys,
 	{ below: ClassName; above: ClassName }
 > = {
-	sm: {
-		below: 'block sm:hidden',
-		above: 'hidden sm:block',
-	},
 	md: {
 		below: 'block md:hidden',
 		above: 'hidden md:block',
@@ -43,24 +39,44 @@ const visibilityVariants: Record<
 	},
 }
 
-const renderWithClass = (
-	element: ReactNode,
-	className: ClassName,
-): ReactNode => {
-	if (isValidElement(element)) {
-		const elementClassName =
-			(element.props as { className?: string })?.className || ''
+const withBreakPoint = (bp: BreakPointKeys, className?: string) => {
+	if (!className) return ''
+	return className
+		.split(' ')
+		.map((c) => `${bp}:${c}`)
+		.join(' ')
+		.replace(/\b(md:)+/g, 'md:')
+}
 
-		const children = (element.props as { children?: ReactNode }).children
-		const newChildren =
-			isValidElement(children) ? renderWithClass(children, className) : children
+type RenderWithClassProps = {
+	type: 'above' | 'below'
+	element: ReactElement<Record<string, any>>
+	className: ClassName
+	bp: BreakPointKeys
+}
+const renderWithClass = ({
+	element,
+	...props
+}: RenderWithClassProps): ReactNode => {
+	if (!isValidElement(element)) return element
 
-		return cloneElement(element as ReactElement<any>, {
-			className: cn(elementClassName, className),
-			children: newChildren,
-		})
-	}
-	return element
+	const elClassName =
+		props.type === 'below' ?
+			element.props.className
+		:	withBreakPoint(props.bp, element.props.className)
+
+	const newChildren =
+		isValidElement(element.props.children) ?
+			renderWithClass({
+				element: element.props.children as ReactElement<Record<string, any>>,
+				...props,
+			})
+		:	element.props.children
+
+	return cloneElement(element, {
+		className: cn(props.className, elClassName),
+		children: newChildren,
+	})
 }
 
 export const ResponsiveRenderer = ({
@@ -70,13 +86,21 @@ export const ResponsiveRenderer = ({
 }: ResponsiveRendererProps) => {
 	const { below: belowClass, above: aboveClass } =
 		visibilityVariants[breakpoint]
-	console.log('below', renderWithClass(below, aboveClass))
-	console.log('abobe', renderWithClass(above, aboveClass))
 
 	return (
 		<>
-			{renderWithClass(below, belowClass)}
-			{renderWithClass(above, aboveClass)}
+			{renderWithClass({
+				type: 'below',
+				bp: breakpoint,
+				element: below,
+				className: belowClass,
+			})}
+			{renderWithClass({
+				type: 'above',
+				bp: breakpoint,
+				element: above,
+				className: aboveClass,
+			})}
 		</>
 	)
 }
