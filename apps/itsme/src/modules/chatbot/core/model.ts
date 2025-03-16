@@ -19,12 +19,12 @@ const llm = new ChatOpenAI({
 export const callModel = async (state: GraphAnnotationState) => {
 	const { messages, searchResults } = state
 	const trimmedMsg = await getTrimMessages(messages)
-	/**
-	 * 여기서 프롬포트를 만들 때 메세지를 자르는데,
-	 * llm message 상태가 같이 반영되는 것은 아닌 것으로 보임
-	 * 프롬포트를 구성할 때 전달할 메세지 개수의 한계를 두는 용도인지?
-	 * (output은 전체가 다 출력되고 있음)
-	 */
+
+	// console.log(
+	// 	'-------------------------------trimmedMsg',
+	// 	trimmedMsg,
+	// 	'-------------------------------',
+	// )
 	const prompt = await promptTemplate.invoke({
 		messages: trimmedMsg,
 		// 시스템 메세지로 가고 있지 않아 가끔 이상하게 답변 됐었음.

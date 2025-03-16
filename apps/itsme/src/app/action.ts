@@ -1,6 +1,6 @@
 'use server'
 
-import { HumanMessage } from '@langchain/core/messages'
+import { AIMessage, HumanMessage } from '@langchain/core/messages'
 
 import { app } from '@/modules/chatbot/app'
 import { formatSearchResults } from '@/modules/chatbot/utils/format'
@@ -32,17 +32,22 @@ export async function chat(history: Message[], userId: string) {
 
 	;(async () => {
 		const searchResults = await search(input).then(formatSearchResults)
+		const config = { thread_id: userId }
+		const messageHistory = history.map((d) => {
+			if (d.role === 'user') return new HumanMessage(d.content)
+			return new AIMessage(d.content)
+		})
 
 		const inputData = {
-			messages: [new HumanMessage(input)],
+			messages: messageHistory,
 			searchResults,
 		}
 
 		const messageStream = await app.stream(inputData, {
 			/**
-			 *  대화 세션(사용자별 ID) 관리 (memory 목적)
+			 *  대화 세션(사용자별 ID) 관리 (memory 목적, 다 이용자일떄..)
 			 */
-			configurable: { thread_id: userId },
+			configurable: config,
 			streamMode: 'messages',
 		})
 

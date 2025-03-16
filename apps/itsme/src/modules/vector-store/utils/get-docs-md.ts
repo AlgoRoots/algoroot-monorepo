@@ -22,9 +22,9 @@ const extractTextFromMD = async (filePath: string) => {
 }
 
 export const textSplitter = new RecursiveCharacterTextSplitter({
-	chunkSize: 500,
-	chunkOverlap: 100,
-	separators: ['##', '###'],
+	chunkSize: 800,
+	chunkOverlap: 200,
+	separators: ['##'],
 })
 
 export const getDocsFromMd = async (relativePath: string) => {
