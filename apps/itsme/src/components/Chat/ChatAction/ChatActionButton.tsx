@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Button } from '@algoroot/ui/components/button'
 
-import { useChatActionContext } from './context/useChatAction'
+import { useChatActionContext } from '../../../contexts/ChatActionContext'
 
 export const ChatActionButton = () => {
 	const action = useChatActionContext()

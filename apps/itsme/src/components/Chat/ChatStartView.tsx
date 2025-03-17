@@ -1,6 +1,6 @@
 'use client'
 
-import { useChatContext } from '@/contexts/useChat'
+import { useChatContext } from '@/contexts/ChatContext'
 
 import {
 	ChatQuestionHeader,

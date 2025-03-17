@@ -2,7 +2,7 @@ import { type ComponentProps, type FormEvent } from 'react'
 
 import { cn } from '@algoroot/ui/lib/utils'
 
-import { useChatActionContext } from './context/useChatAction'
+import { useChatActionContext } from '../../../contexts/ChatActionContext'
 
 export const ChatActionForm = ({ children }: ComponentProps<'form'>) => {
 	const action = useChatActionContext()

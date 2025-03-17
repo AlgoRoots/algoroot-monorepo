@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
-import { ChatProvider } from '@/contexts/useChat'
+import { ChatProvider } from '@/contexts/ChatContext'
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	return (

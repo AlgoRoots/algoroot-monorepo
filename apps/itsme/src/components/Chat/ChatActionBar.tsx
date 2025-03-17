@@ -2,9 +2,9 @@ import type { ComponentProps } from 'react'
 
 import { Show } from '@algoroot/shared/components'
 
+import { ChatActionProvider } from '../../contexts/ChatActionContext'
 import { ChatDisclaimer, ChatQuestionSheet } from './@parts'
 import { ChatActionButton, ChatActionForm, ChatActionInput } from './ChatAction'
-import { ChatActionProvider } from './ChatAction/context/useChatAction'
 
 interface ChatActionBarProps extends Omit<ComponentProps<'div'>, 'onSubmit'> {
 	onSubmit: (val: string) => Promise<void>

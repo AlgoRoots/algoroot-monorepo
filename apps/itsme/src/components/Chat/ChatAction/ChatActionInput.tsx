@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { Textarea } from '@algoroot/ui/components/textarea'
 
-import { useChatActionContext } from './context/useChatAction'
+import { useChatActionContext } from '../../../contexts/ChatActionContext'
 
 export const ChatActionInput = () => {
 	const action = useChatActionContext()
