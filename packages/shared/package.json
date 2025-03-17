@@ -36,6 +36,7 @@
 	"exports": {
 		"./components": "./src/components/index.ts",
 		"./utils": "./src/utils/index.ts",
-		"./libs": "./src/lib/index.ts"
+		"./libs": "./src/lib/index.ts",
+		"./hooks": "./src/hooks/index.ts"
 	}
 }

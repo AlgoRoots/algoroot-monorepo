@@ -4,6 +4,8 @@ import * as React from 'react'
 
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
+import { ChatProvider } from '@/contexts/useChat'
+
 export function Providers({ children }: { children: React.ReactNode }) {
 	return (
 		<NextThemesProvider
@@ -13,7 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 			disableTransitionOnChange
 			enableColorScheme
 		>
-			{children}
+			<ChatProvider>{children}</ChatProvider>
 		</NextThemesProvider>
 	)
 }

@@ -2,6 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { usePathname, useRouter } from 'next/navigation'
+
+import { createContext } from '@algoroot/shared/utils'
+import { throttle } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 
 import { chat, type Message } from '@/app/action'
@@ -18,6 +22,8 @@ export const useChat = () => {
 	const [messages, setMessages] = useState<Message[]>([])
 	const [isPending, setIsPending] = useState(false)
 	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
+	const router = useRouter()
+	const pathname = usePathname()
 
 	const isEmpty = messages.length === 0
 
@@ -34,8 +40,12 @@ export const useChat = () => {
 	 */
 	const handleSubmit = useCallback(
 		async (val: string) => {
+			if (pathname === '/') {
+				router.push('/chat')
+			}
+			//
 			setIsPending(true)
-			console.log('###########@@@@@chat@@@#@@@@@val', val)
+
 			setMessages((prev: Message[]) => {
 				if (!prev) return mock as Message[]
 				return [
@@ -103,7 +113,7 @@ export const useChat = () => {
 				setIsPending(false)
 			}
 		},
-		[messages],
+		[messages, pathname],
 	)
 
 	return {
@@ -120,4 +130,4 @@ export const useChat = () => {
 	}
 }
 
-// export const [ChatProvider, useChatContext] = createContext(useChat)
+export const [ChatProvider, useChatContext] = createContext(useChat)

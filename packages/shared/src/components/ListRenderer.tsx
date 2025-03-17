@@ -1,6 +1,6 @@
-import React, { type ReactNode } from 'react'
+import { type ComponentProps, type ReactNode } from 'react'
 
-interface ListRendererProps<T> extends React.HTMLAttributes<HTMLUListElement> {
+interface ListRendererProps<T> extends ComponentProps<'ul'> {
 	data: T[]
 	render: (item: T, index: number) => ReactNode
 }

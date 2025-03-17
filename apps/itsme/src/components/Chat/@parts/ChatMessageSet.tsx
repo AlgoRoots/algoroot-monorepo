@@ -40,9 +40,9 @@ const ChatMessage = ({
 const ChatStartMessage = () => {
 	return (
 		<div className="mx-auto mb-6 w-full">
-			<p className="text-card-foreground text-center text-2xl font-bold md:text-3xl">
+			<h1 className="text-card-foreground text-center text-2xl font-bold md:text-3xl">
 				대화를 시작하세요!
-			</p>
+			</h1>
 		</div>
 	)
 }

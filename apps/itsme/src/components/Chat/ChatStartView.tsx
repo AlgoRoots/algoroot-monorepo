@@ -1,4 +1,6 @@
-import type { useChat } from '@/hooks/useChat'
+'use client'
+
+import { useChatContext } from '@/contexts/useChat'
 
 import {
 	ChatQuestionHeader,
@@ -7,15 +9,17 @@ import {
 } from './@parts'
 import ChatActionBar from './ChatActionBar'
 
-const ChatStartView = ({ chat }: { chat: ReturnType<typeof useChat> }) => {
+const ChatStartView = () => {
+	const chat = useChatContext()
+
 	return (
-		<div className="flex w-full flex-col items-center">
+		<div className="mx-auto h-full w-full overflow-y-auto px-4 pt-10 md:pt-40">
 			<ChatStartMessage />
 			<ChatActionBar onSubmit={chat.handler.submit} />
-			<div className="mt-10 flex w-full flex-col items-center">
+			<section className="mt-10 flex w-full flex-col items-center">
 				<ChatQuestionHeader />
 				<ChatQuestionList onClickItem={chat.handler.submit} />
-			</div>
+			</section>
 		</div>
 	)
 }

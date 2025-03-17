@@ -1,4 +1,4 @@
-import { type ComponentProps, type FormEvent, useState } from 'react'
+import { type ComponentProps, type FormEvent } from 'react'
 
 import { cn } from '@algoroot/ui/lib/utils'
 
@@ -14,10 +14,14 @@ export const ChatActionForm = ({ children }: ComponentProps<'form'>) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
+			aria-labelledby="chat-input-label"
 			className={cn(
-				'bg-card mb-4 flex w-full max-w-3xl flex-col gap-2 rounded-lg p-2',
+				'bg-card mx-auto mb-4 mt-4 flex w-full max-w-3xl flex-col gap-2 rounded-lg p-2',
 			)}
 		>
+			<h2 id="chat-input-label" className="sr-only">
+				채팅 입력창
+			</h2>
 			{children}
 		</form>
 	)

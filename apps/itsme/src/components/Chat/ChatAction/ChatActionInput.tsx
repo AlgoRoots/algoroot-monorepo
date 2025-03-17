@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 
 import { Textarea } from '@algoroot/ui/components/textarea'
@@ -27,7 +29,6 @@ export const ChatActionInput = () => {
 			onKeyDown={handleKeyDown}
 			onCompositionStart={() => setIsComposing(true)}
 			onCompositionEnd={() => setIsComposing(false)}
-			className="md:min-h-11"
 		/>
 	)
 }

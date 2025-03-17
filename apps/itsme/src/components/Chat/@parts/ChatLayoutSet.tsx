@@ -25,9 +25,7 @@ interface ChatPresentationProps extends ComponentProps<'div'> {}
 
 const ChatPresentation = ({ children, className }: ChatPresentationProps) => {
 	return (
-		<ScrollArea
-			className={cn('h-0 min-h-0 w-full flex-1 overflow-y-auto', className)}
-		>
+		<ScrollArea className={cn('h-0 min-h-0 w-full flex-1', className)}>
 			<div className="mx-auto max-w-3xl flex-1"> {children}</div>
 		</ScrollArea>
 	)

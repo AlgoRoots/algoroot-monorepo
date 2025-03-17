@@ -1,29 +1,38 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import {
-	If,
-	ListRenderer,
-	LoadingView,
-	Show,
-} from '@algoroot/shared/components'
+import { ListRenderer, ScrollDownIndicator } from '@algoroot/shared/components'
+import { useIntersectionObserver } from '@algoroot/shared/hooks'
 import { cn } from '@algoroot/ui/lib/utils'
-import { CircleIcon } from 'lucide-react'
 
 import { ChatEmitter, listeners } from '@/lib/events'
 
 import { type Message } from '@/app/action'
 
-import { ChatMessage, ChatMessageSpinner, ChatPresentation } from './@parts'
+import { ChatMessage, ChatPresentation } from './@parts'
 
 interface ChatActiveViewProps {
 	messages: Message[]
-	isLoading?: boolean
 }
 
-const ChatActiveView = ({ messages, isLoading }: ChatActiveViewProps) => {
+const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
 	const messageRefs = useRef<(HTMLElement | null)[]>([])
+
+	const [isMounted, setIsMounted] = useState(false)
+	const [showScrollIndicator, setShowScrollIndicator] = useState(false)
+
+	const observerRef = useIntersectionObserver<HTMLElement>(
+		{
+			onView: () => {
+				setShowScrollIndicator(false)
+			},
+			onHide: () => {
+				setShowScrollIndicator(true)
+			},
+		},
+		[messageRefs.current.length],
+	)
 
 	// 가장 최신 사용자 메세지 이동 함수 구독 (한 번만 구독)
 	useEffect(() => {
@@ -38,17 +47,21 @@ const ChatActiveView = ({ messages, isLoading }: ChatActiveViewProps) => {
 	useEffect(() => {
 		ChatEmitter.emit('chatScrollTrigger', {
 			messageRefs,
+			// home 에서 올 경우 instant scrollTo
+			behavior: isMounted ? 'smooth' : 'instant',
 		})
 
 		// message 길이만 조회해 불필요한 호출 방지
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages.length])
 
+	useEffect(() => {
+		setIsMounted(true)
+	}, [])
+
 	const isLast = (idx: number) => idx === messages.length - 1
 	return (
-		<ChatPresentation //
-		// className="border border-blue-200"
-		>
+		<ChatPresentation>
 			<ListRenderer
 				className="h-full w-full"
 				data={messages}
@@ -57,10 +70,13 @@ const ChatActiveView = ({ messages, isLoading }: ChatActiveViewProps) => {
 						<article
 							ref={(el) => {
 								messageRefs.current[idx] = el
+								if (isLast(idx) && el) {
+									observerRef.current = el
+								}
 							}}
 							className={cn(
-								'flex py-4 md:py-6',
-								isLast(idx) ? 'min-h-[calc(-250px+100dvh)]' : '',
+								'flex flex-col py-4 md:py-6',
+								isLast(idx) ? 'min-h-[calc(-332px+100dvh)]' : '',
 							)}
 						>
 							<h2 className="sr-only">
@@ -69,12 +85,23 @@ const ChatActiveView = ({ messages, isLoading }: ChatActiveViewProps) => {
 							<ChatMessage
 								role={item.role}
 								content={item.content}
-								className="h-fit"
+								// className="h-fit"
 								isLoading={isLast(idx) && item.content.length === 0}
+								// for test
 								// className={cn(idx % 2 ? 'min-h-50' : 'h-auto')}
 							/>
 						</article>
 					)
+				}}
+			/>
+
+			<ScrollDownIndicator
+				isHide={!showScrollIndicator}
+				onClick={() => {
+					observerRef.current?.scrollIntoView({
+						block: 'end',
+						behavior: 'smooth',
+					})
 				}}
 			/>
 		</ChatPresentation>
