@@ -1,5 +1,6 @@
+import type { ReactNode } from 'react'
+
 import type { Metadata, Viewport } from 'next'
-import { Head } from 'next/document'
 import { Geist, Geist_Mono, Walter_Turncoat } from 'next/font/google'
 
 import {
@@ -11,9 +12,9 @@ import {
 	ThemeSwitcher,
 } from '@algoroot/shared/components'
 
-import { LogoLink } from '@/components/LogoLink'
-import { META_ICONS } from '@/lib/constants/meta-icons'
+import { LogoLink } from '@/components/LogoSet'
 
+import { siteConfig } from '@/configs/site'
 import { Providers } from '@/providers/providers'
 
 import '../styles/styles.css'
@@ -50,46 +51,42 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
 	title: {
-		default: "It's ME!",
-		template: "%s | It's ME!",
+		default: siteConfig.name,
+		template: `%s | ${siteConfig.name}`,
 	},
-	description:
-		'AI 기반 자기소개 챗봇으로, 저의 이력서와 포트폴리오 정보를 AI와 대화하며 쉽게 알아갈 수 있는 서비스입니다.',
+	description: siteConfig.description,
+	keywords: [],
+	authors: [
+		{
+			name: 'algoroot',
+			url: 'https://shadcn.com',
+		},
+	],
 	openGraph: {
 		type: 'website',
-		title: "It's ME!",
-		description:
-			'AI 기반 자기소개 챗봇으로, 저의 이력서와 포트폴리오를 대화형 AI를 통해 쉽게 알아갈 수 있는 서비스입니다.',
-		url: 'http://localhost:3000', // TODO: update url
-		siteName: "It's ME!",
-		images: [
-			{
-				url: 'images/og-image.png',
-				width: 1200,
-				height: 630,
-				alt: "It's ME! Chatbot",
-				type: 'image/png',
-			},
-		],
+		url: siteConfig.url,
+		title: siteConfig.name,
+		description: siteConfig.description,
+		siteName: siteConfig.name,
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title: "It's ME!",
-		description: 'AI 자기소개 챗봇',
-		images: ['images/og-image.png'], // Twitter 이미지 URL
+		title: siteConfig.name,
+		description: siteConfig.description,
+		images: [siteConfig.url],
 	},
-	icons: META_ICONS,
+	manifest: `${siteConfig.url}/site.webmanifest`,
+	icons: siteConfig.icons,
 }
 
 export default function RootLayout({
 	children,
 }: Readonly<{
-	children: React.ReactNode
+	children: ReactNode
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
-				<meta name="msapplication-TileColor" content="#14181F" />
 				<meta
 					name="msapplication-config"
 					content="/favicon/browserconfig.xml"
@@ -101,11 +98,19 @@ export default function RootLayout({
 				<Providers>
 					<BasisLayout className="h-dvh overflow-hidden">
 						<BasisHeader>
-							<LogoLink href={'/'} subTitle="성혜 AI 자기소개" />
-							<div className="align-center flex gap-4 text-2xl">
+							<LogoLink href={'/'} />
+							<div className="align-center flex gap-2 text-2xl">
+								<MenuLink
+									href={'/about-me'}
+									className="font-walter-turncoat px-2"
+									variant={'link'}
+								>
+									About me!
+								</MenuLink>
 								<MenuLink
 									href={'#'}
-									styleProps={{ variant: 'outline', size: 'icon' }}
+									variant={'outline'}
+									size={'icon'}
 									// className="hover:*:text-white"
 								>
 									<Icons.gitHub />
@@ -131,7 +136,7 @@ export default function RootLayout({
                 }
               /> */}
 						</BasisHeader>
-						<BasisMain className="relative flex flex-col items-center justify-center overflow-hidden px-4">
+						<BasisMain className="relative flex flex-col items-center justify-center overflow-hidden">
 							{children}
 						</BasisMain>
 					</BasisLayout>

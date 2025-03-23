@@ -1,3 +1,3 @@
-import type { ClassNameValue } from 'tailwind-merge'
+import { type ClassValue } from 'clsx'
 
-export type ClassName = ClassNameValue
+export type ClassName = ClassValue

@@ -6,7 +6,7 @@
 	],
 	"files.associations": {
 		"*.css": "tailwindcss"
-	}
+	},
 	// "editor.quickSuggestions": {
 	//   "strings": "on"
 	// },
@@ -14,11 +14,11 @@
 	//   ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
 	//   ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
 	// ],
-	// "tailwindCSS.classAttributes": [
-	//   "class",
-	//   "className",
-	//   "ngClass",
-	//   "class:list",
-	//   ".*Styles*"
-	// ]
+	"tailwindCSS.classAttributes": [
+		"class",
+		"className",
+		"ngClass",
+		"class:list",
+		".*Styles*"
+	]
 }

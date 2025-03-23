@@ -1,16 +1,24 @@
-import React, { type HTMLAttributes } from 'react'
+import { type ComponentProps, type HTMLAttributes, type ReactNode } from 'react'
 
 import type { Route } from 'next'
 import Link from 'next/link'
 
 import { Button, type ButtonVariants } from '@algoroot/ui/components/button'
+import type { ClassName } from '@algoroot/ui/types/'
 
-export interface MenuLinkProps extends HTMLAttributes<HTMLAnchorElement> {
-	href?: Route<string> | URL | string
-	styleProps: ButtonVariants & { className?: string }
+export interface MenuLinkProps extends ButtonVariants {
+	linkProps?: ComponentProps<'a'>
+	href: Route<string> | URL | string
+	className?: string
+	children: ReactNode
 }
 
-const MenuLink = ({ href, children, styleProps, ...props }: MenuLinkProps) => {
+const MenuLink = ({
+	href,
+	children,
+	linkProps,
+	...buttonProps
+}: MenuLinkProps) => {
 	if (!href) {
 		throw new Error('MenuLink: href is required')
 	}
@@ -19,20 +27,22 @@ const MenuLink = ({ href, children, styleProps, ...props }: MenuLinkProps) => {
 
 	if (isExternal) {
 		return (
-			<a
-				href={href.toString()}
-				target="_blank"
-				rel="noopener noreferrer"
-				{...props}
-			>
-				<Button asChild>{children}</Button>
-			</a>
+			<Button asChild {...buttonProps}>
+				<a
+					href={href.toString()}
+					target="_blank"
+					rel="noopener noreferrer"
+					{...linkProps}
+				>
+					{children}
+				</a>
+			</Button>
 		)
 	}
 
 	return (
-		<Button asChild {...styleProps}>
-			<Link href={href as Route<string> | URL} {...props}>
+		<Button asChild {...buttonProps}>
+			<Link href={href} {...linkProps}>
 				{children}
 			</Link>
 		</Button>

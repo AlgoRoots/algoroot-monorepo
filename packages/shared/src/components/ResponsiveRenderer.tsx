@@ -41,11 +41,14 @@ const visibilityVariants: Record<
 
 const withBreakPoint = (bp: BreakPointKeys, className?: string) => {
 	if (!className) return ''
+
+	const regex = new RegExp(`\\b(${bp}:)+`, 'g')
+
 	return className
 		.split(' ')
 		.map((c) => `${bp}:${c}`)
 		.join(' ')
-		.replace(/\b(md:)+/g, 'md:')
+		.replace(regex, `${bp}:`)
 }
 
 type RenderWithClassProps = {

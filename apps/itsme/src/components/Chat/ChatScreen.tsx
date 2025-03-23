@@ -6,20 +6,20 @@ import { ListRenderer, ScrollDownIndicator } from '@algoroot/shared/components'
 import { useIntersectionObserver } from '@algoroot/shared/hooks'
 import { cn } from '@algoroot/ui/lib/utils'
 
+import { useChatContext } from '@/contexts/ChatContext'
 import { ChatEmitter, listeners } from '@/lib/events'
 
 import { type Message } from '@/app/action'
 
 import { ChatMessage, ChatPresentation } from './@parts'
 
-interface ChatActiveViewProps {
+interface ChatScreenProps {
 	messages: Message[]
 }
 
-const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
+const ChatScreen = ({ messages }: ChatScreenProps) => {
 	const messageRefs = useRef<(HTMLElement | null)[]>([])
-
-	const [isMounted, setIsMounted] = useState(false)
+	const isFirstRender = useRef(true)
 	const [showScrollIndicator, setShowScrollIndicator] = useState(false)
 
 	const observerRef = useIntersectionObserver<HTMLElement>(
@@ -48,16 +48,14 @@ const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
 		ChatEmitter.emit('chatScrollTrigger', {
 			messageRefs,
 			// home 에서 올 경우 instant scrollTo
-			behavior: isMounted ? 'smooth' : 'instant',
+			behavior: isFirstRender.current ? 'instant' : 'smooth',
 		})
+
+		isFirstRender.current = false
 
 		// message 길이만 조회해 불필요한 호출 방지
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages.length])
-
-	useEffect(() => {
-		setIsMounted(true)
-	}, [])
 
 	const isLast = (idx: number) => idx === messages.length - 1
 	return (
@@ -108,4 +106,4 @@ const ChatActiveView = ({ messages }: ChatActiveViewProps) => {
 	)
 }
 
-export default ChatActiveView
+export default ChatScreen

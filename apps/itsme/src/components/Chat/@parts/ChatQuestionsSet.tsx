@@ -15,7 +15,7 @@ import {
 import { cn } from '@algoroot/ui/lib/utils'
 import { MessageCircleQuestion } from 'lucide-react'
 
-import { LogoLink } from '../../LogoLink'
+import { LogoLink } from '../../LogoSet'
 
 const ChatQuestionHeader = ({ className, ...props }: ComponentProps<'div'>) => {
 	return (

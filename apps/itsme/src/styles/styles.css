@@ -2,6 +2,8 @@
 @layer utilities {
 	.grid-container {
 		@apply grid;
+		display: 'grid';
+
 		grid-template-areas:
 			'header'
 			'main';
