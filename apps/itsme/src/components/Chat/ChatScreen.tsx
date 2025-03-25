@@ -6,7 +6,6 @@ import { ListRenderer, ScrollDownIndicator } from '@algoroot/shared/components'
 import { useIntersectionObserver } from '@algoroot/shared/hooks'
 import { cn } from '@algoroot/ui/lib/utils'
 
-import { useChatContext } from '@/contexts/ChatContext'
 import { ChatEmitter, listeners } from '@/lib/events'
 
 import { type Message } from '@/app/action'

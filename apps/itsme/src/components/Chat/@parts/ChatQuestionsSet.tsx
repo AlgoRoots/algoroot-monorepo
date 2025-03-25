@@ -46,14 +46,18 @@ const ChatQuestionList = ({
 	return (
 		<ListRenderer
 			className={cn(
-				'w-full max-w-3xl space-y-4 border-t pt-4 md:pt-8',
+				'max-h-[300px] w-full max-w-4xl space-y-4 overflow-y-auto border-t pt-4 md:pt-8',
 				'md:columns-2',
 				className,
 			)}
 			data={[
 				`It's me 서비스는 어떤건지 설명해줘.`,
-				'너가 보일러 플레이트 관련해서 한 일을 알려줘.',
+				'피그마 플러그인 개발한 서비스가 어떤거야?',
 				'너가 개발로 겪었던 이슈나 해결과정에 대해 알려줘.',
+				'프로젝트를 진행하며 사용성이나 성능을 개선했던 일이 있어?',
+				'너가 보일러 플레이트 관련해서 한 일을 알려줘.',
+				'너는 왜 개발자가 됐어?',
+				'가장 길게 했던 프로젝트는 뭐야?',
 				'너 취미가 뭐야?',
 			]}
 			render={(content) => (

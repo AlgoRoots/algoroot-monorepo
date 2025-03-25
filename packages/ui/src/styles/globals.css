@@ -5,6 +5,7 @@
 @source "../../../../packages/shared/src/**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
 
+@plugin "@tailwindcss/typography";
 @plugin "tailwindcss-animate";
 
 /* @custom-variant dark (&:is(.dark *)); */

@@ -3,7 +3,8 @@ import type { ComponentProps, ReactNode } from 'react'
 import { LoadingView } from '@algoroot/shared/components'
 import { cn } from '@algoroot/ui/lib/utils'
 import { CircleIcon } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
+
+import { Markdown, proseStyles } from '@/components/Markdown'
 
 interface ChatMessageProps extends ComponentProps<'div'> {
 	role: 'user' | 'ai'
@@ -19,19 +20,20 @@ const ChatMessage = ({
 	isLoading,
 	fallback = <ChatMessageSpinner />,
 }: ChatMessageProps) => {
-	// console.log("run", content);
 	return (
 		<LoadingView isLoading={isLoading} fallback={fallback}>
 			<div
 				className={cn(
-					'w-fit max-w-md overflow-x-auto rounded-lg bg-red-100 px-3 py-2.5 md:px-4 md:py-3.5',
+					'overflow-x-auto rounded-lg bg-red-100 px-3 py-2.5 md:px-4 md:py-3.5',
 					role === 'user' ?
-						'bg-primary text-primary-foreground ml-auto'
-					:	'bg-secondary text-secondary-foreground mr-auto',
+						'bg-primary text-primary-foreground ml-auto w-fit font-bold'
+					:	'bg-secondary text-secondary-foreground mr-auto w-full',
+					// md styles
+					proseStyles,
 					className,
 				)}
 			>
-				<ReactMarkdown>{content}</ReactMarkdown>
+				<Markdown>{content}</Markdown>
 			</div>
 		</LoadingView>
 	)
