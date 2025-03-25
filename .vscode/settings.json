@@ -10,11 +10,13 @@
 	// "editor.quickSuggestions": {
 	//   "strings": "on"
 	// },
-	// "tailwindCSS.experimental.classRegex": [
-	//   ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-	//   ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-	// ],
+	"tailwindCSS.experimental.classRegex": [
+		["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+		["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+		["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+	],
 	"tailwindCSS.classAttributes": [
+		"cn",
 		"class",
 		"className",
 		"ngClass",

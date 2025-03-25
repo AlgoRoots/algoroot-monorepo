@@ -3,14 +3,7 @@ import { isArray } from 'lodash-es'
 import path from 'path'
 
 import type { VectorDocument } from '../lib/vector-store'
-
-export type Question = {
-	pageContent: string
-	metadata: {
-		category: string
-		keywords: string[]
-	}
-}
+import type { Question } from './search'
 
 /**
  * JSON 파일에서 질문 데이터 가져오기

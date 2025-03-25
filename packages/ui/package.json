@@ -30,6 +30,7 @@
 		"@algoroot/eslint-config": "workspace:*",
 		"@algoroot/typescript-config": "workspace:*",
 		"@tailwindcss/postcss": "^4.0.9",
+		"@tailwindcss/typography": "^0.5.16",
 		"@types/node": "^22",
 		"@types/react": "19.0.8",
 		"autoprefixer": "^10.4.20",

@@ -1,7 +1,21 @@
 import type { DocumentInterface } from '@langchain/core/documents'
 
 import { vectorStore } from '../lib/vector-store'
-import type { Question } from './get-docs-json'
+import { metadata } from './../../../app/page'
+
+export type Question = {
+	pageContent: string
+	metadata: Partial<{
+		category: string
+		keywords: string[]
+		url: string
+		title: string
+		source: {
+			path: string
+			label: string
+		}[]
+	}>
+}
 
 type SearchOptions = {
 	/**
@@ -28,7 +42,7 @@ export const search = async (
 	input: string,
 	options?: SearchOptions,
 ): Promise<SearchResult[]> => {
-	const { count = 3, minScore = 0.3 } = options ?? {}
+	const { count = 3, minScore = 0.2 } = options ?? {}
 
 	/**
 	 * 필요하면 filter 함수로 metadata 넣어 필터링 시킬 수 있음
@@ -38,9 +52,11 @@ export const search = async (
 		input,
 		count,
 	)) as DocumentResult
+	console.log('results', results)
 	const bestMatch = results.filter(([_, score]) => score >= minScore)
 	const data = bestMatch.map(([d, s]) => {
 		return { data: d, similarity: s }
 	})
+
 	return data
 }

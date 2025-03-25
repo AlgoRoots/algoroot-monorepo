@@ -7,32 +7,12 @@ import {
 	type VectorDocument,
 	vectorStore,
 } from '@/modules/vector-store/lib/vector-store'
+import { fetchGitBookDocs } from '@/modules/vector-store/utils/fetch-gitbook'
 import { getDocsFromJson } from '@/modules/vector-store/utils/get-docs-json'
 import { getDocsFromMd } from '@/modules/vector-store/utils/get-docs-md'
 
 const FILE_PATH = 'public/data/docs.json'
 const RESUME_PATH = 'public/data/resume.md'
-
-/**
- * Supabase에서 기존 질문 가져오기 (ID 포함)
- */
-const getQuestionsFromDB = async (): Promise<Map<string, string> | null> => {
-	try {
-		const { data, error } = await supabaseClient
-			.from('questions')
-			.select('id, content')
-
-		if (error) {
-			throw new Error('Supabase에서 데이터를 가져오는데 실패했습니다.')
-		}
-
-		if (!data) return null
-
-		return new Map(data.map(({ content, id }) => [content, id]))
-	} catch (error) {
-		throw new Error(`DB 조회 중 오류 발생: ${(error as Error).message}`)
-	}
-}
 
 /**
  * db clear
@@ -64,8 +44,8 @@ export async function POST() {
 
 		const jsonDocs = getDocsFromJson(FILE_PATH)
 		const mdDocs = await getDocsFromMd(RESUME_PATH)
-		const newDocuments: VectorDocument[] = jsonDocs.concat(mdDocs)
-
+		const webDocs = await fetchGitBookDocs()
+		const newDocuments: VectorDocument[] = jsonDocs.concat(mdDocs, webDocs)
 		if (isEmpty(newDocuments)) {
 			return NextResponse.json({ message: '추가할 새로운 데이터가 없습니다.' })
 		}
