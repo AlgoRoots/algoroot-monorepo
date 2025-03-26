@@ -43,7 +43,7 @@ type DocumentResult = {
 	 2. [참여한 프로젝트](/projects/introduction)
    3. [밀리의서재](/projects/introduction/millie)
  */
-export const parseCategory = (md: string) => {
+const parseCategory = (md: string) => {
 	return md
 		.split('\n')
 		.slice(
@@ -56,6 +56,28 @@ export const parseCategory = (md: string) => {
 			const path = pathPart?.replace(/\)$/, '').trim() || ''
 			return { label, path }
 		})
+}
+
+const extract = (md: string) => {
+	const lines = md.split('\n')
+	const splitIndex = lines.findIndex((line) => !line.trim())
+
+	const categoryLines = lines.slice(0, splitIndex)
+	const contentLines = lines.slice(splitIndex + 1)
+
+	const source = categoryLines.map((line) => {
+		const [labelPart, pathPart] = line.split('](')
+		const label = labelPart?.split('[')[1]?.trim() || ''
+		const path = pathPart?.replace(/\)$/, '').trim() || ''
+		return { label, path }
+	})
+
+	const contentOnly = contentLines.join('\n').trim()
+
+	return {
+		source,
+		content: contentOnly,
+	}
 }
 
 const fetchUrl = async (
@@ -78,6 +100,8 @@ const fetchUrl = async (
 
 const toDocument = ({ title, main, url }: DocumentResult) => {
 	const md = NodeHtmlMarkdown.translate(main)
+	const newMd = extract(md)
+
 	// TODO: 추후 삭제 md확인용
 	// const fileName = url
 	// 	.replace(/https?:\/\//, '')
@@ -86,14 +110,13 @@ const toDocument = ({ title, main, url }: DocumentResult) => {
 
 	// fs.mkdirSync('./docs', { recursive: true })
 	// fs.writeFileSync(`./docs/${fileName}.md`, md)
-	const source = parseCategory(md)
 
 	return new Document({
-		pageContent: md,
+		pageContent: newMd.content,
 		metadata: {
 			title,
 			url,
-			source,
+			source: newMd.source,
 		},
 	})
 }
