@@ -1,0 +1,22 @@
+name: Detect Changed Area
+description: Detect if apps/ or packages/ directory has changed
+
+outputs:
+  changed_area:
+    description: 'Which area has changed (apps, packages, none)'
+    value: ${{ steps.set.outputs.changed_area }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Detect changed path
+      id: set
+      shell: bash
+      run: |
+        if git diff HEAD^ HEAD --name-only | grep '^apps/'; then
+          echo "changed_area=apps" >> "$GITHUB_OUTPUT"
+        elif git diff HEAD^ HEAD --name-only | grep '^packages/'; then
+          echo "changed_area=packages" >> "$GITHUB_OUTPUT"
+        else
+          echo "changed_area=none" >> "$GITHUB_OUTPUT"
+        fi

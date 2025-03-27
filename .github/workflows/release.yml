@@ -1,0 +1,52 @@
+name: Changeset Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Basic install
+        uses: ./.github/composite-actions/install
+
+      - name: Detect what changed
+        id: detect
+        uses: ./.github/composite-actions/detect-changes
+
+      - name: Changeset tag (for apps)
+        if: steps.detect.outputs.changed_area == 'apps'
+        id: changesets-tag
+        uses: changesets/action@v1
+        with:
+          publish: pnpm changeset tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # # 추후 배포 필요하면
+      # - name: Changeset publish (for packages)
+      #   if: steps.detect.outputs.changed_area == 'packages'
+      #   uses: changesets/action@v1
+      #   with:
+      #     publish: pnpm changeset publish
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Get PR number from comment
+        id: pr
+        run: echo "::set-output name=pull_request_number::$(echo '${{ github.event.head_commit.message }}' | awk -F"[\#)]" '{print $2}' | awk 'match($0, /[0-9]+/) {print substr($0, RSTART, RLENGTH)}')"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
