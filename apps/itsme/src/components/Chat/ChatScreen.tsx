@@ -21,7 +21,7 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 	const isFirstRender = useRef(true)
 	const [showScrollIndicator, setShowScrollIndicator] = useState(false)
 
-	const observerRef = useIntersectionObserver<HTMLElement>(
+	const observerRef = useIntersectionObserver<HTMLDivElement>(
 		{
 			onView: () => {
 				setShowScrollIndicator(false)
@@ -67,9 +67,6 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 						<article
 							ref={(el) => {
 								messageRefs.current[idx] = el
-								if (isLast(idx) && el) {
-									observerRef.current = el
-								}
 							}}
 							className={cn(
 								'flex flex-col py-4 md:py-6',
@@ -82,11 +79,9 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 							<ChatMessage
 								role={item.role}
 								content={item.content}
-								// className="h-fit"
 								isLoading={isLast(idx) && item.content.length === 0}
-								// for test
-								// className={cn(idx % 2 ? 'min-h-50' : 'h-auto')}
 							/>
+							{isLast(idx)} <div ref={observerRef} />
 						</article>
 					)
 				}}
