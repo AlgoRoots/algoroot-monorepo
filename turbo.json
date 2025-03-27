@@ -1,32 +1,32 @@
 {
-  "globalDependencies": ["**/.env", "**/.env.local"],
-  "globalEnv": [
-    "LANGSMITH_TRACING",
-    "LANGSMITH_ENDPOINT",
-    "LANGSMITH_API_KEY",
-    "LANGSMITH_PROJECT",
-    "OPENAI_API_KEY",
-    "NEXT_PUBLIC_SUPABASE_URL",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-    "SUPABASE_SERVICE_ROLE_KEY"
-  ],
-  "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    }
-  }
+	"globalDependencies": ["**/.env", "**/.env.local"],
+	"globalEnv": [
+		"LANGSMITH_TRACING",
+		"LANGSMITH_ENDPOINT",
+		"LANGSMITH_API_KEY",
+		"LANGSMITH_PROJECT",
+		"OPENAI_API_KEY",
+		"SUPABASE_URL",
+		"SUPABASE_ANON_KEY",
+		"SUPABASE_SERVICE_ROLE_KEY"
+	],
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"outputs": [".next/**", "!.next/cache/**"]
+		},
+		"lint": {
+			"dependsOn": ["^lint"]
+		},
+		"check-types": {
+			"dependsOn": ["^check-types"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		}
+	}
 }
