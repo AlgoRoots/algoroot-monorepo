@@ -91,17 +91,24 @@ export const ChatQuestionListBase = ({
 
 export const ChatQuestionList = () => (
 	<ChatQuestionListBase>
-		{({ item, onSubmit, isDisable }) => (
-			<Link href="/chat" className="h-fit w-fit">
+		{({ item, onSubmit, isDisable }) =>
+			isDisable ?
 				<AsyncButton
-					onClick={() => onSubmit(item)}
-					disabled={isDisable}
+					onClick={async (e) => e.preventDefault()}
+					disabled
 					className={chatQuestionListButtonStyles}
 				>
 					{item.content}
 				</AsyncButton>
-			</Link>
-		)}
+			:	<Link href="/chat" className="h-fit w-fit">
+					<AsyncButton
+						onClick={() => onSubmit(item)}
+						className={chatQuestionListButtonStyles}
+					>
+						{item.content}
+					</AsyncButton>
+				</Link>
+		}
 	</ChatQuestionListBase>
 )
 

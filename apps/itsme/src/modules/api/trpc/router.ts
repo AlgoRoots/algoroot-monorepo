@@ -32,23 +32,30 @@ export const appRouter = router({
 	}),
 
 	/**
-	 * @query - 현재 IP의 질문 횟수 조회
+	 * @query - 현재 IP의 사용량 조회
 	 * @param ip: 조회 할 ip
 	 * @optional day: 조회할 날짜 (선택값) default 요청 시점 한국 날짜
 	 */
-	getIpCount: procedures.public
+	getIpUsage: procedures.public
 		.input(z.object({ ip: z.string(), day: z.string().optional() }))
 		.query(async ({ input }) => {
 			const { ip, day = getKSTDay() } = input
 
 			const { data } = await supabaseClient
 				.from('ip_question_count')
-				.select('count')
+				.select('ip, date, count')
 				.eq('ip', ip)
 				.eq('date', day)
 				.maybeSingle()
 
-			return { data }
+			const result = {
+				ip,
+				date: day,
+				count: data?.count ?? 0,
+				isMax: (data?.count ?? 0) >= DAILY_LIMIT && ip !== ME,
+			}
+
+			return result
 		}),
 
 	/**

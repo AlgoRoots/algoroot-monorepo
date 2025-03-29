@@ -20,8 +20,8 @@ const ChatInterface = ({ children }: { children: ReactNode }) => {
 				{children}
 			</ChatActionBar>
 			<ChatLimitDialog
-				isOpen={chat.ip.hasExceededLimit}
-				onOpenChange={chat.ip.resetLimitState}
+				isOpen={chat.ip.state.isExceeded}
+				onOpenChange={chat.ip.handler.resetIsExceeded}
 			/>
 		</Fragment>
 	)

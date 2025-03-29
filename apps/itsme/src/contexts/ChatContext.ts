@@ -2,22 +2,14 @@
 
 import { useCallback, useRef, useState } from 'react'
 
-import { usePathname, useRouter } from 'next/navigation'
-
 import { createContext } from '@algoroot/shared/utils'
 import { useMutation } from '@tanstack/react-query'
-import { flushSync } from 'react-dom'
 
 import { useUserIp } from '@/hooks/useUserIp'
 
 import { chat, type Message } from '@/app/actions/chat'
 
 import { readStreamableValue } from 'ai/rsc'
-
-const mock = Array.from({ length: 2 }).map((_, i) => ({
-	role: i % 2 ? 'ai' : 'user',
-	content: i + 'message',
-}))
 
 const updateMessage = (prev: Message[], delta?: string): Message[] => {
 	const last = prev.at(-1)
@@ -32,25 +24,22 @@ const updateMessage = (prev: Message[], delta?: string): Message[] => {
 export const useChat = () => {
 	const [messages, setMessages] = useState<Message[]>([])
 	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
-	const router = useRouter()
-	const pathname = usePathname()
 
-	const userIp = useUserIp()
+	const ip = useUserIp()
 	const isEmpty = messages.length === 0
 
 	const { isPending, mutate: invoke } = useMutation({
 		mutationFn: async (val: string) => {
-			// setTimeout(() => {
-			// 	console.log('timeout')
-			// }, 3000)
-			// return
 			const { newMessage } = await chat(
 				[...messages, { role: 'user', content: val }],
-				userIp.ip!,
+				ip.state.ip,
 			)
 			for await (const delta of readStreamableValue(newMessage)) {
 				setMessages((prev) => updateMessage(prev, delta))
 			}
+		},
+		onSuccess: () => {
+			ip.handler.addIpCount({ ip: ip.state.ip })
 		},
 	})
 
@@ -64,33 +53,24 @@ export const useChat = () => {
 	const handleSubmit = useCallback(
 		async (val: string) => {
 			if (!val) return
-			console.log('submit...')
 
-			await userIp.addIpCount(
-				{
-					ip: userIp.ip || '',
-				},
-				{
-					onSuccess: () => {
-						setMessages((prev) => [
-							...prev,
-							{ role: 'user', content: val },
-							{ role: 'ai', content: '' },
-						])
-						console.log('Message set, waiting for render...')
-						invoke(val)
-					},
-				},
-			)
+			if (await ip.handler.checkMaxLimit()) return
+
+			setMessages((prev) => [
+				...prev,
+				{ role: 'user', content: val },
+				{ role: 'ai', content: '' },
+			])
+
+			invoke(val)
 		},
-		[invoke, userIp],
+		[invoke, ip.handler],
 	)
 
 	return {
 		messageRefs,
-		ip: userIp,
+		ip,
 		state: {
-			userIp: userIp.ip,
 			messages,
 			isPending,
 			isEmpty,
