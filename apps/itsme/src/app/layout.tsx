@@ -13,6 +13,7 @@ import {
 } from '@algoroot/shared/components'
 
 import { LogoLink } from '@/components/LogoSet'
+import { EXTERNAL_LINK } from '@/lib/constants'
 
 import { siteConfig } from '@/configs/site'
 import { Providers } from '@/providers/providers'
@@ -101,40 +102,21 @@ export default function RootLayout({
 							<LogoLink href={'/'} />
 							<div className="align-center flex gap-2 text-2xl">
 								<MenuLink
-									href={'/about-me'}
+									href={'/about'}
 									className="font-walter-turncoat px-2"
 									variant={'link'}
 								>
 									About me!
 								</MenuLink>
 								<MenuLink
-									href={'#'}
+									href={EXTERNAL_LINK.GITHUB}
 									variant={'outline'}
 									size={'icon'}
-									// className="hover:*:text-white"
 								>
 									<Icons.gitHub />
 								</MenuLink>
 								<ThemeSwitcher />
 							</div>
-							{/* <ResponsiveRenderer
-                breakpoint="md"
-                below={
-                  <div>
-                    <Button variant={"secondary"} size={"icon"}>
-                      <MenuIcon />
-                    </Button>
-                  </div>
-                }
-                above={
-                  <div className="flex align-center text-2xl gap-3">
-                    <MenuLink href={"#"}>
-                      <Icons.gitHub />
-                    </MenuLink>
-                    <ThemeSwitcher />
-                  </div>
-                }
-              /> */}
 						</BasisHeader>
 						<BasisMain className="relative flex flex-col items-center justify-center overflow-hidden">
 							{children}

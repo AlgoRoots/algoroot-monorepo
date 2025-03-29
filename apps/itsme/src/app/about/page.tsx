@@ -7,23 +7,33 @@ import { Logo } from '@/components/LogoSet'
 import { Highlight } from '@/components/TextDecoratorSet'
 
 const TECH_STACKS = [
-	'LangGraph.js',
-	'Supabase Vector DB',
-	'ai sdk',
-	'Next.js',
-	'Tailwind CSS',
-	'tRPC',
-	'Supabase',
-	'Zod',
+	{
+		title: '🧠 AI 기술',
+		items: ['LangGraph.js', 'Supabase Vector DB', 'OpenAI', 'AI SDK'],
+	},
+	{
+		title: '🌐 웹 프론트엔드',
+		items: ['Next.js', 'Tailwind CSS', 'Shadcn UI'],
+	},
+	{
+		title: '🧩 API 및 백엔드',
+		items: ['tRPC', 'Supabase', 'Zod'],
+	},
+]
+
+const SERVICE_INFO = [
+	'GPT-4o-mini 모델을 기반으로 응답을 생성합니다.',
+	'최근 대화 흐름을 유지하기 위해, 최대 10개의 메시지를 기억하여 문맥을 반영합니다.',
+	'과도한 사용을 방지하기 위해, IP 기준 하루 최대 50회의 대화로 제한하고 있습니다.',
 ]
 
 const CORE_FEATURES = [
 	{
 		title: 'AI 기반 데이터 벡터화 및 검색 최적화 (RAG)',
 		description: [
-			'이력서(기술, md) 및 JSON(취미, 장단점) 데이터를 Supabase Vector DB에 벡터화하여 저장 및 검색',
 			'LangGraph.js 기반 Retrieval-Augmented Generation(RAG) 적용',
-			'기존 OpenAI API 호출 대비 더 정확한 맥락 기반 응답 제공',
+			'포트폴리오(Web Crawling), 이력서(Markdown), 자기소개(JSON) 데이터를 Supabase Vector DB에 벡터화하여 저장',
+			'포트폴리오 크롤링 기반 벡터 DB 개선',
 		],
 	},
 	{
@@ -36,18 +46,15 @@ const CORE_FEATURES = [
 	{
 		title: 'RSC 환경 실시간 스트리밍 응답 처리',
 		description: [
-			'createStreamableValue를 활용하여 AI 응답을 RSC 환경에서 실시간 스트리밍',
-			'LangGraph.stream을 사용해 AI 응답을 즉시 전달하고 대화 흐름 유지',
-			'readStreamableValue로 클라이언트에서 토큰 단위 응답을 처리하여 사용자 대기 시간 단축',
-			'기존 API 응답 방식 대비 빠른 사용자 피드백 제공 및 UX 개선',
+			'RSC 환경에서 LangGraph와 AI SDK를 활용해 AI 응답을 토큰 단위로 스트리밍 처리',
+			'빠르게 응답을 보여주며 대기 시간 약 60% 감소 (5초 → 2초)',
 		],
 	},
 	{
 		title: '사용자 입력을 반영한 동적 응답 생성',
 		description: [
-			'StateGraph 활용하여 입력된 데이터 기반 AI 응답 생성',
-			'프롬프트 엔지니어링 기법 적용 → 상황별 맞춤 응답 제공',
-			'사용자의 답변 스타일에 맞춘 맞춤형 AI 응답 제공',
+			'사용자 입력과 검색 결과를 기반으로 프롬프트를 동적으로 구성',
+			'프롬프트 설계 과정은 LangGraph의 상태 흐름을 통해 구성되었으며, 현재는 간단한 search → model 단계를 기반으로 함',
 		],
 	},
 	{
@@ -56,14 +63,14 @@ const CORE_FEATURES = [
 			'최신 메시지를 상단에 배치하여 정보 접근성 향상 및 화면 이동 최소화',
 			'모바일 환경에서 body 스크롤과 채팅창 내부 스크롤을 분리하여 자연스러운 UX 제공',
 			'마지막 메시지와 입력창 간격을 조정하여 가독성과 레이아웃 균형 유지',
-			'ChatGPT UX 패턴을 참고하여 사용자 친화적인 대화 흐름 개선',
+			'ChatGPT UX를 참고하여 채팅 인터페이스 및 대화 흐름 개선',
 		],
 	},
 ]
 
 const API_FEATURES = [
 	{
-		title: '타입 안전한 API 통신 – tRPC + Zod',
+		title: '일관되고 타입 기반의 API 설계 (tRPC + Zod)',
 		description: [
 			'클라이언트에서 호출하는 모든 API는 tRPC로 연결되어 있어 타입 자동 완성 및 일관된 통신 구조 유지',
 			'각 API의 입력/출력 스키마는 Zod로 정의되어 있어 유효성 검사와 타입 추론을 동시에 처리',
@@ -104,14 +111,35 @@ export default function AboutMe() {
 					</p>
 				</Section>
 
-				<Section title={'🛠 사용 기술'}>
+				<Section title={'⚙️ 서비스 이용 안내 및 모델 정보'}>
+					<article className="space-y-2">
+						<List items={SERVICE_INFO} listType="dot" />
+					</article>
+				</Section>
+
+				<Section title={'🛠 사용된 기술 스택'}>
 					<ListRenderer
-						className="flex flex-wrap gap-2"
 						data={TECH_STACKS}
-						render={(tech) => (
-							<Badge key={tech} className="p-1 font-extrabold">
-								{tech}
-							</Badge>
+						className="space-y-4"
+						render={({ title, items }) => (
+							<div key={title}>
+								<h3 className="text-muted-foreground mb-2 text-sm font-semibold">
+									{title}
+								</h3>
+								<ListRenderer
+									className="flex flex-wrap gap-2"
+									data={items}
+									render={(tech) => (
+										<Badge
+											key={tech}
+											variant={'outline'}
+											className="p-1 font-extrabold"
+										>
+											{tech}
+										</Badge>
+									)}
+								/>
+							</div>
 						)}
 					/>
 				</Section>
@@ -130,7 +158,7 @@ export default function AboutMe() {
 					/>
 				</Section>
 
-				<Section title={'🚀 API 구조 및 통신 방식'}>
+				<Section title={'🔌  API 구조 및 통신 방식'}>
 					<ListRenderer
 						className="space-y-6"
 						data={API_FEATURES}
