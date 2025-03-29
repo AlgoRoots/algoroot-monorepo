@@ -1,4 +1,4 @@
-import { List, ListRenderer } from '@algoroot/shared/components'
+import { List, ListRenderer, MenuLink } from '@algoroot/shared/components'
 import { Badge } from '@algoroot/ui/components/badge'
 import { Separator } from '@algoroot/ui/components/separator'
 
@@ -12,6 +12,9 @@ const TECH_STACKS = [
 	'ai sdk',
 	'Next.js',
 	'Tailwind CSS',
+	'tRPC',
+	'Supabase',
+	'Zod',
 ]
 
 const CORE_FEATURES = [
@@ -58,6 +61,22 @@ const CORE_FEATURES = [
 	},
 ]
 
+const API_FEATURES = [
+	{
+		title: '타입 안전한 API 통신 – tRPC + Zod',
+		description: [
+			'클라이언트에서 호출하는 모든 API는 tRPC로 연결되어 있어 타입 자동 완성 및 일관된 통신 구조 유지',
+			'각 API의 입력/출력 스키마는 Zod로 정의되어 있어 유효성 검사와 타입 추론을 동시에 처리',
+		],
+	},
+	{
+		title: 'Supabase 기반의 실시간 데이터 처리 및 인증',
+		description: [
+			'Supabase Client를 통해 벡터 데이터와 사용자 정보 읽기/쓰기 처리',
+		],
+	},
+]
+
 export default function AboutMe() {
 	return (
 		<div className="h-full w-full overflow-y-auto">
@@ -70,6 +89,13 @@ export default function AboutMe() {
 						</div>
 					}
 				>
+					<MenuLink
+						variant={'link'}
+						className="px-0 underline"
+						href="https://sunghyes-organization.gitbook.io/dev-portfolio/its-me"
+					>
+						상세 기술서
+					</MenuLink>
 					<p>
 						저에 대해 더 흥미롭게 알아갈 수 있도록{' '}
 						<Highlight>AI 기반 자기소개서 서비스 'It`s ME!' </Highlight> 를
@@ -99,6 +125,20 @@ export default function AboutMe() {
 								<h3 className="text-primary font-bold">{feature.title}</h3>
 								<List items={feature.description} listType="dot" />
 								{index < CORE_FEATURES.length - 1 && <Separator />}
+							</article>
+						)}
+					/>
+				</Section>
+
+				<Section title={'🚀 API 구조 및 통신 방식'}>
+					<ListRenderer
+						className="space-y-6"
+						data={API_FEATURES}
+						render={(feature, index) => (
+							<article key={index} className="space-y-2">
+								<h3 className="text-primary font-bold">{feature.title}</h3>
+								<List items={feature.description} listType="dot" />
+								{index < API_FEATURES.length - 1 && <Separator />}
 							</article>
 						)}
 					/>

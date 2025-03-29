@@ -2,7 +2,7 @@ import fs from 'fs'
 import { isArray } from 'lodash-es'
 import path from 'path'
 
-import type { VectorDocument } from '../lib/vector-store'
+import type { VectorDocument } from '../vector-store'
 import type { Question } from './search'
 
 /**

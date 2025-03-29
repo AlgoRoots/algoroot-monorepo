@@ -4,7 +4,7 @@ import fs from 'fs'
 import { NodeHtmlMarkdown } from 'node-html-markdown'
 import puppeteer, { Page } from 'puppeteer'
 
-import type { VectorDocument } from '../lib/vector-store'
+import type { VectorDocument } from '../vector-store'
 
 const SITEMAP_URL =
 	'https://sunghyes-organization.gitbook.io/dev-portfolio/sitemap-pages.xml'

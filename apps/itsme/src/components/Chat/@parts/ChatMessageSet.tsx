@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from 'react'
+import { type ComponentProps, memo, type ReactNode } from 'react'
 
 import { LoadingView } from '@algoroot/shared/components'
 import { cn } from '@algoroot/ui/lib/utils'
@@ -6,16 +6,19 @@ import { CircleIcon } from 'lucide-react'
 
 import { Markdown, proseStyles } from '@/components/Markdown'
 
-interface ChatMessageProps extends ComponentProps<'div'> {
+import type { Message } from '@/app/actions/chat'
+
+interface ChatMessageProps extends ComponentProps<'div'>, Message {
 	role: 'user' | 'ai'
 	content: string
 	isLoading: boolean
 	fallback?: ReactNode
 }
 
-const ChatMessage = ({
+const ChatMessageComponent = ({
 	role,
 	content,
+	type,
 	className,
 	isLoading,
 	fallback = <ChatMessageSpinner />,
@@ -28,6 +31,7 @@ const ChatMessage = ({
 					role === 'user' ?
 						'bg-primary text-primary-foreground ml-auto w-fit font-bold'
 					:	'bg-secondary text-secondary-foreground mr-auto w-full',
+					type === 'error' && 'bg-destructive',
 					// md styles
 					proseStyles,
 					className,
@@ -38,6 +42,8 @@ const ChatMessage = ({
 		</LoadingView>
 	)
 }
+
+const ChatMessage = memo(ChatMessageComponent)
 
 const ChatStartMessage = () => {
 	return (
@@ -63,4 +69,5 @@ const ChatMessageSpinner = () => {
 		</div>
 	)
 }
+
 export { ChatMessage, ChatStartMessage, ChatMessageSpinner }

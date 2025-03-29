@@ -1,14 +1,16 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import { usePathname, useRouter } from 'next/navigation'
 
 import { createContext } from '@algoroot/shared/utils'
-import { throttle } from 'lodash-es'
-import { v4 as uuidv4 } from 'uuid'
+import { useMutation } from '@tanstack/react-query'
+import { flushSync } from 'react-dom'
 
-import { chat, type Message } from '@/app/action'
+import { useUserIp } from '@/hooks/useUserIp'
+
+import { chat, type Message } from '@/app/actions/chat'
 
 import { readStreamableValue } from 'ai/rsc'
 
@@ -17,19 +19,40 @@ const mock = Array.from({ length: 2 }).map((_, i) => ({
 	content: i + 'message',
 }))
 
+const updateMessage = (prev: Message[], delta?: string): Message[] => {
+	const last = prev.at(-1)
+	if (!last || last.role !== 'ai') return prev
+
+	const rest = prev.slice(0, -1)
+	const updated = { ...last, content: last.content + delta }
+
+	return [...rest, updated]
+}
+
 export const useChat = () => {
-	const [userId, setUserId] = useState<string | null>(null)
 	const [messages, setMessages] = useState<Message[]>([])
-	const [isPending, setIsPending] = useState(false)
 	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
 	const router = useRouter()
 	const pathname = usePathname()
 
+	const userIp = useUserIp()
 	const isEmpty = messages.length === 0
 
-	useEffect(() => {
-		setUserId(uuidv4())
-	}, [])
+	const { isPending, mutate: invoke } = useMutation({
+		mutationFn: async (val: string) => {
+			// setTimeout(() => {
+			// 	console.log('timeout')
+			// }, 3000)
+			// return
+			const { newMessage } = await chat(
+				[...messages, { role: 'user', content: val }],
+				userIp.ip!,
+			)
+			for await (const delta of readStreamableValue(newMessage)) {
+				setMessages((prev) => updateMessage(prev, delta))
+			}
+		},
+	})
 
 	/**
 	 * 스트리밍 작업에서 처음 했던 방식 :
@@ -40,90 +63,34 @@ export const useChat = () => {
 	 */
 	const handleSubmit = useCallback(
 		async (val: string) => {
-			if (pathname === '/') {
-				router.push('/chat')
-			}
-			// setIsPending(true)
-
-			// setMessages((prev: Message[]) => {
-			// 	if (!prev) return mock as Message[]
-			// 	return [
-			// 		...prev,
-			// 		{
-			// 			role: 'user' as const,
-			// 			content: `user: ${val}`,
-			// 		},
-			// 		{
-			// 			role: 'ai' as const,
-			// 			content: ``,
-			// 		},
-			// 	]
-			// })
-
-			// setTimeout(() => {
-			// 	setMessages((prev) => {
-			// 		if (!prev) return mock as Message[]
-			// 		const updated = prev.slice(0, prev.length - 1)
-			// 		return [
-			// 			...updated,
-			// 			{
-			// 				role: 'ai' as const,
-			// 				content: [
-			// 					`ai: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-			// 	`,
-			// 				]
-			// 					.map((c) => c + c + c + c)
-			// 					.flat()
-			// 					.join('.'),
-			// 			},
-			// 		]
-			// 	})
-			// }, 1000)
-
-			// setTimeout(() => setIsPending(false), 2000)
-			// return
-			// setMessages((prev) => {
-			// 	if (!prev) return mock as Message[]
-			// 	return [...prev, ...mock].map((d, idx) => ({
-			// 		role: idx % 2 ? ('ai' as const) : ('user' as const),
-			// 		content:
-			// 			idx % 2 ? `ai: ${idx} ai 답변~~` : `user: ${idx} ${d.content}`,
-			// 	}))
-			// })
-			// return
 			if (!val) return
+			console.log('submit...')
 
-			setIsPending(true)
-
-			try {
-				const { history, newMessage } = await chat(
-					[...messages, { role: 'user', content: val }],
-					userId!,
-				)
-
-				setMessages([...history, { role: 'ai', content: '' }])
-
-				// 새 배열을 생성하는 방식에서 prev로 필요한 아이템만 수정하는 쪽으로 변경
-				for await (const delta of readStreamableValue(newMessage)) {
-					setMessages((prevMessages) =>
-						prevMessages.map((msg, idx) =>
-							idx === prevMessages.length - 1 ?
-								{ ...msg, content: msg.content + delta }
-							:	msg,
-						),
-					)
-				}
-			} finally {
-				setIsPending(false)
-			}
+			await userIp.addIpCount(
+				{
+					ip: userIp.ip || '',
+				},
+				{
+					onSuccess: () => {
+						setMessages((prev) => [
+							...prev,
+							{ role: 'user', content: val },
+							{ role: 'ai', content: '' },
+						])
+						console.log('Message set, waiting for render...')
+						invoke(val)
+					},
+				},
+			)
 		},
-		[messages, pathname],
+		[invoke, userIp],
 	)
 
 	return {
 		messageRefs,
+		ip: userIp,
 		state: {
-			userId,
+			userIp: userIp.ip,
 			messages,
 			isPending,
 			isEmpty,
