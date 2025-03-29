@@ -19,7 +19,6 @@ export interface Message {
 
 export async function chat(history: Message[], userIp: string) {
 	const stream = createStreamableValue('')
-
 	const latest = history.at(-1)
 
 	if (!latest?.content || latest.role !== 'user') {

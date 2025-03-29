@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { createContext } from '@algoroot/shared/utils'
 import { useMutation } from '@tanstack/react-query'
@@ -16,7 +16,7 @@ const updateMessage = (prev: Message[], delta?: string): Message[] => {
 	if (!last || last.role !== 'ai') return prev
 
 	const rest = prev.slice(0, -1)
-	const updated = { ...last, content: last.content + delta }
+	const updated = { ...last, content: last.content + (delta ?? '') }
 
 	return [...rest, updated]
 }
@@ -30,10 +30,8 @@ export const useChat = () => {
 
 	const { isPending, mutate: invoke } = useMutation({
 		mutationFn: async (val: string) => {
-			const { newMessage } = await chat(
-				[...messages, { role: 'user', content: val }],
-				ip.state.ip,
-			)
+			setMessages((prev) => [...prev, { role: 'ai', content: '' }])
+			const { newMessage } = await chat([...messages], ip.state.ip)
 			for await (const delta of readStreamableValue(newMessage)) {
 				setMessages((prev) => updateMessage(prev, delta))
 			}
@@ -56,17 +54,16 @@ export const useChat = () => {
 
 			if (await ip.handler.checkMaxLimit()) return
 
-			setMessages((prev) => [
-				...prev,
-				{ role: 'user', content: val },
-				{ role: 'ai', content: '' },
-			])
+			setMessages((prev) => [...prev, { role: 'user', content: val }])
 
 			invoke(val)
 		},
 		[invoke, ip.handler],
 	)
 
+	useEffect(() => {
+		console.log('messages', messages)
+	}, [messages.length])
 	return {
 		messageRefs,
 		ip,
