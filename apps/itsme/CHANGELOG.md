@@ -1,5 +1,13 @@
 # @algoroot/itsme
 
+## 1.1.1
+
+### Patch Changes
+
+- [`e29bd09`](https://github.com/AlgoRoots/algoroot-monorepo/commit/e29bd09dc8b071733f6ede7bf20f6ac4e52facfe) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ### FIx
+
+  - env 참조 변경
+
 ## 1.1.0
 
 ### Minor Changes
