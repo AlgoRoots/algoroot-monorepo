@@ -2,34 +2,42 @@
 
 import { type ComponentProps, useCallback, useRef } from 'react'
 
-import { Button, type ButtonVariants } from '@algoroot/ui/components/button'
+import { Button, type ButtonProps } from '@algoroot/ui/components/button'
 
-interface AsyncButtonProps
+export interface AsyncButtonProps
 	extends Omit<ComponentProps<'button'>, 'onClick'>,
-		ButtonVariants {
-	onClick: () => Promise<void>
+		ButtonProps {
+	onClick: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>
 }
 
 export const AsyncButton = ({
 	children,
+	disabled,
 	onClick,
 	...props
 }: AsyncButtonProps) => {
 	const isProcessing = useRef(false)
 
-	const handleClick = useCallback(async () => {
-		if (isProcessing.current) return
+	const handleClick = useCallback(
+		async (e: React.MouseEvent<HTMLButtonElement>) => {
+			if (isProcessing.current) return
 
-		isProcessing.current = true
-		try {
-			await onClick()
-		} finally {
-			isProcessing.current = false
-		}
-	}, [onClick])
+			isProcessing.current = true
+			try {
+				await onClick(e)
+			} finally {
+				isProcessing.current = false
+			}
+		},
+		[onClick],
+	)
 
 	return (
-		<Button disabled={isProcessing.current} onClick={handleClick} {...props}>
+		<Button
+			disabled={isProcessing.current || disabled}
+			onClick={handleClick}
+			{...props}
+		>
 			{children}
 		</Button>
 	)
