@@ -1,6 +1,6 @@
 import { AIMessage, BaseMessage, HumanMessage } from '@langchain/core/messages'
 
-import type { SearchResult } from '@/modules/vector-store/utils/search'
+import type { SearchResult } from '@/modules/api/supabase/utils/search'
 
 export const formatChatHistory = (messages: BaseMessage[]) => {
 	return messages

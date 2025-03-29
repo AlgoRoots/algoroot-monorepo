@@ -6,7 +6,9 @@ import { CircleIcon } from 'lucide-react'
 
 import { Markdown, proseStyles } from '@/components/Markdown'
 
-interface ChatMessageProps extends ComponentProps<'div'> {
+import type { Message } from '@/app/actions/chat'
+
+interface ChatMessageProps extends ComponentProps<'div'>, Message {
 	role: 'user' | 'ai'
 	content: string
 	isLoading: boolean
@@ -16,6 +18,7 @@ interface ChatMessageProps extends ComponentProps<'div'> {
 const ChatMessage = ({
 	role,
 	content,
+	type,
 	className,
 	isLoading,
 	fallback = <ChatMessageSpinner />,
@@ -28,6 +31,7 @@ const ChatMessage = ({
 					role === 'user' ?
 						'bg-primary text-primary-foreground ml-auto w-fit font-bold'
 					:	'bg-secondary text-secondary-foreground mr-auto w-full',
+					type === 'error' && 'bg-destructive',
 					// md styles
 					proseStyles,
 					className,

@@ -1,6 +1,6 @@
 import path from 'path'
 
-import type { VectorDocument } from '../lib/vector-store'
+import type { VectorDocument } from '../vector-store'
 
 import { Document } from 'langchain/document'
 import { TextLoader } from 'langchain/document_loaders/fs/text'

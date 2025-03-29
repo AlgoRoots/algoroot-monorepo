@@ -8,7 +8,7 @@ import { cn } from '@algoroot/ui/lib/utils'
 
 import { ChatEmitter, listeners } from '@/lib/events'
 
-import { type Message } from '@/app/action'
+import { type Message } from '@/app/actions/chat'
 
 import { ChatMessage, ChatPresentation } from './@parts'
 
@@ -77,8 +77,7 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 								{item.role === 'ai' ? 'ItsMe Bot의 말' : '나의 말'}
 							</h2>
 							<ChatMessage
-								role={item.role}
-								content={item.content}
+								{...{ ...item }}
 								isLoading={isLast(idx) && item.content.length === 0}
 							/>
 							{isLast(idx)} <div ref={observerRef} />
