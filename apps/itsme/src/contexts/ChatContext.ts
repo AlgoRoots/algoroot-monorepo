@@ -47,16 +47,6 @@ export const useChat = () => {
 				setMessages((prev) => updateMessage(prev, delta))
 			}
 		},
-		onError: () => {
-			setMessages((prev) => [
-				...prev,
-				{
-					role: 'ai',
-					type: 'error',
-					content: '오류 발생. 다시 시도해 주세요.',
-				},
-			])
-		},
 	})
 
 	/**
