@@ -15,6 +15,7 @@
 	"importOrderSortSpecifiers": true,
 	"importOrderCaseInsensitive": true,
 	"importOrder": [
+		"^('use client'|'use server'|'use strict'|'server-only')$",
 		"^react$",
 		"^next.*",
 		"^(react|lodash|msw|^@(?!tailwind)[^/]|^[^./]*$).*",

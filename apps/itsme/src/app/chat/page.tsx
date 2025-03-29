@@ -1,22 +1,16 @@
-'use client'
+import { HydrateClient, prefetch, trpc } from '@/modules/api/trpc/client.server'
 
-import { Fragment } from 'react'
+import { ChatQuestionSheet } from '@/components/Chat/@parts/ChatQuestionSheet'
+import ChatInterface from '@/components/Chat/ChatInterface'
 
-import ChatActionBar from '@/components/Chat/ChatActionBar'
-import ChatScreen from '@/components/Chat/ChatScreen'
-import { useChatContext } from '@/contexts/ChatContext'
-
-export default function ChatPage() {
-	const chat = useChatContext()
+export default async function ChatPage() {
+	prefetch(trpc.getSuggestQuestions.queryOptions())
 
 	return (
-		<Fragment>
-			<ChatScreen messages={chat.state.messages} />
-			<ChatActionBar
-				onSubmit={chat.handler.submit}
-				isDisable={chat.state.isPending}
-				isVisibleSubAction
-			/>
-		</Fragment>
+		<ChatInterface>
+			<HydrateClient>
+				<ChatQuestionSheet />
+			</HydrateClient>
+		</ChatInterface>
 	)
 }

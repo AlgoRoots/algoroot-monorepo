@@ -1,7 +1,7 @@
 import type { DocumentInterface } from '@langchain/core/documents'
+import type { MessageContent } from '@langchain/core/messages'
 
-import { vectorStore } from '../lib/vector-store'
-import { metadata } from './../../../app/page'
+import { vectorStore } from '../vector-store'
 
 export type Question = {
 	pageContent: string
@@ -52,7 +52,7 @@ export const search = async (
 		input,
 		count,
 	)) as DocumentResult
-	console.log('results', results)
+	// console.log('results', results)
 	const bestMatch = results.filter(([_, score]) => score >= minScore)
 	const data = bestMatch.map(([d, s]) => {
 		return { data: d, similarity: s }

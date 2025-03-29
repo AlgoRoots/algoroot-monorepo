@@ -3,19 +3,18 @@ import type { ComponentProps } from 'react'
 import { Show } from '@algoroot/shared/components'
 
 import { ChatActionProvider } from '../../contexts/ChatActionContext'
-import { ChatDisclaimer, ChatQuestionSheet } from './@parts'
+import { ChatDisclaimer } from './@parts'
 import { ChatActionButton, ChatActionForm, ChatActionInput } from './ChatAction'
 
 interface ChatActionBarProps extends Omit<ComponentProps<'div'>, 'onSubmit'> {
 	onSubmit: (val: string) => Promise<void>
 	isDisable?: boolean
-	isVisibleSubAction?: boolean
 }
 
 const ChatActionBar = ({
 	onSubmit,
 	isDisable,
-	isVisibleSubAction = false,
+	children,
 }: ChatActionBarProps) => {
 	return (
 		<ChatActionProvider
@@ -27,12 +26,7 @@ const ChatActionBar = ({
 			<ChatActionForm>
 				<ChatActionInput />
 				<div className="flex items-center justify-between gap-2 p-3">
-					<Show when={isVisibleSubAction}>
-						<ChatQuestionSheet
-							onClickItem={onSubmit}
-							isDisableTrigger={isDisable}
-						/>
-					</Show>
+					{children && children}
 					<ChatActionButton />
 				</div>
 				<ChatDisclaimer />
