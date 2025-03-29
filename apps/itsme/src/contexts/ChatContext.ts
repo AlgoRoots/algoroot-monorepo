@@ -66,13 +66,11 @@ export const useChat = () => {
 				},
 				{
 					onSuccess: () => {
-						startTransition(() => {
-							setMessages((prev) => [
-								...prev,
-								{ role: 'user', content: val },
-								{ role: 'ai', content: '' },
-							])
-						})
+						setMessages((prev) => [
+							...prev,
+							{ role: 'user', content: val },
+							{ role: 'ai', content: '' },
+						])
 						invoke(val)
 					},
 				},
