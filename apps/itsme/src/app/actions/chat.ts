@@ -28,8 +28,6 @@ export async function chat(history: Message[], userIp: string) {
 	}
 
 	;(async () => {
-		// const searchResults = await search(input).then(formatSearchResults)
-		const config = { thread_id: userIp }
 		const messageHistory = history.map((d) => {
 			if (d.role === 'user') return new HumanMessage(d.content)
 			return new AIMessage(d.content)
@@ -40,11 +38,20 @@ export async function chat(history: Message[], userIp: string) {
 		}
 
 		const messageStream = await app.stream(inputData, {
-			/**
-			 *  대화 세션(사용자별 ID) 관리 (memory 목적, 다 이용자일떄..)
-			 */
-			configurable: config,
+			configurable: { thread_id: userIp },
 			streamMode: 'messages',
+			tags: ['user-chat', `ip:${userIp}`],
+			callbacks: [
+				{
+					handleLLMEnd(output, runId, parentRunId, tags) {
+						console.log('handleLLMEnd', { output, runId, parentRunId, tags })
+						stream.done()
+					},
+					handleChainError(err, runId) {
+						console.log('handleChainError', { err, runId })
+					},
+				},
+			],
 		})
 
 		try {
@@ -53,8 +60,6 @@ export async function chat(history: Message[], userIp: string) {
 					stream.update(message.content)
 				}
 			}
-			console.log('done')
-			stream.done()
 		} catch (err) {
 			console.error('messageStream 처리중 에러:', err)
 			stream.error(err)
