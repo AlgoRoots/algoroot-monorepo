@@ -137,7 +137,10 @@ export const appRouter = router({
 	 * @query 제안 질문 가져오기
 	 */
 	getSuggestQuestions: procedures.public.query(async () => {
-		const res = await supabaseClient.from('question_suggestions').select('*')
+		const res = await supabaseClient
+			.from('question_suggestions')
+			.select('*')
+			.order('id', { ascending: true })
 		return res.data || []
 	}),
 })
