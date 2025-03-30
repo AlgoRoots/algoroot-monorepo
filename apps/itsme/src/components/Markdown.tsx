@@ -12,7 +12,7 @@ export const proseStyles = cn(
 	'prose-h4:text-lg',
 	'prose-strong:text-accent-foreground prose-strong:font-bold',
 	'prose-li:marker:size-4 prose-li:marker:text-foreground',
-	'prose-pre:bg-muted prose-pre:text-foreground prose-pre:rounded-md prose-pre:p-4 prose-pre:text-sm',
+	'prose-pre:bg-muted prose-pre:text-foreground prose-pre:rounded-md prose-pre:p-4 prose-pre:text-sm prose-pre:w-full! prose-pre:max-w-full prose-pre:overflow-x-auto! prose-pre:inline-grid',
 	'prose-code:bg-muted prose-code:text-accent-foreground prose-code:rounded prose-code:px-1 prose-code:py-0.5 prose-code:text-sm',
 )
 export const Markdown = ({ children }: { children: string }) => {
@@ -28,6 +28,9 @@ export const Markdown = ({ children }: { children: string }) => {
 								style={dracula}
 								PreTag="div"
 								language={match[1]}
+								codeTagProps={{
+									style: { fontFamily: 'inherit' },
+								}}
 								{...props}
 							>
 								{String(children).replace(/\n$/, '')}
