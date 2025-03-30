@@ -1,10 +1,11 @@
 import js from '@eslint/js'
-import eslintConfigPrettier from 'eslint-config-prettier'
-import tseslint from 'typescript-eslint'
-import pluginReactHooks from 'eslint-plugin-react-hooks'
-import pluginReact from 'eslint-plugin-react'
-import globals from 'globals'
 import pluginNext from '@next/eslint-plugin-next'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import pluginReact from 'eslint-plugin-react'
+import pluginReactHooks from 'eslint-plugin-react-hooks'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+
 import { config as baseConfig } from './base.js'
 
 /**
@@ -54,6 +55,8 @@ export const nextJsConfig = [
 			'@typescript-eslint/no-var-requires': 'off',
 			'@typescript-eslint/no-namespace': 'off',
 			'@next/next/no-img-element': 'off',
+			'@typescript-eslint/no-empty-interface': 'off',
+			'@typescript-eslint/no-empty-object-type': 'off',
 		},
 	},
 ]
