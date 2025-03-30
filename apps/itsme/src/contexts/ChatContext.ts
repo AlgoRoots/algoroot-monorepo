@@ -36,10 +36,17 @@ export const useChat = () => {
 				setMessages((prev) => updateMessage(prev, delta))
 			}
 		},
-		onSuccess: () => {
+		onSuccess: async () => {
 			ip.handler.addIpCount({ ip: ip.state.ip })
 		},
 		onError: (error) => {
+			setMessages((prev) => {
+				const newMessages = [...prev]
+				const lastMessage = newMessages.at(-1)
+				if (!lastMessage) return newMessages
+				lastMessage.type = 'error'
+				return newMessages
+			})
 			console.log('error', error)
 		},
 	})
@@ -64,6 +71,13 @@ export const useChat = () => {
 		[invoke, ip.handler],
 	)
 
+	const handleRetry = useCallback(
+		(prevMsg: Message) => {
+			handleSubmit(prevMsg.content)
+		},
+		[handleSubmit],
+	)
+
 	return {
 		messageRefs,
 		ip,
@@ -74,6 +88,7 @@ export const useChat = () => {
 		},
 		handler: {
 			submit: handleSubmit,
+			retry: handleRetry,
 		},
 	}
 }

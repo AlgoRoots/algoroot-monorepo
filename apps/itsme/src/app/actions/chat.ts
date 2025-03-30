@@ -26,7 +26,6 @@ export async function chat(history: Message[], userIp: string) {
 			'잘못된 사용자 입력: 최신 메시지가 없거나, 사용자 메시지가 아닙니다.',
 		)
 	}
-
 	;(async () => {
 		const messageHistory = history.map((d) => {
 			if (d.role === 'user') return new HumanMessage(d.content)
@@ -36,7 +35,6 @@ export async function chat(history: Message[], userIp: string) {
 		const inputData = {
 			messages: messageHistory,
 		}
-
 		const messageStream = await app.stream(inputData, {
 			configurable: { thread_id: userIp },
 			streamMode: 'messages',

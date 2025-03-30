@@ -14,54 +14,46 @@ import { ChatMessage, ChatPresentation } from './@parts'
 
 interface ChatScreenProps {
 	messages: Message[]
+	onRetry?: (prev: Message) => void
 }
 
-const ChatScreen = ({ messages }: ChatScreenProps) => {
+const ChatScreen = ({ messages, onRetry }: ChatScreenProps) => {
 	const messageRefs = useRef<(HTMLElement | null)[]>([])
 	const isFirstRender = useRef(true)
 	const [showScrollIndicator, setShowScrollIndicator] = useState(false)
 
+	const lastIndex = messages.length - 1
+
 	const observerRef = useIntersectionObserver<HTMLDivElement>(
 		{
-			onView: () => {
-				setShowScrollIndicator(false)
-			},
-			onHide: () => {
-				setShowScrollIndicator(true)
-			},
+			onView: () => setShowScrollIndicator(false),
+			onHide: () => setShowScrollIndicator(true),
 		},
-		[messageRefs.current.length],
+		[messages.length],
 	)
 
-	// 가장 최신 사용자 메세지 이동 함수 구독 (한 번만 구독)
+	// 최초 한 번만 스크롤 이벤트 리스너 등록
 	useEffect(() => {
-		const cleanup = ChatEmitter.on(
-			'chatScrollTrigger',
-			listeners.chatScrollTrigger,
-		)
-		return cleanup
+		return ChatEmitter.on('chatScrollTrigger', listeners.chatScrollTrigger)
 	}, [])
 
-	// 가장 최신 사용자의 메세지로 스크롤 이동
+	// messages 갱신될 때 최신 메시지로 스크롤 이동
 	useEffect(() => {
 		ChatEmitter.emit('chatScrollTrigger', {
 			messageRefs,
-			// home 에서 올 경우 instant scrollTo
 			behavior: isFirstRender.current ? 'instant' : 'smooth',
 		})
-
 		isFirstRender.current = false
-
-		// message 길이만 조회해 불필요한 호출 방지
 	}, [messages.length])
 
-	const isLast = (idx: number) => idx === messages.length - 1
 	return (
 		<ChatPresentation>
 			<ListRenderer
 				className="h-full w-full"
 				data={messages}
-				render={(item: Message, idx) => {
+				render={(item, idx) => {
+					const isLast = idx === lastIndex
+
 					return (
 						<article
 							ref={(el) => {
@@ -69,17 +61,23 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 							}}
 							className={cn(
 								'flex flex-col py-4 md:py-6',
-								isLast(idx) ? 'min-h-[calc(-332px+100dvh)]' : '',
+								isLast && 'min-h-[calc(-332px+100dvh)]',
 							)}
 						>
 							<h2 className="sr-only">
 								{item.role === 'ai' ? 'ItsMe Bot의 말' : '나의 말'}
 							</h2>
+
 							<ChatMessage
-								{...{ ...item }}
-								isLoading={isLast(idx) && item.content.length === 0}
+								{...item}
+								onRetry={() => {
+									if (idx === 0) return
+									onRetry?.(messages[idx - 1]!)
+								}}
+								isLoading={isLast && item.content.length === 0}
 							/>
-							{isLast(idx)} <div ref={observerRef} />
+
+							{isLast && <div ref={observerRef} />}
 						</article>
 					)
 				}}
@@ -87,12 +85,12 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 
 			<ScrollDownIndicator
 				isHide={!showScrollIndicator}
-				onClick={() => {
+				onClick={() =>
 					observerRef.current?.scrollIntoView({
 						block: 'end',
 						behavior: 'smooth',
 					})
-				}}
+				}
 			/>
 		</ChatPresentation>
 	)

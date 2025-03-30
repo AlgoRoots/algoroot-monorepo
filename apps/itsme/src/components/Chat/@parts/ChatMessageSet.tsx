@@ -1,6 +1,7 @@
 import { type ComponentProps, memo, type ReactNode } from 'react'
 
-import { LoadingView } from '@algoroot/shared/components'
+import { LoadingView, Show } from '@algoroot/shared/components'
+import { Button } from '@algoroot/ui/components/button'
 import { cn } from '@algoroot/ui/lib/utils'
 import { CircleIcon } from 'lucide-react'
 
@@ -13,6 +14,7 @@ interface ChatMessageProps extends ComponentProps<'div'>, Message {
 	content: string
 	isLoading: boolean
 	fallback?: ReactNode
+	onRetry?: () => void
 }
 
 const ChatMessageComponent = ({
@@ -21,6 +23,7 @@ const ChatMessageComponent = ({
 	type,
 	className,
 	isLoading,
+	onRetry,
 	fallback = <ChatMessageSpinner />,
 }: ChatMessageProps) => {
 	return (
@@ -31,13 +34,27 @@ const ChatMessageComponent = ({
 					role === 'user' ?
 						'bg-primary text-primary-foreground ml-auto w-fit font-bold'
 					:	'bg-secondary text-secondary-foreground mr-auto w-full',
-					type === 'error' && 'bg-destructive',
 					// md styles
 					proseStyles,
 					className,
 				)}
 			>
 				<Markdown>{content}</Markdown>
+				<Show when={type === 'error'}>
+					<div className="bg-muted prose-p:m-0 flex flex-col items-center justify-center gap-2 p-0 px-2 py-2 md:flex-row md:px-2">
+						<p className="text-muted-foreground text-sm">
+							답변에 문제가 있습니다.
+						</p>
+						<Button
+							variant="outline"
+							size="sm"
+							className="w-full md:w-fit"
+							onClick={onRetry}
+						>
+							다시 시도하기
+						</Button>
+					</div>
+				</Show>
 			</div>
 		</LoadingView>
 	)
@@ -70,4 +87,4 @@ const ChatMessageSpinner = () => {
 	)
 }
 
-export { ChatMessage, ChatStartMessage, ChatMessageSpinner }
+export { ChatMessage, ChatMessageSpinner, ChatStartMessage }

@@ -1,3 +1,4 @@
+import { ChatOpenAI } from '@langchain/openai'
 import { TRPCError } from '@trpc/server'
 import { isEmpty } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
@@ -21,6 +22,10 @@ const RESUME_PATH = 'public/data/resume.md'
 
 const DAILY_LIMIT = 50
 const ME = '::1'
+
+const model = new ChatOpenAI({
+	model: 'gpt-4o-mini',
+})
 
 export const appRouter = router({
 	/**
@@ -143,6 +148,22 @@ export const appRouter = router({
 			.order('id', { ascending: true })
 		return res.data || []
 	}),
+
+	/**
+	 * @query 메세지 유효성 검사
+	 */
+	checkMessage: procedures.public
+		.input(z.object({ message: z.string() }))
+		.mutation(async ({ input }) => {
+			const aiMsg = await model.invoke(
+				`해당 메시지가 완결된 문장인지 아닌지 판단해줘, 맞으면 true, 아니면 false를 반환해줘
+				
+				message: ${input.message}
+				`,
+			)
+
+			return Boolean(aiMsg.content)
+		}),
 })
 
 export type AppRouter = typeof appRouter

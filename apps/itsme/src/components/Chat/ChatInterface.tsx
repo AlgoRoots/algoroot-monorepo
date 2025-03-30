@@ -12,7 +12,7 @@ const ChatInterface = ({ children }: { children: ReactNode }) => {
 	const chat = useChatContext()
 	return (
 		<Fragment>
-			<ChatScreen messages={chat.state.messages} />
+			<ChatScreen messages={chat.state.messages} onRetry={chat.handler.retry} />
 			<ChatActionBar
 				onSubmit={chat.handler.submit}
 				isDisable={chat.state.isPending}
