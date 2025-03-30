@@ -1,6 +1,5 @@
 import { SitemapLoader } from '@langchain/community/document_loaders/web/sitemap'
 import { Document } from '@langchain/core/documents'
-import fs from 'fs'
 import { NodeHtmlMarkdown } from 'node-html-markdown'
 import puppeteer, { Page } from 'puppeteer'
 
@@ -43,21 +42,6 @@ type DocumentResult = {
 	 2. [참여한 프로젝트](/projects/introduction)
    3. [밀리의서재](/projects/introduction/millie)
  */
-const parseCategory = (md: string) => {
-	return md
-		.split('\n')
-		.slice(
-			0,
-			md.split('\n').findIndex((line) => !line.trim()),
-		)
-		.map((line) => {
-			const [labelPart, pathPart] = line.split('](')
-			const label = labelPart?.split('[')[1]?.trim() || ''
-			const path = pathPart?.replace(/\)$/, '').trim() || ''
-			return { label, path }
-		})
-}
-
 const extract = (md: string) => {
 	const lines = md.split('\n')
 	const splitIndex = lines.findIndex((line) => !line.trim())

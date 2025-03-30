@@ -98,15 +98,17 @@ export default function AboutMe() {
 				>
 					<MenuLink
 						variant={'link'}
-						className="px-0 underline"
+						className="px-0"
 						href="https://sunghyes-organization.gitbook.io/dev-portfolio/its-me"
 					>
-						상세 기술서
+						상세 기술서 링크 🔗
 					</MenuLink>
 					<p>
 						저에 대해 더 흥미롭게 알아갈 수 있도록{' '}
-						<Highlight>AI 기반 자기소개서 서비스 'It`s ME!' </Highlight> 를
-						개발했습니다. 수많은 이력서 속에서 저만의 차별점을 강조하고, 보다
+						<Highlight>
+							AI 기반 자기소개서 서비스 &apos;It`s ME!&apos;{' '}
+						</Highlight>{' '}
+						를 개발했습니다. 수많은 이력서 속에서 저만의 차별점을 강조하고, 보다
 						직관적이고 재미있는 방식으로 저를 소개할 수 있도록 기획했습니다.
 					</p>
 				</Section>

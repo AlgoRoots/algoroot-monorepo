@@ -53,7 +53,6 @@ const ChatScreen = ({ messages }: ChatScreenProps) => {
 		isFirstRender.current = false
 
 		// message 길이만 조회해 불필요한 호출 방지
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages.length])
 
 	const isLast = (idx: number) => idx === messages.length - 1

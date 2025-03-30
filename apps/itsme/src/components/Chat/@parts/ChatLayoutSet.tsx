@@ -12,12 +12,7 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
 			aria-live="polite"
 			aria-label="채팅 인터페이스"
 		>
-			{/* <div
-				className="flex h-full flex-col items-center justify-center"
-				role="main"
-			> */}
 			{children}
-			{/* </div> */}
 		</div>
 	)
 }

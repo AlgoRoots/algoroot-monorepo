@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Button } from '@algoroot/ui/components/button'
 
 import { useChatActionContext } from '../../../contexts/ChatActionContext'

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 import { HydrateClient, prefetch, trpc } from '@/modules/api/trpc/client.server'
 

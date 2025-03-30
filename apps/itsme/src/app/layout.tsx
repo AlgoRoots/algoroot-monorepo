@@ -60,7 +60,7 @@ export const metadata: Metadata = {
 	authors: [
 		{
 			name: 'algoroot',
-			url: 'https://shadcn.com',
+			url: siteConfig.url,
 		},
 	],
 	openGraph: {
@@ -69,6 +69,14 @@ export const metadata: Metadata = {
 		title: siteConfig.name,
 		description: siteConfig.description,
 		siteName: siteConfig.name,
+		images: [
+			{
+				url: siteConfig.ogImage,
+				width: 1200,
+				height: 630,
+				alt: siteConfig.name,
+			},
+		],
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -109,7 +117,7 @@ export default function RootLayout({
 									About me!
 								</MenuLink>
 								<MenuLink
-									href={EXTERNAL_LINK.GITHUB}
+									href={EXTERNAL_LINK.GITHUB_ITSME}
 									variant={'outline'}
 									size={'icon'}
 								>

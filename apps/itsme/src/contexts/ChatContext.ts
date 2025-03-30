@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import { createContext } from '@algoroot/shared/utils'
 import { useMutation } from '@tanstack/react-query'
@@ -29,7 +29,7 @@ export const useChat = () => {
 	const isEmpty = messages.length === 0
 
 	const { isPending, mutate: invoke } = useMutation({
-		mutationFn: async (val: string) => {
+		mutationFn: async () => {
 			setMessages((prev) => [...prev, { role: 'ai', content: '' }])
 			const { newMessage } = await chat([...messages], ip.state.ip)
 			for await (const delta of readStreamableValue(newMessage)) {
@@ -38,6 +38,9 @@ export const useChat = () => {
 		},
 		onSuccess: () => {
 			ip.handler.addIpCount({ ip: ip.state.ip })
+		},
+		onError: (error) => {
+			console.log('error', error)
 		},
 	})
 
@@ -56,14 +59,11 @@ export const useChat = () => {
 
 			setMessages((prev) => [...prev, { role: 'user', content: val }])
 
-			invoke(val)
+			invoke()
 		},
 		[invoke, ip.handler],
 	)
 
-	useEffect(() => {
-		console.log('messages', messages)
-	}, [messages.length])
 	return {
 		messageRefs,
 		ip,

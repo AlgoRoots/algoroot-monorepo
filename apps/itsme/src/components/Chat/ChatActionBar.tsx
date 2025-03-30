@@ -1,7 +1,5 @@
 import type { ComponentProps } from 'react'
 
-import { Show } from '@algoroot/shared/components'
-
 import { ChatActionProvider } from '../../contexts/ChatActionContext'
 import { ChatDisclaimer } from './@parts'
 import { ChatActionButton, ChatActionForm, ChatActionInput } from './ChatAction'

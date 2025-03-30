@@ -1,10 +1,9 @@
-import { type ComponentProps, type HTMLAttributes, type ReactNode } from 'react'
+import { type ComponentProps, type ReactNode } from 'react'
 
 import type { Route } from 'next'
 import Link from 'next/link'
 
 import { Button, type ButtonVariants } from '@algoroot/ui/components/button'
-import type { ClassName } from '@algoroot/ui/types/'
 
 export interface MenuLinkProps extends ButtonVariants {
 	linkProps?: ComponentProps<'a'>
@@ -13,6 +12,9 @@ export interface MenuLinkProps extends ButtonVariants {
 	children: ReactNode
 }
 
+const isInternalRoute = (href: unknown): href is Route => {
+	return typeof href === 'string' && href.startsWith('/')
+}
 const MenuLink = ({
 	href,
 	children,
@@ -23,28 +25,26 @@ const MenuLink = ({
 		throw new Error('MenuLink: href is required')
 	}
 
-	const isExternal = typeof href === 'string' && href.startsWith('http')
-
-	if (isExternal) {
+	if (isInternalRoute(href)) {
 		return (
 			<Button asChild {...buttonProps}>
-				<a
-					href={href.toString()}
-					target="_blank"
-					rel="noopener noreferrer"
-					{...linkProps}
-				>
+				<Link href={href} {...linkProps}>
 					{children}
-				</a>
+				</Link>
 			</Button>
 		)
 	}
 
 	return (
 		<Button asChild {...buttonProps}>
-			<Link href={href} {...linkProps}>
+			<a
+				href={href.toString()}
+				target="_blank"
+				rel="noopener noreferrer"
+				{...linkProps}
+			>
 				{children}
-			</Link>
+			</a>
 		</Button>
 	)
 }

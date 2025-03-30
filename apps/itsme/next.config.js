@@ -19,9 +19,6 @@ const nextConfig = {
 			preventFullImport: true,
 		},
 	},
-	experimental: {
-		typedRoutes: true,
-	},
 	transpilePackages: ['@algoroot/ui', '@algoroot/share'],
 	async redirects() {
 		return [

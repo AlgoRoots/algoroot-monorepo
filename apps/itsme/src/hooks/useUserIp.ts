@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { v4 as uuidv4 } from 'uuid'
 
 import { useTRPC } from '@/modules/api/trpc/client'
 
@@ -23,7 +24,7 @@ export const useUserIp = () => {
 		}),
 	)
 
-	const ip = ipData?.ip || ''
+	const ip = ipData?.ip || uuidv4()
 
 	const ipUsageQuery = useQuery(
 		trpc.getIpUsage.queryOptions(

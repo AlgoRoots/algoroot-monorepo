@@ -11,7 +11,7 @@ interface ListRendererProps<T> extends ComponentProps<'ul'> {
 export const ListRenderer = <T,>({
 	data,
 	render,
-	keyExtractor = (_, index) => uuidv4(),
+	keyExtractor = () => uuidv4(),
 	...props
 }: ListRendererProps<T>) => {
 	return (
