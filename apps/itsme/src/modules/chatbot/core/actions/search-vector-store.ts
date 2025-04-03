@@ -12,6 +12,7 @@ export const searchVectorStore = async (state: GraphAnnotationState) => {
 	const searchResults = await search(input).then(formatSearchResults)
 	return {
 		...state,
-		searchResults,
+		searchResults:
+			searchResults || '⚠️ 참고 정보가 없습니다. (아래는 비어 있음)',
 	}
 }

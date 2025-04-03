@@ -6,6 +6,7 @@ export type Question = {
 	pageContent: string
 	metadata: Partial<{
 		category: string
+		answer: string
 		keywords: string[]
 		url: string
 		title: string
@@ -41,7 +42,7 @@ export const search = async (
 	input: string,
 	options?: SearchOptions,
 ): Promise<SearchResult[]> => {
-	const { count = 3, minScore = 0 } = options ?? {}
+	const { count = 3, minScore = 0.3 } = options ?? {}
 
 	/**
 	 * 필요하면 filter 함수로 metadata 넣어 필터링 시킬 수 있음
@@ -51,9 +52,19 @@ export const search = async (
 		input,
 		count,
 	)) as DocumentResult
-	const bestMatch = results.filter(([_, score]) => score >= minScore)
+
+	const answered = results.filter(([doc, score]) => {
+		return score >= minScore && doc.metadata?.answer
+	})
+
+	const unanswered = results.filter(([doc, score]) => {
+		return score >= minScore && !doc.metadata?.answer
+	})
+
+	const bestMatch = [...answered, ...unanswered]
+
 	const data = bestMatch.map(([d, s]) => {
-		return { data: d, similarity: s }
+		return { data: d, similarity: s, answer: d.metadata?.answer || '정보 없음' }
 	})
 
 	return data

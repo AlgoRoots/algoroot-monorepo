@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { HydrateClient, prefetch, trpc } from '@/modules/api/trpc/client.server'
+import { HydrateClient, prefetch, trpc } from '@/modules/api/trpc/server'
 
 import { ChatQuestionHeader } from '@/components/Chat'
 import {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-	prefetch(trpc.getSuggestQuestions.queryOptions())
+	await prefetch(trpc.getSuggestQuestions.queryOptions())
 	return (
 		<ChatStartView>
 			<section className="mt-10 flex w-full flex-col items-center">

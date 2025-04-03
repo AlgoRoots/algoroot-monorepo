@@ -1,27 +1,16 @@
-import {
-	BaseMessage,
-	SystemMessage,
-	trimMessages,
-} from '@langchain/core/messages'
-import { ChatOpenAI } from '@langchain/openai'
+import { SystemMessage } from '@langchain/core/messages'
 
-import { promptTemplate } from '../prompt'
+import { llm } from '../llm'
+import { chatPrompt } from '../prompt'
 import { type GraphAnnotationState } from '../state'
-
-const llm = new ChatOpenAI({
-	model: 'gpt-4o-mini',
-	temperature: 0,
-})
 
 /**
  * 모델 호출
  */
 export const callModel = async (state: GraphAnnotationState) => {
 	const { messages, searchResults } = state
-	const trimmedMsg = await getTrimMessages(messages)
-
-	const prompt = await promptTemplate.invoke({
-		messages: trimmedMsg,
+	const prompt = await chatPrompt.invoke({
+		messages,
 		searchResults: new SystemMessage(JSON.stringify(searchResults)),
 	})
 
@@ -39,24 +28,4 @@ export const callModel = async (state: GraphAnnotationState) => {
 		// messages: [new AIMessage({ content: response.content })],
 		messages: [response],
 	}
-}
-
-/**
- *
- * message history 최적화
- * @see https://js.langchain.com/docs/tutorials/chatbot#managing-conversation-history
- */
-const getTrimMessages = async (messages: BaseMessage[]) => {
-	const trimer = trimMessages({
-		// maxTokens: 1, // TODO: 임시 토큰 1 지정, 추후 변경 필요
-		maxTokens: 10,
-		strategy: 'last',
-		tokenCounter: (msgs) => msgs.length,
-		includeSystem: true,
-		allowPartial: false,
-		startOn: 'human',
-	})
-
-	const res = await trimer.invoke(messages)
-	return res
 }

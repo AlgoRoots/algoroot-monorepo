@@ -30,11 +30,9 @@ const formatContent = (content: string, similarity: number, index: number) => {
 }
 
 const formatLink = (metadata: Metadata): string => {
-	const { source, url } = metadata
+	const { source, url, title } = metadata
 	if (!url || !Array.isArray(source) || source.length === 0) return ''
-
-	const linkLabel = source.map((item) => item.label).join('/')
-	return `\n\n관련 포트폴리오 링크: [${linkLabel}](${url})`
+	return `\n\n관련 포트폴리오 링크: [${title}](${url})`
 }
 
 export const formatSearchResults = (results: SearchResult[]) => {
@@ -43,11 +41,12 @@ export const formatSearchResults = (results: SearchResult[]) => {
 			const content = result?.data?.pageContent || ''
 			const similarity = result?.similarity || 0
 			const metadata = result?.data?.metadata || {}
+			const answer = result?.data?.metadata.answer
 
 			const formattedContent = formatContent(content, similarity, index)
 			const formattedLink = formatLink(metadata)
 
-			return `${formattedContent}${formattedLink}`
+			return `[answer]:${answer}\n${formattedContent}${formattedLink}`
 		})
 		.join('\n\n')
 }

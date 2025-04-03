@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { serverApi } from '@/modules/api/trpc/client.server'
+import { serverApi } from '@/modules/api/trpc/server'
 
 /**
  * 질문 데이터 추가 API

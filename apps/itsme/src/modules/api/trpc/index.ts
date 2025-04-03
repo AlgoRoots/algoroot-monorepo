@@ -4,17 +4,16 @@ import superjson from 'superjson'
 import { type Context } from './context'
 
 /**
- * Initialization of tRPC backend
- * Should be done only once per backend!
+ * @see https://trpc.io/docs/quickstart
+ * trpc 초기화 (백엔드 당 한 번만 수행)
+ *
+ * @see https://trpc.io/docs/server/data-transformers#using-superjson
+ * superjson을 transformer로 사용하여 날짜, Map, Set 등도 안전하게 직렬화
  */
 const t = initTRPC.context<Context>().create({
 	transformer: superjson,
 })
 
-/**
- * Export reusable router and procedure helpers
- * that can be used throughout the router
- */
 export const router = t.router
 
 export const procedures = {
