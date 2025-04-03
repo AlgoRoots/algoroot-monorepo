@@ -1,5 +1,11 @@
 # @algoroot/itsme
 
+## 1.1.1
+
+### Patch Changes
+
+- [`83b41a4`](https://github.com/AlgoRoots/algoroot-monorepo/commit/83b41a4cfe29eec935dd965be067208f2a3e0d4e) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - - trpc 관련 로직 정리 및 파일 분리
+
 ## 1.1.0
 
 ### Minor Changes
