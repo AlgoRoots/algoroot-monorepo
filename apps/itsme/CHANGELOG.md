@@ -1,5 +1,11 @@
 # @algoroot/itsme
 
+## 1.1.3
+
+### Patch Changes
+
+- [`d414c64`](https://github.com/AlgoRoots/algoroot-monorepo/commit/d414c647758f467d318d7be89adb252453aa4e7c) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - - maxDuration 조정 (함수 최대 요청 시간)
+
 ## 1.1.2
 
 ### Patch Changes
