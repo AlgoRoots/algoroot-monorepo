@@ -1,21 +1,4 @@
-import type { DocumentInterface } from '@langchain/core/documents'
-
-import { vectorStore } from '../vector-store'
-
-export type Question = {
-	pageContent: string
-	metadata: Partial<{
-		category: string
-		answer: string
-		keywords: string[]
-		url: string
-		title: string
-		source: {
-			path: string
-			label: string
-		}[]
-	}>
-}
+import { type VectorDocument, vectorStore } from '../vector-store'
 
 type SearchOptions = {
 	/**
@@ -30,11 +13,8 @@ type SearchOptions = {
 	minScore?: number
 }
 
-type Document = DocumentInterface<Question['metadata']>
-type DocumentResult = [Document, number][]
-
 export type SearchResult = {
-	data: Question | null
+	data: VectorDocument | null
 	similarity: number | null
 }
 
@@ -42,16 +22,13 @@ export const search = async (
 	input: string,
 	options?: SearchOptions,
 ): Promise<SearchResult[]> => {
-	const { count = 3, minScore = 0.3 } = options ?? {}
+	const { count = 3, minScore = 0 } = options ?? {}
 
 	/**
 	 * 필요하면 filter 함수로 metadata 넣어 필터링 시킬 수 있음
 	 * @see https://js.langchain.com/docs/integrations/vectorstores/supabase/#metadata-query-builder-filtering
 	 */
-	const results = (await vectorStore.similaritySearchWithScore(
-		input,
-		count,
-	)) as DocumentResult
+	const results = await vectorStore.similaritySearchWithScore(input, count)
 
 	const answered = results.filter(([doc, score]) => {
 		return score >= minScore && doc.metadata?.answer

@@ -1,6 +1,6 @@
 import { MemorySaver } from '@langchain/langgraph'
 
-import { chatWorkflow } from './core/workflow'
+import { chatWorkflow } from './graph/workflow'
 
 const memory = new MemorySaver()
 

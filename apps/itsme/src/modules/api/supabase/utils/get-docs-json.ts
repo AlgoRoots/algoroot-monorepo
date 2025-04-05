@@ -3,7 +3,6 @@ import { isArray } from 'lodash-es'
 import path from 'path'
 
 import type { VectorDocument } from '../vector-store'
-import type { Question } from './search'
 
 /**
  * JSON 파일에서 질문 데이터 가져오기
@@ -12,7 +11,7 @@ export const getDocsFromJson = (relativePath: string): VectorDocument[] => {
 	try {
 		const filePath = path.join(process.cwd(), relativePath)
 		const fileContent = fs.readFileSync(filePath, 'utf-8')
-		const data: Question[] = JSON.parse(fileContent)
+		const data: VectorDocument = JSON.parse(fileContent)
 		if (!isArray(data)) {
 			throw new Error('JSON 형식이 잘못되었습니다.')
 		}

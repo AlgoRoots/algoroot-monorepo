@@ -8,6 +8,12 @@ import type { VectorDocument } from '../vector-store'
 const SITEMAP_URL =
 	'https://sunghyes-organization.gitbook.io/dev-portfolio/sitemap-pages.xml'
 
+type DocumentResult = {
+	url: string
+	title: string
+	main: string
+}
+
 export const fetchGitBookDocs = async (): Promise<VectorDocument[]> => {
 	const loader = new SitemapLoader(SITEMAP_URL)
 	const urls = await loader.parseSitemap()
@@ -30,10 +36,22 @@ export const fetchGitBookDocs = async (): Promise<VectorDocument[]> => {
 	return docs
 }
 
-type DocumentResult = {
-	title: string
-	main: string
-	url: string
+const fetchUrl = async (
+	page: Page,
+	url: string,
+): Promise<DocumentResult | null> => {
+	try {
+		await page.goto(url, { waitUntil: 'networkidle2' }) // 네트워크 요청이 거의 다 끝날 때까지 기다림
+		const main = await page.$eval('main', (el) => el.innerHTML)
+		return {
+			title: (await page.title()) || '',
+			main,
+			url,
+		}
+	} catch (err) {
+		console.warn(`❌ fetchUrl: ${url} 처리 에러 `, err)
+		return null
+	}
 }
 
 /**
@@ -64,36 +82,9 @@ const extract = (md: string) => {
 	}
 }
 
-const fetchUrl = async (
-	page: Page,
-	url: string,
-): Promise<DocumentResult | null> => {
-	try {
-		await page.goto(url, { waitUntil: 'networkidle2' }) // 네트워크 요청이 거의 다 끝날 때까지 기다림
-		const main = await page.$eval('main', (el) => el.innerHTML)
-		return {
-			title: (await page.title()) || '',
-			main,
-			url,
-		}
-	} catch (err) {
-		console.warn(`❌ fetchUrl: ${url} 처리 에러 `, err)
-		return null
-	}
-}
-
-const toDocument = ({ title, main, url }: DocumentResult) => {
+const toDocument = ({ title, main, url }: DocumentResult): VectorDocument => {
 	const md = NodeHtmlMarkdown.translate(main)
 	const newMd = extract(md)
-
-	// TODO: 추후 삭제 md확인용
-	// const fileName = url
-	// 	.replace(/https?:\/\//, '')
-	// 	.replace(/[^a-zA-Z0-9]/g, '-')
-	// 	.toLowerCase()
-
-	// fs.mkdirSync('./docs', { recursive: true })
-	// fs.writeFileSync(`./docs/${fileName}.md`, md)
 
 	return new Document({
 		pageContent: newMd.content,

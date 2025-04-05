@@ -34,7 +34,7 @@ export const getDocsFromMd = async (
 			return new Document({
 				pageContent: block,
 				metadata: {
-					section: header,
+					title: header,
 				},
 			})
 		})

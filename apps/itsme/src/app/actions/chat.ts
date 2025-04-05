@@ -1,8 +1,10 @@
 'use server'
 
 import { AIMessage, HumanMessage } from '@langchain/core/messages'
+import { v4 as uuidv4 } from 'uuid'
 
 import { app } from '@/modules/chatbot/app'
+import { NODES } from '@/modules/chatbot/graph/constants'
 
 import { createStreamableValue } from 'ai/rsc'
 
@@ -37,7 +39,7 @@ export async function chat(history: Message[], userIp: string) {
 
 	;(async () => {
 		const messageStream = await app.stream(inputData, {
-			configurable: { thread_id: userIp },
+			configurable: { thread_id: uuidv4() },
 			streamMode: 'messages',
 			tags: ['user-chat', `ip:${userIp}`],
 			callbacks: [
@@ -45,18 +47,19 @@ export async function chat(history: Message[], userIp: string) {
 					handleLLMEnd(output, runId, parentRunId, tags) {
 						console.log('handleLLMEnd', { output, runId, parentRunId, tags })
 					},
-					handleChainError(err, runId) {
-						console.log('handleChainError', { err, runId })
-					},
-					handleLLMError(err, runId, parentRunId, tag) {
+					handleLLMError(err, runId) {
 						console.log('handleLLMError', { err, runId })
+						stream.done()
 					},
 				},
 			],
 		})
 
-		for await (const [message] of messageStream) {
-			stream.update(message.content)
+		for await (const content of messageStream) {
+			const [chunk, info] = content
+			if (info.langgraph_node === NODES.GENERATE_RESPONSE) {
+				stream.update(chunk.content)
+			}
 		}
 		stream.done()
 	})()

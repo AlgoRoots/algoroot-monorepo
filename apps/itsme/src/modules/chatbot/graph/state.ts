@@ -6,9 +6,13 @@ import { Annotation, MessagesAnnotation } from '@langchain/langgraph'
  */
 
 export type GraphAnnotationState = typeof GraphAnnotation.State
+
+export type GraphAnnotationKey = keyof GraphAnnotationState
+
 export const GraphAnnotation = Annotation.Root({
 	...MessagesAnnotation.spec, // message field 추가,
-	content: Annotation<string | null>(),
-	keywords: Annotation<string[] | null>(),
+	refinedQuestion: Annotation<string | null>(),
+	latest: Annotation<string | null>(),
 	searchResults: Annotation<string | null>(),
+	needSearch: Annotation<boolean>(),
 })

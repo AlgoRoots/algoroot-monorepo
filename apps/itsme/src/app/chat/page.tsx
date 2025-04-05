@@ -4,7 +4,8 @@ import { ChatQuestionSheet } from '@/components/Chat/@parts/ChatQuestionSheet'
 import ChatInterface from '@/components/Chat/ChatInterface'
 
 /**
- * https://sdk.vercel.ai/docs/troubleshooting/timeout-on-vercel
+ * vercel에서 최대 함수 지속시간 설정
+ * @see https://sdk.vercel.ai/docs/troubleshooting/timeout-on-vercel
  */
 export const maxDuration = 60
 

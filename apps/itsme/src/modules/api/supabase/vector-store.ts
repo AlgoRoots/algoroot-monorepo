@@ -8,7 +8,17 @@ import { Document } from 'langchain/document'
 const embeddings = new OpenAIEmbeddings({
 	model: 'text-embedding-3-small',
 })
-export type VectorDocument = Document
+
+export type Metadata = Partial<{
+	title: string
+	url: string
+	answer: string
+	source: {
+		path: string
+		label: string
+	}[]
+}>
+export type VectorDocument = Document<Metadata>
 
 export const vectorStore = new SupabaseVectorStore(embeddings, {
 	client: supabaseClient,
