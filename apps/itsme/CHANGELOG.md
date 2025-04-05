@@ -1,5 +1,11 @@
 # @algoroot/itsme
 
+## 1.1.2
+
+### Patch Changes
+
+- [`702618e`](https://github.com/AlgoRoots/algoroot-monorepo/commit/702618e2fe001811da688c79fdfd9f3d1bc7d968) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - - RAG, stream 응답시간 고려 max duration 조정
+
 ## 1.1.1
 
 ### Patch Changes
