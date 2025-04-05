@@ -3,7 +3,9 @@ import NextBundleAnalyzer from '@next/bundle-analyzer'
 
 /** @type {import('next').NextConfig} */
 
-const isProd = process.env.NODE_ENV === 'production'
+const branch = process.env.VERCEL_GIT_BRANCH || 'local'
+
+const isProd = process.env.NODE_ENV === 'production' && branch === 'main'
 
 const nextConfig = {
 	compiler: {

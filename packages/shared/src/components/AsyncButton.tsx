@@ -7,7 +7,7 @@ import { Button, type ButtonProps } from '@algoroot/ui/components/button'
 export interface AsyncButtonProps
 	extends Omit<ComponentProps<'button'>, 'onClick'>,
 		ButtonProps {
-	onClick: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>
 }
 
 export const AsyncButton = ({
@@ -24,7 +24,7 @@ export const AsyncButton = ({
 
 			isProcessing.current = true
 			try {
-				await onClick(e)
+				await onClick?.(e)
 			} finally {
 				isProcessing.current = false
 			}
