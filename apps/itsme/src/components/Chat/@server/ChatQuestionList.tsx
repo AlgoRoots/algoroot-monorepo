@@ -39,7 +39,7 @@ interface ChatQuestionListProps extends Omit<ComponentProps<'ul'>, 'children'> {
 // ─── Styles ──────────────────────────────────────────────
 
 const chatQuestionListStyles = cn(
-	'max-h-[300px] w-full max-w-4xl space-y-4 overflow-y-auto border-t pt-4 md:pt-8',
+	' w-full max-w-4xl space-y-4 overflow-y-auto border-t pt-4 md:pt-8',
 	'md:columns-2',
 )
 
@@ -113,7 +113,7 @@ export const ChatQuestionList = () => (
 )
 
 export const ChatQuestionSheetList = () => (
-	<ChatQuestionListBase>
+	<ChatQuestionListBase className="max-h-[300px]">
 		{({ item, onSubmit, isDisable }) => (
 			<SheetClose asChild>
 				<AsyncButton

@@ -22,7 +22,6 @@ export interface Message {
 export async function chat(history: Message[], userIp: string) {
 	const stream = createStreamableValue('')
 	const latest = history.at(-1)
-	console.log('history', history)
 	if (!latest?.content || latest.role !== 'user') {
 		throw new Error(
 			'잘못된 사용자 입력: 최신 메시지가 없거나, 사용자 메시지가 아닙니다.',

@@ -1,15 +1,19 @@
-import { ChatPromptTemplate } from '@langchain/core/prompts'
+import {
+	ChatPromptTemplate,
+	MessagesPlaceholder,
+} from '@langchain/core/prompts'
 
-import type { GraphAnnotationKey } from '../graph/state'
+import type { GraphAnnotationState } from '../graph/state'
 
-export const createPrompt = (
+export const createPrompt = <
+	const T extends ReadonlyArray<keyof GraphAnnotationState>,
+>(
 	template: string,
-	placeholders: GraphAnnotationKey[],
+	keys: T,
 ) => {
-	const system = ['system', template] as [string, string]
-	const dynamic = placeholders.map(
-		(p) => ['placeholder', `{${p}}`] as [string, string],
-	)
+	const prompt = ChatPromptTemplate.fromMessages<{
+		[K in T[number]]: GraphAnnotationState[K]
+	}>([['system', template], new MessagesPlaceholder('messages')])
 
-	return ChatPromptTemplate.fromMessages([system, ...dynamic])
+	return prompt
 }

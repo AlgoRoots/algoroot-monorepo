@@ -14,7 +14,7 @@ const ChatStartView = ({ children }: { children: ReactNode }) => {
 	const router = useRouter()
 
 	return (
-		<div className="mx-auto h-full w-full overflow-y-auto px-4 pt-10 md:pt-40">
+		<div className="mx-auto h-full w-full overflow-y-auto px-4 pb-10 pt-10 md:pt-40">
 			<ChatStartMessage />
 			<ChatActionBar
 				isDisable={chat.state.isPending}

@@ -13,6 +13,6 @@ export const GraphAnnotation = Annotation.Root({
 	...MessagesAnnotation.spec, // message field 추가,
 	refinedQuestion: Annotation<string | null>(),
 	latest: Annotation<string | null>(),
-	searchResults: Annotation<string | null>(),
+	searchResults: Annotation<string>(),
 	needSearch: Annotation<boolean>(),
 })

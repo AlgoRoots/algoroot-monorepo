@@ -12,9 +12,10 @@ export const refineQuestion = async (state: GraphAnnotationState) => {
 		latest,
 	})
 	const result = await llm.invoke(prompt)
+	console.log('result', result)
 	return {
 		...state,
 		messages: trimmed,
-		refinedQuestion: result.content.toString().trim(),
+		refinedQuestion: result?.content.toString(),
 	}
 }

@@ -31,9 +31,8 @@ const CORE_FEATURES = [
 	{
 		title: 'AI 기반 데이터 벡터화 및 검색 최적화 (RAG)',
 		description: [
-			'LangGraph.js 기반 Retrieval-Augmented Generation(RAG) 적용',
-			'포트폴리오(Web Crawling), 이력서(Markdown), 자기소개(JSON) 데이터를 Supabase Vector DB에 벡터화하여 저장',
-			'포트폴리오 크롤링 기반 벡터 DB 개선',
+			'포트폴리오(Web Crawling), 이력서(Markdown), 자기소개(JSON) 데이터를 벡터화하여 저장',
+			'LangGraph의 StateGraph를 활용해 질문 정제 → 검색 필요 판단 → 조건 분기 → 응답 생성 흐름을 구현',
 		],
 	},
 	{
@@ -44,11 +43,8 @@ const CORE_FEATURES = [
 		],
 	},
 	{
-		title: 'RSC 환경 실시간 스트리밍 응답 처리',
-		description: [
-			'RSC 환경에서 LangGraph와 AI SDK를 활용해 AI 응답을 토큰 단위로 스트리밍 처리',
-			'빠르게 응답을 보여주며 대기 시간 약 60% 감소 (5초 → 2초)',
-		],
+		title: '실시간 스트리밍 응답 처리 (LangGraph stream & AI SDK)',
+		description: ['빠르게 응답을 보여주며 대기 시간 약 60% 감소 (5초 → 2초)'],
 	},
 	{
 		title: '사용자 입력을 반영한 동적 응답 생성',
@@ -64,6 +60,7 @@ const CORE_FEATURES = [
 			'모바일 환경에서 body 스크롤과 채팅창 내부 스크롤을 분리하여 자연스러운 UX 제공',
 			'마지막 메시지와 입력창 간격을 조정하여 가독성과 레이아웃 균형 유지',
 			'ChatGPT UX를 참고하여 채팅 인터페이스 및 대화 흐름 개선',
+			'서버 컴포넌트 환경에서 tRPC·React Query 기반 API Prefetch 및 SSR 최적화 (apps/itsme/src/app/page.tsx)',
 		],
 	},
 ]
