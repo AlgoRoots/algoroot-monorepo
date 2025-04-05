@@ -1,5 +1,21 @@
 # @algoroot/itsme
 
+## 1.2.1
+
+### Patch Changes
+
+- [`aa7e624`](https://github.com/AlgoRoots/algoroot-monorepo/commit/aa7e62467f78cc7a63ab66824bc1f87d2b8ff518) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - - createPrompt 생성 후 반환되는 prompt 입력받은 타입으로 반환되게 보완
+
+  - 전체적인 프롬포트 템플릿 수정
+  - ChatQuestionListBase
+    - 페이지 진입시 보이는 QuestionList > min-h 제한 제거
+  - About 페이지 내용 수정
+
+- [`56d7055`](https://github.com/AlgoRoots/algoroot-monorepo/commit/56d7055f228be9be0e3198c43fa0f3128e18448e) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ## shouldSearch 수정
+
+  - 응답이 원하는 바로 나오지 않을 때가 있어서 이유와 같이 출력하게 변경
+  - 예시 추가
+
 ## 1.2.0
 
 ### Minor Changes
