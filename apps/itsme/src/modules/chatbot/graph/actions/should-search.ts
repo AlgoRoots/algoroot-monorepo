@@ -7,9 +7,8 @@ export const shouldSearch = async (state: GraphAnnotationState) => {
 
 	const prompt = await shouldSearchPrompt.format({ messages, refinedQuestion })
 	const result = await llm.invoke(prompt)
-
-	const raw = result.content.toString().trim().toLowerCase()
-	const needsSearch = raw === 'true'
+	const raw = result.content.toString().trim()
+	const needsSearch = raw.includes('@needSearch')
 
 	return {
 		...state,

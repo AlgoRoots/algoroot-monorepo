@@ -12,7 +12,6 @@ export const refineQuestion = async (state: GraphAnnotationState) => {
 		latest,
 	})
 	const result = await llm.invoke(prompt)
-	console.log('@@@@@result', result.content)
 	return {
 		...state,
 		messages: trimmed,
