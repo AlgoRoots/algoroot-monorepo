@@ -9,6 +9,8 @@ import {
 } from '@/components/Chat/@server/ChatQuestionList'
 import ChatStartView from '@/components/Chat/ChatStartView'
 
+export const maxDuration = 60
+
 export const metadata: Metadata = {
 	title: 'HOME',
 }

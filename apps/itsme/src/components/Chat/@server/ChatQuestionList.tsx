@@ -44,7 +44,7 @@ const chatQuestionListStyles = cn(
 )
 
 const chatQuestionListButtonStyles = cn(
-	'bg-card text-card-foreground h-fit w-full whitespace-normal break-words text-left disabled:cursor-not-allowed',
+	'bg-card text-card-foreground h-fit w-full whitespace-normal break-words text-center disabled:cursor-not-allowed',
 )
 
 // ───  Base Component ─────────────────────────────────
