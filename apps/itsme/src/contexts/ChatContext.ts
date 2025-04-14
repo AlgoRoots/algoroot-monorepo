@@ -2,6 +2,8 @@
 
 import { useCallback, useRef, useState } from 'react'
 
+import { useRouter } from 'next/navigation'
+
 import { createContext } from '@algoroot/shared/utils'
 import { useMutation } from '@tanstack/react-query'
 
@@ -9,32 +11,46 @@ import { useUserIp } from '@/hooks/useUserIp'
 
 import { chat, type Message } from '@/app/actions/chat'
 
-import { readStreamableValue } from 'ai/rsc'
+import { readStreamableValue, type StreamableValue } from 'ai/rsc'
 
-const updateMessage = (prev: Message[], delta?: string): Message[] => {
-	const last = prev.at(-1)
-	if (!last || last.role !== 'ai') return prev
+export async function updateStreamMessage(
+	stream: StreamableValue<string, any>,
+	update: (updater: (prev: Message[]) => Message[]) => void,
+) {
+	let content = ''
 
-	const rest = prev.slice(0, -1)
-	const updated = { ...last, content: last.content + (delta ?? '') }
+	for await (const delta of readStreamableValue(stream)) {
+		content += delta
 
-	return [...rest, updated]
+		update((prev) => {
+			const newMessages = [...prev]
+			const last = newMessages.at(-1)
+			if (!last || last.role !== 'ai') return prev
+			newMessages[newMessages.length - 1] = { ...last, content }
+			return newMessages
+		})
+	}
 }
 
 export const useChat = () => {
+	const router = useRouter()
 	const [messages, setMessages] = useState<Message[]>([])
+	const [pendingMessage, setPendingMessage] = useState<string | null>(null)
 	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
 
 	const ip = useUserIp()
 	const isEmpty = messages.length === 0
 
 	const { isPending, mutate: invoke } = useMutation({
-		mutationFn: async () => {
-			setMessages((prev) => [...prev, { role: 'ai', content: '' }])
-			const { newMessage } = await chat([...messages], ip.state.ip)
-			for await (const delta of readStreamableValue(newMessage)) {
-				setMessages((prev) => updateMessage(prev, delta))
-			}
+		mutationFn: async (val: string) => {
+			const userMessage: Message = { role: 'user', content: val }
+			const aiPlaceholder: Message = { role: 'ai', content: '' }
+
+			setMessages((prev) => [...prev, userMessage, aiPlaceholder])
+
+			const { newMessage } = await chat([...messages, userMessage], ip.state.ip)
+
+			await updateStreamMessage(newMessage, setMessages)
 		},
 		onSuccess: async () => {
 			ip.handler.addIpCount({ ip: ip.state.ip })
@@ -42,9 +58,8 @@ export const useChat = () => {
 		onError: (error) => {
 			setMessages((prev) => {
 				const newMessages = [...prev]
-				const lastMessage = newMessages.at(-1)
-				if (!lastMessage) return newMessages
-				lastMessage.type = 'error'
+				const last = newMessages.at(-1)
+				if (last) last.type = 'error'
 				return newMessages
 			})
 			console.log('error', error)
@@ -64,11 +79,18 @@ export const useChat = () => {
 
 			if (await ip.handler.checkMaxLimit()) return
 
-			setMessages((prev) => [...prev, { role: 'user', content: val }])
-
-			invoke()
+			invoke(val)
 		},
 		[invoke, ip.handler],
+	)
+
+	const handleHomeSubmit = useCallback(
+		async (val: string) => {
+			if (await ip.handler.checkMaxLimit()) return
+			router.push('/chat')
+			setPendingMessage(val)
+		},
+		[ip.handler, router],
 	)
 
 	const handleRetry = useCallback(
@@ -85,10 +107,13 @@ export const useChat = () => {
 			messages,
 			isPending,
 			isEmpty,
+			pendingMessage,
 		},
 		handler: {
 			submit: handleSubmit,
+			submitHome: handleHomeSubmit,
 			retry: handleRetry,
+			setPendingMessage,
 		},
 	}
 }

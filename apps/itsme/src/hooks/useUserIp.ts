@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { v4 as uuidv4 } from 'uuid'
@@ -13,7 +13,8 @@ type Options = {
 }
 
 export const useUserIp = () => {
-	const [isExceeded, setIsExceeded] = useState(false)
+	const fallbackIpRef = useRef(uuidv4())
+	const [isLimitModalOpen, setIsLimitModalOpen] = useState(false)
 
 	const trpc = useTRPC()
 
@@ -24,7 +25,7 @@ export const useUserIp = () => {
 		}),
 	)
 
-	const ip = ipData?.ip || uuidv4()
+	const ip = useMemo(() => ipData?.ip || fallbackIpRef.current, [ipData?.ip])
 
 	const ipUsageQuery = useQuery(
 		trpc.getIpUsage.queryOptions(
@@ -46,28 +47,27 @@ export const useUserIp = () => {
 			options.onError?.()
 		}
 	}
+
 	const checkMaxLimit = async (): Promise<boolean> => {
-		const isExceeded = ipUsageQuery.data?.isMax ?? false
-		if (isExceeded) setIsExceeded(true)
+		const isLimited = ipUsageQuery.data?.isMax ?? false
+		setIsLimitModalOpen(isLimited)
 
-		return isExceeded
+		return isLimited
 	}
-
-	const resetIsExceeded = useCallback(() => setIsExceeded(false), [])
 
 	return {
 		maxCount: 50,
 		state: {
 			ip,
 			count: ipUsageQuery.data?.count || 0,
-			isExceeded,
+			isLimitModalOpen,
 			isLoading: ipUsageQuery.isLoading,
 		},
 		handler: {
 			refetchIpUsage: ipUsageQuery.refetch,
 			addIpCount,
 			checkMaxLimit,
-			resetIsExceeded,
+			setIsLimitModalOpen,
 		},
 	}
 }

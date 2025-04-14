@@ -1,4 +1,3 @@
-import { ChatOpenAI } from '@langchain/openai'
 import { TRPCError } from '@trpc/server'
 import { isEmpty } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
@@ -22,10 +21,6 @@ const RESUME_PATH = 'public/data/resume.md'
 
 const DAILY_LIMIT = 50
 const ME = '::1'
-
-const model = new ChatOpenAI({
-	model: 'gpt-4o-mini',
-})
 
 export const appRouter = router({
 	/**

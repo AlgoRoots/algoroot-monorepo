@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { type ReactNode, useEffect } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -13,21 +13,23 @@ const ChatStartView = ({ children }: { children: ReactNode }) => {
 	const chat = useChatContext()
 	const router = useRouter()
 
+	useEffect(() => {
+		router.prefetch('/chat')
+	}, [])
+
 	return (
 		<div className="mx-auto h-full w-full overflow-y-auto px-4 pb-10 pt-10 md:pt-40">
 			<ChatStartMessage />
 			<ChatActionBar
 				isDisable={chat.state.isPending}
 				onSubmit={async (val) => {
-					if (await chat.ip.handler.checkMaxLimit()) return
-					router.push('/chat')
-					await chat.handler.submit(val)
+					await chat.handler.submitHome(val)
 				}}
 			/>
 			{children}
 			<ChatLimitDialog
-				isOpen={chat.ip.state.isExceeded}
-				onOpenChange={chat.ip.handler.resetIsExceeded}
+				isOpen={chat.ip.state.isLimitModalOpen}
+				onOpenChange={chat.ip.handler.setIsLimitModalOpen}
 			/>
 		</div>
 	)

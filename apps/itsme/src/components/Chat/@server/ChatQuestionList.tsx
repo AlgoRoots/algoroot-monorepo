@@ -2,8 +2,6 @@
 
 import { type ComponentProps, Fragment, type ReactNode } from 'react'
 
-import Link from 'next/link'
-
 import {
 	AsyncButton,
 	ListRenderer,
@@ -32,6 +30,7 @@ interface ChatQuestionListProps extends Omit<ComponentProps<'ul'>, 'children'> {
 		item: Question
 		index: number
 		onSubmit: (item: Question) => Promise<void>
+		onHomeSubmit: (item: Question) => Promise<void>
 		isDisable: boolean
 	}) => ReactNode
 }
@@ -62,6 +61,8 @@ export const ChatQuestionListBase = ({
 		throw new Error('ChatQuestionListBase: children renderer가 필요합니다.')
 
 	const handleSubmit = (item: Question) => chat.handler.submit(item.content)
+	const handleSubmitHome = (item: Question) =>
+		chat.handler.submitHome(item.content)
 
 	return (
 		<Fragment>
@@ -73,6 +74,7 @@ export const ChatQuestionListBase = ({
 						item,
 						index,
 						onSubmit: handleSubmit,
+						onHomeSubmit: handleSubmitHome,
 						isDisable: chat.state.isPending,
 					})
 				}
@@ -91,24 +93,15 @@ export const ChatQuestionListBase = ({
 
 export const ChatQuestionList = () => (
 	<ChatQuestionListBase>
-		{({ item, onSubmit, isDisable }) =>
-			isDisable ?
-				<AsyncButton
-					onClick={async (e) => e.preventDefault()}
-					disabled
-					className={chatQuestionListButtonStyles}
-				>
-					{item.content}
-				</AsyncButton>
-			:	<Link href="/chat" className="h-fit w-fit">
-					<AsyncButton
-						onClick={() => onSubmit(item)}
-						className={chatQuestionListButtonStyles}
-					>
-						{item.content}
-					</AsyncButton>
-				</Link>
-		}
+		{({ item, onHomeSubmit, isDisable }) => (
+			<AsyncButton
+				onClick={() => onHomeSubmit(item)}
+				disabled={isDisable}
+				className={chatQuestionListButtonStyles}
+			>
+				{item.content}
+			</AsyncButton>
+		)}
 	</ChatQuestionListBase>
 )
 

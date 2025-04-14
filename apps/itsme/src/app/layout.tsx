@@ -35,12 +35,6 @@ const fontWalterTurncoat = Walter_Turncoat({
 	weight: ['400'],
 })
 
-// const fontJua = Jua({
-// 	subsets: ['latin'],
-// 	variable: '--font-jua',
-// 	weight: ['400'],
-// })
-
 /**
  *
  * @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport
