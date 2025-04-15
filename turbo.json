@@ -16,6 +16,9 @@
 	],
 	"ui": "tui",
 	"tasks": {
+		"test": {
+			"cache": false
+		},
 		"build": {
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],

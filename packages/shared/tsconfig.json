@@ -6,7 +6,8 @@
 			"@algoroot/share/*": ["./src/*"]
 		},
 		"module": "esnext",
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
+		"types": ["@testing-library/jest-dom"]
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]
