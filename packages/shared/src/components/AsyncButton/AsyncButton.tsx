@@ -1,6 +1,6 @@
 'use client'
 
-import { type ComponentProps, useCallback, useRef } from 'react'
+import { type ComponentProps, useCallback, useState } from 'react'
 
 import { Button, type ButtonProps } from '@algoroot/ui/components/button'
 
@@ -16,25 +16,25 @@ export const AsyncButton = ({
 	onClick,
 	...props
 }: AsyncButtonProps) => {
-	const isProcessing = useRef(false)
+	const [isProcessing, setIsProcessing] = useState(false)
 
 	const handleClick = useCallback(
 		async (e: React.MouseEvent<HTMLButtonElement>) => {
-			if (isProcessing.current) return
+			if (isProcessing) return
 
-			isProcessing.current = true
+			setIsProcessing(true)
 			try {
 				await onClick?.(e)
 			} finally {
-				isProcessing.current = false
+				setIsProcessing(false)
 			}
 		},
-		[onClick],
+		[onClick, isProcessing],
 	)
 
 	return (
 		<Button
-			disabled={isProcessing.current || disabled}
+			disabled={isProcessing || disabled}
 			onClick={handleClick}
 			{...props}
 		>

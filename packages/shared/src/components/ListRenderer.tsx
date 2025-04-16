@@ -1,7 +1,5 @@
 import { type ComponentProps, type ReactNode } from 'react'
 
-import { v4 as uuidv4 } from 'uuid'
-
 interface ListRendererProps<T> extends ComponentProps<'ul'> {
 	data: T[]
 	render: (item: T, index: number) => ReactNode
@@ -11,7 +9,7 @@ interface ListRendererProps<T> extends ComponentProps<'ul'> {
 export const ListRenderer = <T,>({
 	data,
 	render,
-	keyExtractor = () => uuidv4(),
+	keyExtractor = (_, index) => index,
 	...props
 }: ListRendererProps<T>) => {
 	return (

@@ -39,7 +39,7 @@ const visibilityVariants: Record<
 	},
 }
 
-const withBreakPoint = (bp: BreakPointKeys, className?: string) => {
+export const withBreakPoint = (bp: BreakPointKeys, className?: string) => {
 	if (!className) return ''
 
 	const regex = new RegExp(`\\b(${bp}:)+`, 'g')

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { AsyncButton } from './AsyncButton'
@@ -13,7 +13,7 @@ function setup(jsx: ReactNode) {
 }
 
 describe('AsyncButton: 비동기 중복 클릭 방지 버튼', () => {
-	it('한 번 클릭 시 onClick이 호출된다', async () => {
+	it('버튼 클릭 시 onClick이 호출된다', async () => {
 		const handleClick = jest.fn()
 
 		const { user } = setup(
@@ -58,5 +58,29 @@ describe('AsyncButton: 비동기 중복 클릭 방지 버튼', () => {
 
 		await user.click(button)
 		expect(handleClick).not.toHaveBeenCalled()
+	})
+
+	it('첫번째 click이 완료되기 전까지 버튼은 disabled 상태여야 한다', async () => {
+		const handleClick = jest.fn(
+			() => new Promise<void>((res) => setTimeout(res, 300)),
+		)
+
+		const { user } = setup(
+			<AsyncButton onClick={handleClick}>Click</AsyncButton>,
+		)
+
+		const button = screen.getByRole('button', { name: /click/i })
+
+		await user.click(button)
+
+		await waitFor(() => {
+			expect(button).toBeDisabled()
+		})
+
+		await new Promise((r) => setTimeout(r, 300))
+
+		await waitFor(() => {
+			expect(button).not.toBeDisabled()
+		})
 	})
 })
