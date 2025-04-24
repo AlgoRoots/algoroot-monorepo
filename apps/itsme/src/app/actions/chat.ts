@@ -1,7 +1,6 @@
 'use server'
 
 import { AIMessage, HumanMessage } from '@langchain/core/messages'
-import { v4 as uuidv4 } from 'uuid'
 
 import { app } from '@/modules/chatbot/app'
 import { NODES } from '@/modules/chatbot/graph/constants'
@@ -19,7 +18,10 @@ export interface Message {
 	type?: 'error'
 }
 
-export async function chat(history: Message[], userIp: string) {
+export async function chat(
+	history: Message[],
+	options: { thread_id: string; userIp: string },
+) {
 	const stream = createStreamableValue('')
 	const latest = history.at(-1)
 	if (!latest?.content || latest.role !== 'user') {
@@ -38,9 +40,9 @@ export async function chat(history: Message[], userIp: string) {
 
 	;(async () => {
 		const messageStream = await app.stream(inputData, {
-			configurable: { thread_id: uuidv4() },
+			configurable: { thread_id: options.thread_id },
 			streamMode: 'messages',
-			tags: ['user-chat', `ip:${userIp}`],
+			tags: ['user-chat', `ip:${options.userIp}`],
 			callbacks: [
 				{
 					handleLLMEnd(output, runId, parentRunId, tags) {

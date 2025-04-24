@@ -1,11 +1,12 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
 import { createContext } from '@algoroot/shared/utils'
 import { useMutation } from '@tanstack/react-query'
+import { v4 as uuidv4 } from 'uuid'
 
 import { useUserIp } from '@/hooks/useUserIp'
 
@@ -34,6 +35,13 @@ export async function updateStreamMessage(
 
 export const useChat = () => {
 	const router = useRouter()
+	/**
+	 * thread_id에 넘길 id입니다.
+	 * thread_id는 대화의 고유 세션 ID로, 메시지 히스토리를 구분하는 데 사용됩니다.
+	 * 대화 히스토리를 새로고침 시마다 리셋하기 위해, thread_id는 앱 실행 시마다 새로 생성됩니다.
+	 * 새로고침시 히스토리를 유지하지 않는 구조가 현재 서비스 목적에 더 적합하다고 판단했습니다.
+	 */
+	const [id, setId] = useState('')
 	const [messages, setMessages] = useState<Message[]>([])
 	const [pendingMessage, setPendingMessage] = useState<string | null>(null)
 	const messageRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -48,7 +56,10 @@ export const useChat = () => {
 
 			setMessages((prev) => [...prev, userMessage, aiPlaceholder])
 
-			const { newMessage } = await chat([...messages, userMessage], ip.state.ip)
+			const { newMessage } = await chat([...messages, userMessage], {
+				thread_id: id,
+				userIp: ip.state.ip,
+			})
 
 			await updateStreamMessage(newMessage, setMessages)
 		},
@@ -99,6 +110,10 @@ export const useChat = () => {
 		},
 		[handleSubmit],
 	)
+
+	useEffect(() => {
+		setId(uuidv4())
+	}, [])
 
 	return {
 		messageRefs,

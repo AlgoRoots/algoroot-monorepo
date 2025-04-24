@@ -1,6 +1,5 @@
 import { TRPCError } from '@trpc/server'
 import { isEmpty } from 'lodash-es'
-import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 
 import { supabaseClient } from '@/modules/api/supabase/client'
@@ -14,6 +13,7 @@ import {
 
 import { getKSTDay } from '@/utils/date'
 
+import { hash } from '@/modules/chatbot/utils/format'
 import { procedures, router } from '.'
 
 const FILE_PATH = 'public/data/docs.json'
@@ -22,13 +22,22 @@ const RESUME_PATH = 'public/data/resume.md'
 const DAILY_LIMIT = 50
 const ME = '::1'
 
+
+
 export const appRouter = router({
 	/**
+	 * IP와 User-Agent 조합을 해시한 값으로 고유 식별자를 생성합니다.
+   * 동일 네트워크/브라우저 환경에서는 같은 값이 나올 수 있지만,
+ 	 * 이는 보안 목적이 아닌 디버깅 및 요청 제한을 위한 용도이므로 일부 중복 가능성은 감수합니다.
 	 * @query - IP 가져오기
 	 */
 	getIP: procedures.public.query(({ ctx }) => {
-		const ip = ctx.request?.headers.get('x-forwarded-for') || uuidv4()
-		return { ip }
+		const ip = ctx.request?.headers.get('x-forwarded-for') || ''
+		const userAgent = ctx.request?.headers.get('user-agent') || ''
+
+  
+		const weakIp = hash(`${ip}-${userAgent}`)
+		return { ip: weakIp }
 	}),
 
 	/**

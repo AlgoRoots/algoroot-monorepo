@@ -2,6 +2,7 @@ import { AIMessage, BaseMessage, HumanMessage } from '@langchain/core/messages'
 
 import type { SearchResult } from '@/modules/api/supabase/utils/search'
 import type { Metadata } from '@/modules/api/supabase/vector-store'
+import { createHash } from 'crypto'
 
 export const formatChatHistory = (messages: BaseMessage[]) => {
 	return messages
@@ -100,4 +101,9 @@ const formatTextBlock = (params: {
 	}
 
 	return lines.join('\n\n')
+}
+
+
+export const hash = (value: string) => {
+	return createHash('sha256').update(value).digest('hex')
 }
