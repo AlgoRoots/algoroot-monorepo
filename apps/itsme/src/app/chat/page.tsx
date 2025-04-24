@@ -5,6 +5,7 @@ import ChatInterface from '@/components/Chat/ChatInterface'
 
 /**
  * vercel에서 최대 함수 지속시간 설정
+ * @see https://vercel.com/docs/functions/limitations#max-duration
  * @see https://sdk.vercel.ai/docs/troubleshooting/timeout-on-vercel
  */
 export const maxDuration = 60

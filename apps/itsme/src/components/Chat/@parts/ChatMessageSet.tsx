@@ -40,7 +40,7 @@ const ChatMessageComponent = ({
 				)}
 			>
 				<Markdown>{content}</Markdown>
-				<Show when={type === 'error'}>
+				<Show when={type === 'error' && role ==='ai'}>
 					<div className="bg-muted prose-p:m-0 flex flex-col items-center justify-center gap-2 p-0 px-2 py-2 md:flex-row md:px-2">
 						<p className="text-muted-foreground text-sm">
 							답변에 문제가 있습니다.

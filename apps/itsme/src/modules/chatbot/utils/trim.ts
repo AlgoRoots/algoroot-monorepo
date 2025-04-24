@@ -7,7 +7,6 @@ import { BaseMessage, trimMessages } from '@langchain/core/messages'
  */
 export const getTrimMessages = async (messages: BaseMessage[]) => {
 	const trimer = trimMessages({
-		// maxTokens: 1, // TODO: 임시 토큰 1 지정, 추후 변경 필요
 		maxTokens: 10,
 		strategy: 'last',
 		tokenCounter: (msgs) => msgs.length,
