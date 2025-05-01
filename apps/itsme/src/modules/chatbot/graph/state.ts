@@ -11,9 +11,10 @@ export type GraphAnnotationKey = keyof GraphAnnotationState
 
 export const GraphAnnotation = Annotation.Root({
 	...MessagesAnnotation.spec, // message field 추가,
-	history: Annotation<string[]>(),
+	history: Annotation<string[] | null>(),
 	refinedQuestion: Annotation<string | null>(),
 	latest: Annotation<string | null>(),
 	searchResults: Annotation<string>(),
 	needSearch: Annotation<boolean>(),
+	language: Annotation<string>(),
 })

@@ -5,13 +5,14 @@ import { refineQuestionPrompt } from '../prompts/refine-question.prompt'
 import type { GraphAnnotationState } from '../state'
 
 export const refineQuestion = async (state: GraphAnnotationState) => {
-	const { messages } = state
+	const { messages, language } = state
 	const trimmed = await getTrimMessages(messages)
 	const latest = trimmed.at(-1)?.content
 	const prompt = await refineQuestionPrompt.format({
 		messages: trimmed,
 		history: formatChatHistory(trimmed),
 		latest,
+		language,
 	})
 
 	const result = await llm.invoke(prompt)
