@@ -27,7 +27,7 @@ const TEMPLATE = `
 {refinedQuestion}
 
 ## 💬 최근 대화 내역
-{messages}
+{history}
 
 ✅ **출력 형식**
 - 검색이 필요할 경우 [@needSearch]를 출력하세요.
@@ -36,6 +36,7 @@ const TEMPLATE = `
 `
 
 export const shouldSearchPrompt = createPrompt(TEMPLATE, [
-	'messages',
+	// 'messages',
+	'history',
 	'refinedQuestion',
 ])

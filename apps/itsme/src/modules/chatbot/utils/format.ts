@@ -1,20 +1,19 @@
 import { AIMessage, BaseMessage, HumanMessage } from '@langchain/core/messages'
+import { createHash } from 'crypto'
 
 import type { SearchResult } from '@/modules/api/supabase/utils/search'
 import type { Metadata } from '@/modules/api/supabase/vector-store'
-import { createHash } from 'crypto'
 
 export const formatChatHistory = (messages: BaseMessage[]) => {
-	return messages
-		.map((msg) => {
-			if (msg instanceof HumanMessage) {
-				return `사용자: ${msg.content}`
-			} else if (msg instanceof AIMessage) {
-				return `AI: ${msg.content}`
-			}
-			return ''
-		})
-		.join('\n')
+	return messages.map((msg) => {
+		if (msg instanceof HumanMessage) {
+			return `🤗 사용자: ${msg.content}`
+		}
+		if (msg instanceof AIMessage) {
+			return `🤖 AI: ${msg.content}`
+		}
+		return ''
+	})
 }
 
 /**
@@ -102,7 +101,6 @@ const formatTextBlock = (params: {
 
 	return lines.join('\n\n')
 }
-
 
 export const hash = (value: string) => {
 	return createHash('sha256').update(value).digest('hex')

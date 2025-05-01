@@ -1,3 +1,4 @@
+import { formatChatHistory } from '../../utils/format'
 import { getTrimMessages } from '../../utils/trim'
 import { llm } from '../llm'
 import { refineQuestionPrompt } from '../prompts/refine-question.prompt'
@@ -9,13 +10,13 @@ export const refineQuestion = async (state: GraphAnnotationState) => {
 	const latest = trimmed.at(-1)?.content
 	const prompt = await refineQuestionPrompt.format({
 		messages: trimmed,
+		history: formatChatHistory(trimmed),
 		latest,
 	})
+
 	const result = await llm.invoke(prompt)
-	console.log('result', result)
 	return {
 		...state,
-		messages: trimmed,
 		refinedQuestion: result?.content.toString(),
 	}
 }

@@ -3,13 +3,15 @@ import { shouldSearchPrompt } from '../prompts/should-search.prompt'
 import type { GraphAnnotationState } from '../state'
 
 export const shouldSearch = async (state: GraphAnnotationState) => {
-	const { messages, refinedQuestion } = state
-
-	const prompt = await shouldSearchPrompt.format({ messages, refinedQuestion })
+	const { messages, history, refinedQuestion } = state
+	const prompt = await shouldSearchPrompt.format({
+		messages,
+		history,
+		refinedQuestion,
+	})
 	const result = await llm.invoke(prompt)
 	const raw = result.content.toString().trim()
 	const needsSearch = raw.includes('@needSearch')
-
 	return {
 		...state,
 		needSearch: needsSearch,

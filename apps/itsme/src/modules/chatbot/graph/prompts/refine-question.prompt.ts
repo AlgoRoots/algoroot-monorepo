@@ -34,13 +34,13 @@ const TEMPLATE = `
 {latest}
 
 ## 💬 최근 대화 내역
-{messages}
+{history}
 
 ✅ **출력**  
 - 사용자 입장으로 작성한 검색용 질문 1문장 (또는 [사용자의 최신 입력] 그대로)
 `
 
 export const refineQuestionPrompt = createPrompt(TEMPLATE, [
-	'messages',
+	'history',
 	'latest',
 ])

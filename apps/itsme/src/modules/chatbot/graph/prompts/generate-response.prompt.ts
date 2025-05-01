@@ -31,7 +31,7 @@ const TEMPLATE = `
 {refinedQuestion}
 
 ## 💬 최근 대화 내역
-{messages}
+{history}
 
 ## 📖 검색 결과 
 {searchResults}
@@ -42,6 +42,7 @@ const TEMPLATE = `
 
 export const generateResponsePrompt = createPrompt(TEMPLATE, [
 	'messages',
+	'history',
 	'refinedQuestion',
 	'searchResults',
 ])

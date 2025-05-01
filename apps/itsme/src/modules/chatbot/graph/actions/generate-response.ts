@@ -3,8 +3,9 @@ import { generateResponsePrompt } from '../prompts/generate-response.prompt'
 import { type GraphAnnotationState } from '../state'
 
 export const generateResponse = async (state: GraphAnnotationState) => {
-	const { messages, searchResults, refinedQuestion } = state
+	const { messages, history, searchResults, refinedQuestion } = state
 	const prompt = await generateResponsePrompt.invoke({
+		history,
 		messages,
 		searchResults,
 		refinedQuestion,
