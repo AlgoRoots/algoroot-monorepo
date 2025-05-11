@@ -1,0 +1,17 @@
+name: Keep Supabase Awake
+
+on:
+  schedule:
+    - cron: '0 0 */5 * *' # 매 5일마다 자정에 실행 /분(0분)/시(0시)/일(*/5)/월(*매월)/요일(*)
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send GET to Supabase
+        run: |
+          curl --request GET \
+               --url "${{ secrets.SUPABASE_URL }}/rest/v1/question_suggestions?select=id" \
+               --header "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+               --header "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
