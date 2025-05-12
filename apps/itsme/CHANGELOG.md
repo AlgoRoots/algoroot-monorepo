@@ -1,5 +1,11 @@
 # @algoroot/itsme
 
+## 1.2.6
+
+### Patch Changes
+
+- [`64376da`](https://github.com/AlgoRoots/algoroot-monorepo/commit/64376da726d95b94673f48558dfdcecbe8e276f1) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ss
+
 ## 1.2.5
 
 ### Patch Changes
