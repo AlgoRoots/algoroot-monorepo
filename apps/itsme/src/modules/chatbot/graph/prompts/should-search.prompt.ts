@@ -36,7 +36,7 @@ const TEMPLATE = `
 `
 
 export const shouldSearchPrompt = createPrompt(TEMPLATE, [
-	// 'messages',
+	'messages',
 	'history',
 	'refinedQuestion',
 ])
