@@ -17,10 +17,8 @@ type DocumentResult = {
 export const fetchGitBookDocs = async (): Promise<VectorDocument[]> => {
 	const loader = new SitemapLoader(SITEMAP_URL)
 	const urls = await loader.parseSitemap()
-
 	const browser = await puppeteer.launch()
 	const page = await browser.newPage()
-
 	const docs: Document[] = []
 	for (const { loc: url } of urls) {
 		const res = await fetchUrl(page, url)
