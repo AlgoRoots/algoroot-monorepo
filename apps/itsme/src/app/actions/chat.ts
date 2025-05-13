@@ -1,6 +1,6 @@
 'use server'
 
-import { AIMessage, HumanMessage } from '@langchain/core/messages'
+import { HumanMessage } from '@langchain/core/messages'
 
 import { app } from '@/modules/chatbot/app'
 import { NODES } from '@/modules/chatbot/graph/constants'
@@ -29,13 +29,9 @@ export async function chat(
 			'잘못된 사용자 입력: 최신 메시지가 없거나, 사용자 메시지가 아닙니다.',
 		)
 	}
-	const messageHistory = history.map((d) => {
-		if (d.role === 'user') return new HumanMessage(d.content)
-		return new AIMessage(d.content)
-	})
 
 	const inputData = {
-		messages: messageHistory,
+		messages: [new HumanMessage(latest.content)],
 	}
 
 	;(async () => {
