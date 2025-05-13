@@ -1,20 +1,16 @@
 # @algoroot/itsme
 
-## 1.2.6
-
-### Patch Changes
-
-- [`64376da`](https://github.com/AlgoRoots/algoroot-monorepo/commit/64376da726d95b94673f48558dfdcecbe8e276f1) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ss
-
 ## 1.2.5
 
 ### Patch Changes
 
-- [`62530ea`](https://github.com/AlgoRoots/algoroot-monorepo/commit/62530eabcbb154e42cdde31851f2b67cb3d6b536) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ## message history format
+- [`62530ea`](https://github.com/AlgoRoots/algoroot-monorepo/commit/62530eabcbb154e42cdde31851f2b67cb3d6b536) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! -
 
-  기존 BaseMessage[]타입을 프롬포트에 보냈지만,
-  정확도와 히스로리 추적이 어려워 포맷 후 프롬포트 전달,
-  단순 프롬포트에만 전달하는 용으로 추가했습니다.
+## message history format
+
+기존 BaseMessage[]타입을 프롬포트에 보냈지만,
+정확도와 히스로리 추적이 어려워 포맷 후 프롬포트 전달,
+단순 프롬포트에만 전달하는 용으로 추가했습니다.
 
 - [`7211ad2`](https://github.com/AlgoRoots/algoroot-monorepo/commit/7211ad2fe863ca721f1cf625075f9df8ab822b96) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ## 사용자 언어 감지 기능 추가
 
