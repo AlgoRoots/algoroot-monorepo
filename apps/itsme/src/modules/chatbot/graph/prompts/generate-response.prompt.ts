@@ -18,12 +18,15 @@ const TEMPLATE = `
 
 ## 🚫 [검색 결과]가 없을 경우의 응답 규칙
 
-- ⚠️ 참고 정보가 없습니다.
+검색 결과가 없더라도, 다음과 같은 경우에는 성혜의 말투로 자연스럽게 응답하세요:
 
-- 이 경우, 아래 문장만 출력하세요 (다른 표현 절대 금지):
+- 최근 대화 내역에 유사한 내용에 대한 AI 응답(AIMessageChunk)이 이미 존재하는 경우
+- 정제된 질문이 검색 없이도 답변 가능한 경우 (예: "안녕하세요", "제 이름은 맹이에요", "성혜님은 누구세요?")
+- 시스템 기반 안내나 인사, 소개, 대화 유도 목적의 문장
+
+그 외의 경우에는, 아래 문장만 출력하세요 (다른 표현 절대 금지):
 
 - 이 질문에 대해서는 아직 제가 답변할 수 있는 정보가 없어요. 혹시 다른 질문 있으실까요?
-
 ---
 
 ## 📝 답변 스타일
@@ -44,7 +47,7 @@ const TEMPLATE = `
 {refinedQuestion}
 
 ## 💬 최근 대화 내역
-{history}
+{messages}
 
 ## 📖 검색 결과
 {searchResults}
@@ -53,12 +56,10 @@ const TEMPLATE = `
 
 ✅ **출력**  
 성혜의 말투로 자연스럽게 구성된 전체 답변 (항상 **{language}**로 작성)
-그렇게 답변
 `
 
 export const generateResponsePrompt = createPrompt(TEMPLATE, [
 	'messages',
-	'history',
 	'refinedQuestion',
 	'searchResults',
 	'language',
