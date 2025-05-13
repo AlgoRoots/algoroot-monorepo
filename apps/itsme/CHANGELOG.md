@@ -4,15 +4,13 @@
 
 ### Patch Changes
 
-- [`62530ea`](https://github.com/AlgoRoots/algoroot-monorepo/commit/62530eabcbb154e42cdde31851f2b67cb3d6b536) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! -
-
-## message history format
+- [`62530ea`](https://github.com/AlgoRoots/algoroot-monorepo/commit/62530eabcbb154e42cdde31851f2b67cb3d6b536) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! -message history format
 
 기존 BaseMessage[]타입을 프롬포트에 보냈지만,
 정확도와 히스로리 추적이 어려워 포맷 후 프롬포트 전달,
 단순 프롬포트에만 전달하는 용으로 추가했습니다.
 
-- [`7211ad2`](https://github.com/AlgoRoots/algoroot-monorepo/commit/7211ad2fe863ca721f1cf625075f9df8ab822b96) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ## 사용자 언어 감지 기능 추가
+- [`7211ad2`](https://github.com/AlgoRoots/algoroot-monorepo/commit/7211ad2fe863ca721f1cf625075f9df8ab822b96) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - 사용자 언어 감지 기능 추가
 
   최근 사용자 기록 중 영어로 질문하는 사례가 있어, 간단한 언어 감지 노드를 추가해 영어 질문에도 대응할 수 있도록 기능을 보완했습니다.
   다만, 본 서비스는 한국 내 채용을 목적으로 한 프로젝트이며, 다국어 지원을 주된 목표로 하고 있지는 않습니다.
@@ -23,7 +21,7 @@
 
 ### Patch Changes
 
-- [`233090e`](https://github.com/AlgoRoots/algoroot-monorepo/commit/233090e5fe644a43f5c87859e268a773f3f7e352) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - # maxDuration / 경로에서 제거
+- [`233090e`](https://github.com/AlgoRoots/algoroot-monorepo/commit/233090e5fe644a43f5c87859e268a773f3f7e352) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - maxDuration / 경로에서 제거
 
   지난 버전 업데이트에서 요청을 /chat 에서만 하도록 수정했기 때문에 해당 경로에서는 maxDuration을 제거
 
@@ -37,7 +35,9 @@
 
 ### Patch Changes
 
-- [`49d4a13`](https://github.com/AlgoRoots/algoroot-monorepo/commit/49d4a139e7d1ef89a39b81bffc274ea7b4660172) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - ### 1. 대화 세션 관리 방식 개선
+- [`49d4a13`](https://github.com/AlgoRoots/algoroot-monorepo/commit/49d4a139e7d1ef89a39b81bffc274ea7b4660172) Thanks [@AlgoRoots](https://github.com/AlgoRoots)!
+
+  - ### 1. 대화 세션 관리 방식 개선
 
   - 기존에는 고정된 `thread_id` 없이 매 요청이 독립된 세션으로 처리되었습니다.
   - 이제 `thread_id`를 명시적으로 생성 및 전달하여, 대화 세션 단위의 컨텍스트 제어가 가능해졌습니다.
