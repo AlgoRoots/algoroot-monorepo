@@ -11,7 +11,6 @@ export const searchVectorStore = async (state: GraphAnnotationState) => {
 	const input = refinedQuestion || ''
 	const searchResults = await search(input).then(formatSearchResults)
 	return {
-		...state,
 		searchResults,
 	}
 }

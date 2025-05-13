@@ -1,3 +1,4 @@
+import type { MessageContent } from '@langchain/core/messages'
 import { Annotation, MessagesAnnotation } from '@langchain/langgraph'
 
 /**
@@ -8,12 +9,19 @@ import { Annotation, MessagesAnnotation } from '@langchain/langgraph'
 export type GraphAnnotationState = typeof GraphAnnotation.State
 
 export type GraphAnnotationKey = keyof GraphAnnotationState
-
+/**
+ *
+ * export const StateAnnotation = Annotation.Root({
+ *   messages: Annotation<BaseMessage[]>({
+ *     reducer: messagesStateReducer, // 누적
+ *     default: () => [],
+ *   }),
+ * });
+ */
 export const GraphAnnotation = Annotation.Root({
 	...MessagesAnnotation.spec, // message field 추가,
-	history: Annotation<string[] | null>(),
-	refinedQuestion: Annotation<string | null>(),
-	latest: Annotation<string | null>(),
+	refinedQuestion: Annotation<string>(),
+	latest: Annotation<MessageContent>(),
 	searchResults: Annotation<string>(),
 	needSearch: Annotation<boolean>(),
 	language: Annotation<string>(),
