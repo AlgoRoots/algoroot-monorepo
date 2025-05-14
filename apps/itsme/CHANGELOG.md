@@ -1,5 +1,44 @@
 # @algoroot/itsme
 
+## 1.2.6
+
+### Patch Changes
+
+- [`1e591fc`](https://github.com/AlgoRoots/algoroot-monorepo/commit/1e591fc50036cf625a69a8cbfce1dbf06978cea4) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - graph node state 일괄 수정
+
+  - tread_id가 동일하다면 유지되는 state로 인해 다음 대화에서 참고하면 안되는 state가 유지되고 있었습니다.
+    이로 인해 사용자가 다시 질문을 할 때 이전 검색 결과가 state에서 참고가 되어 답변에 영향이 있었습니다.
+    마지막 노드인 generate-response 노드에서 리셋되어야 하는 state들을 null로 리턴되게 변경하였습니다.
+
+- [`370c7a2`](https://github.com/AlgoRoots/algoroot-monorepo/commit/370c7a2a998734df869be5175ae929afb4393a20) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - 프롬포트 템플릿 수정
+
+  - 제한을 조금 더 풀고, ai가 더 능동적으로 답할 수 있게 수정했습니다.
+  - 다만, 참고자료가 없는 기술 질문의 경우 좀 더 엄격히 검사하도록 수정했습니다.
+  - 예시를 덜고 좀더 명확히 지시하는 쪽으로 수정했습니다 .
+
+- [`c8a37fc`](https://github.com/AlgoRoots/algoroot-monorepo/commit/c8a37fc933a8ad0ed1fa8ddc912b837843a9a4d7) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - Graph 노드 반환값 및 상태 병합 방식 개선
+
+  - 각 노드에서 전체 `state`를 직접 오버라이딩(`...state`)하던 방식을 제거하고, 필요한 값만 리턴하도록 수정했습니다.
+    → LangGraph는 노드 리턴 값을 기존 상태와 자동 병합하기 때문에 `...state`는 불필요하다고 판단했습니다.
+  - `history` 상태를 제거하고, 대화 흐름은 `messages` 하나로 일관되게 관리하도록 구조를 단순화했습니다.
+  - 과도한 메시지 누적을 방지하기 위해, 최대 10개로 제한하는 `trim` 처리를 message를 사용하던 두번째(refineQuestion) 노드가 아닌 첫 노드에서만 수행하도록 변경했습니다.
+  - 프롬프트 호출 방식에서 `prompt.format()` → `prompt.invoke()`로 교체하여
+    LLM 호출 시 템플릿과 메시지가 함께 처리되도록 표준화했고, 이에 따라 응답 정확도와 LangSmith 기록 품질이 향상되었습니다.
+
+- [`15fc714`](https://github.com/AlgoRoots/algoroot-monorepo/commit/15fc7144ed1bfd37ceb20102a24da5b76e0a2720) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - chat action input data 수정
+
+  - 기존 history list -> 최신 human message 단일 값
+  - Langsmith 추적시 messages state가 중복되는 이슈로 message history 최적화에 영향이 가고 있었던 이슈를 해결했습니다.
+
+- [`90b44a6`](https://github.com/AlgoRoots/algoroot-monorepo/commit/90b44a6966159ffe1474fdf957c8c0314e0c692f) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - prompt 형식 통일
+
+- [`44807f2`](https://github.com/AlgoRoots/algoroot-monorepo/commit/44807f28abd7d75b31c7307d7c4a636b76fb541b) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - 검색 결과가 없다면 @no_reference로 반환
+
+  - 기존에 검색 필요 판단 노드(`checkSearchNeed`) 결과에 따라 백터 검색을 실행하기때문에 응답 값이 `false`일 경우 `generateResponse` 에서 searchResults가 undefined가 오는 경우가 있었습니다. string으로 템플릿이 이뤄지기 때문에 좀 더 명시적인 @no_reference로 통일하여, 검색 결과가 없을시 반환해야되는 규칙을 지정했습니다.
+  - 검색 결과의 개수를 3개에서 4개로 늘렸습니다.
+
+- [`2d65bd3`](https://github.com/AlgoRoots/algoroot-monorepo/commit/2d65bd3fac056af81b73d49b4b8a414b3d49c23b) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - 메세지 trim 개수 조정 (10->20)
+
 ## 1.2.5
 
 ### Patch Changes
