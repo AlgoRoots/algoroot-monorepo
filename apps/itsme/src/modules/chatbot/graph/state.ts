@@ -22,7 +22,7 @@ export const GraphAnnotation = Annotation.Root({
 	...MessagesAnnotation.spec, // message field 추가,
 	refinedQuestion: Annotation<string>(),
 	latest: Annotation<MessageContent>(),
-	searchResults: Annotation<string>(),
+	searchResults: Annotation<string | null>(),
 	needSearch: Annotation<boolean>(),
 	language: Annotation<string>(),
 })

@@ -6,7 +6,7 @@ export const generateResponse = async (state: GraphAnnotationState) => {
 	const { messages, searchResults, refinedQuestion, language } = state
 	const prompt = await generateResponsePrompt.invoke({
 		messages,
-		searchResults,
+		searchResults: searchResults || '@no_reference',
 		refinedQuestion,
 		language,
 	})
