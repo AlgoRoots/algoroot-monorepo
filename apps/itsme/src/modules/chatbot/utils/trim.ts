@@ -7,7 +7,7 @@ import { BaseMessage, trimMessages } from '@langchain/core/messages'
  */
 export const getTrimMessages = async (messages: BaseMessage[]) => {
 	const trimer = trimMessages({
-		maxTokens: 10,
+		maxTokens: 20,
 		strategy: 'last',
 		tokenCounter: (msgs) => msgs.length,
 		includeSystem: true,
