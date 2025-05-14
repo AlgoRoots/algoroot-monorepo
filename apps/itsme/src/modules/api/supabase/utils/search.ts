@@ -22,7 +22,7 @@ export const search = async (
 	input: string,
 	options?: SearchOptions,
 ): Promise<SearchResult[]> => {
-	const { count = 3, minScore = 0.2 } = options ?? {}
+	const { count = 4, minScore = 0.2 } = options ?? {}
 
 	/**
 	 * 필요하면 filter 함수로 metadata 넣어 필터링 시킬 수 있음

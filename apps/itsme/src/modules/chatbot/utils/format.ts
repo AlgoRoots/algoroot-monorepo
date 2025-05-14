@@ -21,7 +21,7 @@ export const formatChatHistory = (messages: BaseMessage[]) => {
  */
 export const formatSearchResults = (results: SearchResult[]): string => {
 	if (results.length === 0) {
-		return '⚠️ 참고 정보가 없습니다.'
+		return '@no_reference'
 	}
 
 	return results
@@ -72,6 +72,7 @@ const extractMetadata = (
  * 링크 텍스트 포맷
  */
 const formatLink = (title: string, link: string | null): string | null => {
+	console.log('title', title, link)
 	if (!link) return null
 	return `**관련 포트폴리오 링크:** [${title}](${link})`
 }
@@ -98,7 +99,7 @@ const formatTextBlock = (params: {
 	if (linkText) {
 		lines.push(linkText)
 	}
-
+	console.log('lines', lines)
 	return lines.join('\n\n')
 }
 
