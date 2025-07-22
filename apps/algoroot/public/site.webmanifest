@@ -1,0 +1,19 @@
+{
+	"name": "It's ME",
+	"short_name": "It's ME",
+	"icons": [
+		{
+			"src": "/favicon/android-icon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/favicon/android-icon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"theme_color": "#14181F",
+	"background_color": "#14181F",
+	"display": "standalone"
+}

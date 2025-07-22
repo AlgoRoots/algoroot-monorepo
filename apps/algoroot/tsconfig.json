@@ -1,0 +1,27 @@
+{
+	"extends": "@algoroot/typescript-config/nextjs.json",
+	"compilerOptions": {
+		"baseUrl": "src",
+		"declarationMap": false,
+		"declaration": false,
+		"paths": {
+			"@/*": ["./*"]
+			// "@/*": ["./modules/*"]
+			// "@codekit/ui/*": ["../../../packages/ui/src/*"]
+			// "@common/*": ["../../../packages/common/src/*"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"next-env.d.ts",
+		"next.config.js",
+		".next/types/**/*.ts"
+	],
+	"exclude": ["dist", "build", "node_modules"]
+}
