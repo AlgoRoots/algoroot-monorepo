@@ -90,7 +90,7 @@ const formatTextBlock = (params: {
 	const { title, answer, summary, link, score } = params
 
 	const lines = [
-		`🔍 ** 제목:${title}(관련도: ${score}%) **`,
+		`**제목:** ${title} (관련도: ${score}%)`,
 		`**우선 답변:** ${answer}`,
 		`**내용 요약:** ${summary.trim()}`,
 	]

@@ -29,6 +29,7 @@ export const search = async (
 	 * @see https://js.langchain.com/docs/integrations/vectorstores/supabase/#metadata-query-builder-filtering
 	 */
 	const results = await vectorStore.similaritySearchWithScore(input, count)
+	console.log('results', results)
 	const answered = results.filter(([doc, score]) => {
 		return score >= minScore && doc.metadata?.answer
 	})
