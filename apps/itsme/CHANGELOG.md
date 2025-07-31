@@ -1,5 +1,16 @@
 # @algoroot/itsme
 
+## 1.2.7
+
+### Patch Changes
+
+- [`b2961ff`](https://github.com/AlgoRoots/algoroot-monorepo/commit/b2961ffb84e07b886399f17255c5d39261b7c6e0) Thanks [@AlgoRoots](https://github.com/AlgoRoots)! - 프롬프트 시스템 최적화 및 개선
+
+  - 프롬프트 토큰 사용량 최적화 (약 30% 절약)
+  - 조건부 인사말 로직 추가 (첫 대화에서만 인사)
+  - 개인정보 질문 처리 규칙 강화
+  - 프롬프트 간 어조 일관성 개선
+
 ## 1.2.6
 
 ### Patch Changes
